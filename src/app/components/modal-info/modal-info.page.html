@@ -1,0 +1,71 @@
+<ion-content>
+  <div class="header">
+    <ion-buttons>
+      <ion-button (click)="exit()">
+        <ion-icon slot="icon-only" name="arrow-back" color="light"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </div>
+  <div class="card">
+    <div class="image" >
+      <ion-img  src="assets/images/encuesta.png"></ion-img>
+    </div>
+    <div class="card-content">
+      <div class="card-body">
+        <form  (submit)="submitForm($event)" novalidate>
+          <ion-list >
+            <ion-item>
+              <ion-label>Tipo de Gestion</ion-label>
+              <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar" name="gestion" >
+                <ion-select-option value="Renegociación">Renegociación</ion-select-option>
+                <ion-select-option value="Gestión">Gestión Cobranza</ion-select-option>
+                <ion-select-option value="Recojo">Recojo</ion-select-option>
+                <ion-select-option value="Verificación">Verificación</ion-select-option>
+                <ion-select-option value="Matriculación">Matriculación</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item >
+              <ion-label>Gestion Cobranza</ion-label>
+              <ion-select (ionChange)="handleChange($event)" id="change" interface="action-sheet" placeholder="Seleccionar" name="cobranza" >
+              </ion-select>
+            </ion-item>
+            <div id="plazo">            
+            </div>
+            <div id="valorRene">
+            </div>
+            <ion-item >
+              <ion-label position="floating"
+                >Observacion Detalle Gestion</ion-label
+              >
+              <ion-textarea
+                name="observacion"
+                placeholder="Escribir"
+                [clearOnEdit]="true"
+              ></ion-textarea>
+            </ion-item>
+            <ion-item >
+              <ion-label>Tipo Contacto</ion-label>
+              <ion-select interface="action-sheet" placeholder="Seleccionar" name="contacto">
+                <ion-select-option value="Contactado">Contactado</ion-select-option>
+                <ion-select-option value="NoContactado">No Contactado</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-input name="lat" value="{{latitude}}"><p>Latitud:</p>{{latitude}}</ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input name="long" value="{{longitude}}"><p>Longitud:</p>{{longitude}}</ion-input>
+            </ion-item>              
+            <ion-row>
+              <ion-col>
+                <ion-button type="submit" color="danger" expand="block"
+                  >Submit</ion-button
+                >
+              </ion-col>
+            </ion-row>
+          </ion-list>
+        </form>
+      </div>
+    </div>
+  </div>
+</ion-content>

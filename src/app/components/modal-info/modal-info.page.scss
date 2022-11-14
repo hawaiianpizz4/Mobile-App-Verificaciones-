@@ -1,0 +1,42 @@
+ion-content{
+    --background : #6b45bc;
+    position: relative;
+    .header{
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem 0,5rem;
+        ion-button{
+            height: 60px;
+            width: 60px;
+            ion-icon{
+                font-size: 2rem;
+            }
+        }
+    }
+    .card{
+        height: 88%;
+        width: 100%;
+        background: #fff;
+        position: absolute;
+        bottom: 0.0;
+        border-radius: 1rem 1rem 0 0;
+        padding: 0.5rem;
+        .image{
+            position: absolute;
+            top: -2.8rem;
+            width: 40%;
+            left: 50%;
+            transform: translate(-50%);
+        }
+        .card-body{
+            margin-top: 3rem;
+            ion-label{
+                font-weight: 700;
+            }
+            p{
+                font-weight: 700;
+            }
+        }
+
+    }
+}

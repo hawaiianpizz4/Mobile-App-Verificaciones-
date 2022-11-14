@@ -1,0 +1,34 @@
+<ion-content>
+  <div class="header">
+    <ion-buttons >
+      <ion-button routerLink = "/home/listing">
+        <ion-icon slot="icon-only" name="arrow-back" color="light"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons >
+      <ion-button >
+        <ion-icon slot="icon-only" name="heart" color="light"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </div>
+  <div class="card">
+    <div class="image" >
+      <ion-img  src="assets/images/default.png"></ion-img>
+    </div>
+    <div class="card-content">
+      <div class="card-title">
+        <h1 class="ion-no-margin">{{getdata.genericoProducto}}</h1>
+        <p class="ion-no-margin"><sup>$</sup>{{getdata.saldoCartera | number: '1.2'}}</p>
+      </div>
+    </div>
+    <div class="about">
+      <h1>Numero de Credito</h1>
+      <app-badge icon="at-circle" text="{{getdata.numeroCredito}}"></app-badge>
+      <h1>ValorCuota</h1>
+      <app-badge icon="alert-circle" text="{{getdata.valorCuota}}"></app-badge>
+      <h1>PlazoOperacion</h1>
+      <app-badge icon="newspaper" text="{{getdata.plazoOperacion}}"></app-badge> 
+    </div>
+    <app-button (click)="openModal(getdata.cedulaCliente,getdata.numeroCredito,getdata.usuario)" >Realizar Gestion</app-button>
+  </div>
+</ion-content>

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input,  OnInit } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-
-import { LoadingController, ModalController, ToastController } from '@ionic/angular';
+import { Network } from '@capacitor/network';
+import { AlertController, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -18,11 +18,26 @@ export class ModalInfoPage implements OnInit {
   latitude: any = 0; 
   longitude: any = 0;
   constructor(private modalCtrl: ModalController,private _http:HttpClient,
-    private loadingCtrl: LoadingController,private geolocation: Geolocation,private toastController: ToastController) {}
+    private loadingCtrl: LoadingController,private geolocation: Geolocation,
+    private toastController: ToastController
+    ,private alertController: AlertController) {  
+      Network.addListener('networkStatusChange', status => {
+        console.log('Network status changed', status);
+      });
+      
+      const logCurrentNetworkStatus = async () => {
+        const status = await Network.getStatus();
+      
+        console.log('Network status:', status);
+      };
+    }
 
   ngOnInit() {
     this.getCurrentCoordinates();
+   
   }
+
+  
 
   exit() {
     this.modalCtrl.dismiss();
@@ -38,15 +53,15 @@ export class ModalInfoPage implements OnInit {
 
   async showLoading() {
     const loading = await this.loadingCtrl.create({
-      message: 'Guardando Registro..!',
+      message: 'Guardando Registro...!',
       duration: 2000,
     });
 
     loading.present();
   }
-  async presentToast() {
+  async presentToast(message) {
     const toast = await this.toastController.create({
-      message: 'RegistroEnviado',
+      message: message,
       duration: 1500,
       position: 'top'
     });
@@ -56,24 +71,24 @@ export class ModalInfoPage implements OnInit {
   
   submitForm(e) {
     e.preventDefault();
-    const { gestion, cobranza, observacion, contacto,lat,long,plazo,valorRe } = e.target;
-    var plazoInsert,valorInsert;
-    if( plazo && valorRe){
-      plazoInsert=plazo.value;
-      valorInsert=valorRe.value;
-    }else{
-      plazoInsert='';
-      valorInsert='';
-    }
-    console.log(`{"cedula":"${this.cedula}","operacion":"${this.operacion}","gestion":"${gestion.value}","cobranza":"${cobranza.value}","observacion":"${observacion.value}","contacto":"${contacto.value}","plazoNuevo":${plazoInsert},"valorRenegocio":${valorInsert},"latitud":${lat.value},"longitud":${long.value},"gestor":"${this.gestor}"}`);
+    // const { gestion, cobranza, observacion, contacto,lat,long,plazo,valorRe } = e.target;
+    // var plazoInsert,valorInsert;
+    // if( plazo && valorRe){
+    //   plazoInsert=plazo.value;
+    //   valorInsert=valorRe.value;
+    // }else{
+    //   plazoInsert='';
+    //   valorInsert='';
+    // }
+    // // console.log(`{"cedula":"${this.cedula}","operacion":"${this.operacion}","gestion":"${gestion.value}","cobranza":"${cobranza.value}","observacion":"${observacion.value}","contacto":"${contacto.value}","plazoNuevo":${plazoInsert},"valorRenegocio":${valorInsert},"latitud":${lat.value},"longitud":${long.value},"gestor":"${this.gestor}"}`);
     // var data = `{"cedula":"${this.cedula}","operacion":"${this.operacion}","gestion":"${gestion.value}","cobranza":"${cobranza.value}","observacion":"${observacion.value}","contacto":"${contacto.value}","plazoNuevo":${plazoInsert},"valorRenegocio":${valorInsert},"latitud":${lat.value},"longitud":${long.value},"gestor":"${this.gestor}"}`;
     // const url= `http://200.7.249.20/vision360ServicioCliente/Api_rest_movil/controller/categoria.php?op=pull&data=${data}`;
     // this.PostUser = this._http.get(url);
     // this.PostUser.subscribe(data=>{
-    //   this.showLoading();
+    //   this.showLoading().then((e)=>{})
     // })
     // setTimeout(() => {
-    //   this.presentToast();
+    //   this.presentToast("Registro Enviado")
     // }, 2500);
   }
   handleChange(e) {

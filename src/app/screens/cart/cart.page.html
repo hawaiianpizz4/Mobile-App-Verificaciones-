@@ -15,7 +15,7 @@
   </ion-list>
   <div class="empty-cart" *ngIf="!(cartItem$|async).length || 0">
     <ion-icon  name="cart"></ion-icon>
-    <p>Your cart is empty</p>
+    <p>0 Gestiones Sin enviar</p>
   </div>
   <app-button *ngIf="(cartItem$|async).length">
     Total: <span><sup>$</sup>{{totalAmount$|async|number:'1.2'}}</span>

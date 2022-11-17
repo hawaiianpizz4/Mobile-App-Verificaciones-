@@ -1,18 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { Food } from '../models/food.model';
+import { HTTP } from "@ionic-native/http";
 
 @Injectable({
   providedIn: 'root',
 })
 export class FoodServices {
-  constructor(private _http:HttpClient){}
-  getDatos<T>(url:string){
-    url= 'http://200.7.249.20/vision360ServicioCliente/Api_rest_movil/controller/categoria.php?op=user&nombre=JDLARA';
-    return this._http.get<T[]>(url);
+  constructor(private _http:HttpClient){
+    
   }
-  getFoods(): Food[] {
+  getDatos(user:string){
+    // url= 'http://200.7.249.20/vision360ServicioCliente/Api_rest_movil/controller/categoria.php?op=user&nombre=JDLARA';
+    // console.log(user);
+    return this._http.get<any>(`http://200.7.249.20/vision360ServicioCliente/Api_rest_movil/controller/categoria.php?op=user&nombre=${user}`);
+  }
+  getFoods(){
     return [
       {
         id: 1,
@@ -41,6 +44,6 @@ export class FoodServices {
     ];
   }
   getFood(id:number){
-    return  this.getDatos("").pipe(map(user=>user.find((e:any)=>e.cedulaCliente == id.toString())));
+    return  this.getDatos(localStorage.getItem("user")).pipe(map(user=>user.find((e:any)=>e.cedulaCliente == id.toString())));
   }
 }

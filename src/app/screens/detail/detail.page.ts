@@ -16,7 +16,7 @@ import { FoodServices } from 'src/app/services/food.service';
 })
 export class DetailPage implements OnInit {
   id: number;
-  getdata:any[]=[];
+  getdata=[];
   cedula:string;
   operacion:string;
   gestor:string;
@@ -24,9 +24,17 @@ export class DetailPage implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private foodService: FoodServices, 
     private cartService: CartService, private toastCtrl: ToastController, private modalCtrl : ModalController) {
     this.id = +this.activatedRoute.snapshot.paramMap.get('id');
-    this.foodService.getDatos<any[]>("").subscribe(data=>{
-      this.getdata= data.find((e:any)=>e.cedulaCliente == this.id.toString());
-    })
+    
+    // this.foodService.getDatos(JSON.parse(localStorage.getItem("user"))).subscribe(data=>{
+    //   this.getdata= data.find((e:any)=>e.cedulaCliente == this.id.toString());
+    // })
+    const users = JSON.parse(localStorage.getItem("storage"));
+    const v = Object.entries(users);
+    const Total: any = [];
+    v.map((m) => {
+      Total.push(m[1]);
+    });
+    this.getdata = Total.find(e=>e.cedulaCliente === this.id.toString());
    }
 
   ngOnInit() {

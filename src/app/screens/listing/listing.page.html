@@ -2,18 +2,31 @@
   <div class="header">
     <h1>Gestion</h1>
     <div class="avatar">
-      <ion-img src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png"></ion-img>
+      <ion-img
+        src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png"
+      ></ion-img>
     </div>
   </div>
   <app-searchbar (ionChange)="handleChange($event)"></app-searchbar>
-  <div class="categories"> 
+  <ion-item>
+    <ion-badge slot="start">{{results.length}} Resultados</ion-badge>
+  </ion-item>
+  <div class="categories">
     <!-- <app-category-item *ngFor="let item of categories" [item]="item"></app-category-item> -->
   </div>
-  <h1 class="list-header">Listado</h1>
+  <h1 class="list-header">Lista</h1>
   <div class="food-list" *ngIf="results.length == 0">
-    <app-food-card *ngFor="let user of getdata" [item]="user" (clicked)="goToDetailPage(user.cedulaCliente)" ></app-food-card>
+    <app-food-card
+      *ngFor="let user of getdata"
+      [item]="user"
+      (clicked)="goToDetailPage(user.cedulaCliente)"
+    ></app-food-card>
   </div>
   <div class="food-list">
-    <app-food-card *ngFor="let user of results" [item]="user" (clicked)="goToDetailPage(user.cedulaCliente)" ></app-food-card>
+    <app-food-card
+      *ngFor="let user of results"
+      [item]="user"
+      (clicked)="goToDetailPage(user.cedulaCliente)"
+    ></app-food-card>
   </div>
 </ion-content>

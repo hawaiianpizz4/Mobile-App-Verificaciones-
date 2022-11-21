@@ -1,12 +1,12 @@
 <div class="cart-item">
   <div class="image">
-    <ion-img [src]="item.image"></ion-img>
+    <ion-img src="assets/images/espera.png"></ion-img>
   </div>
   <div class="description">
-    <h3>{{item.name}}</h3>
-    <p><sup>$</sup>{{item.price | number:'1.2'}}</p>
+    <h3>{{item.cedula}}</h3>
+    <p><sup>!</sup>{{item.contacto}}</p>
   </div>
-  <div class="actions">
+  <!-- <div class="actions">
     <ion-buttons >
       <ion-button (click)="increase.emit()">
         <ion-icon slot="icon-only" name="add"></ion-icon>
@@ -18,5 +18,5 @@
         <ion-icon slot="icon-only" name="remove"></ion-icon>
       </ion-button>
     </ion-buttons>
-  </div>
+  </div> -->
 </div>

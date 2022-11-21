@@ -1,7 +1,6 @@
 ion-content{
     --pading-start:1rem;
     --pading-end:2rem;
-    
     .header{
         display: flex;
         justify-content: space-between;
@@ -10,7 +9,7 @@ ion-content{
         margin-top: 3rem;
     }
     h1{
-        font-size: 3rem;
+        font-size: 2.5rem;
         font-weight: 600;
         color: #515151;
         margin: 0;
@@ -45,5 +44,16 @@ ion-content{
         display: grid;
         grid-template-columns: 1fr ;
         grid-gap: 1rem;
+    }
+    .contenedor{
+        position: relative;
+        display: inline-block;
+        text-align: center; 
+    }
+    .centrado{
+        position: absolute;
+        top: 40%;
+        left: 65%;
+        transform: translate(-50%, -50%);
     }
 }

@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
-import { Observable } from 'rxjs';
-import { CartItem } from 'src/app/models/cart-item.model';
-import { CartService } from 'src/app/services/cart.service';
+import { HttpClient } from '@angular/common/http';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { Network} from "@capacitor/network";
 
 @Component({
   selector: 'app-cart',
@@ -10,40 +9,80 @@ import { CartService } from 'src/app/services/cart.service';
   styleUrls: ['./cart.page.scss'],
 })
 export class CartPage implements OnInit {
-  cartItem$: Observable<CartItem[]>;
-  totalAmount$ : Observable<number>;
-  constructor(private cartService: CartService, private alertCtrl:AlertController) { }
 
-  ngOnInit() {
-    this.cartItem$ = this.cartService.getCart();
-    this.totalAmount$ = this.cartService.getTotalAmount();
+  storageW8:[];
+  refresh:boolean = true;
+  status:boolean;
+  constructor( private alertCtrl:AlertController,private _http: HttpClient,
+    private loadingCtrl: LoadingController,private toastController: ToastController,private ngZone : NgZone) { }
+    handleRefresh(event) {
+      setTimeout(() => {
+        this.storageW8 = JSON.parse(localStorage.getItem("storageWait"));
+        event.target.complete();
+      }, 2000);
+    };
+
+  async ngOnInit() {
+      this.storageW8 = JSON.parse(localStorage.getItem("storageWait"));
+      if(this.storageW8===null){this.storageW8 = []}else{this.storageW8 = JSON.parse(localStorage.getItem("storageWait"));}
+      Network.addListener('networkStatusChange',status=>{
+        this.ngZone.run(()=>{
+          this.changeStatus(status);
+        });
+      });
+      const status = await Network.getStatus();
+      this.changeStatus(status);
+  }
+  changeStatus(status){
+    this.status = status?.connected;
   }
 
-  onIncrease(item:CartItem){
-    this.cartService.changeQty(1,item.id);
-  }
 
-  onDecrease(item:CartItem){
-    if(item.quantity == 1) this.removeFromCart(item);
-    else this.cartService.changeQty(-1,item.id);
-  }
+  async sendStorageW8(){
+    if(this.status){
 
-  async removeFromCart(item:CartItem){
-    const alert = await this.alertCtrl.create({
-      header:'Remove',
-      message:'Are you sure you want to remove?',
-      buttons:[
-        {
-          text:'Yes',
-          handler:()=>this.cartService.removeItem(item.id),
-        },
-        {
-          text:'No',
-        },
-      ]
+      var data = JSON.parse(localStorage.getItem("storageWait"));
+      data.map(e=>{
+        const url = `http://200.7.249.20/vision360ServicioCliente/Api_rest_movil/controller/categoria.php?op=pull&data=${JSON.stringify(e)}`;
+        var send = this._http.get(url);
+        send.subscribe((data)=>{
+          console.log(data);
+        })
+      });
+      localStorage.setItem("storageWait",JSON.stringify([]));
+      this.showLoading().then((e) => {});
+      setTimeout(() => {
+        this.presentToast('Registros Enviados');
+      }, 3000);
+    }else{
+      this.presentAlert();
+    }
+  }
+  async showLoading() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Guardando Registros...!',
+      duration: 2000,
     });
-    alert.present();
+
+    loading.present();
   }
+  async presentToast(message) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2500,
+      position: 'top',
+    });
 
+    await toast.present();
+  }
+  async presentAlert() {
+    const alert = await this.alertCtrl.create({
+      header: 'Debes tener conexion a internet para realizar esta accion',
+      subHeader: 'Intenta conectarte a una red wifi ',
+      message: 'Intentalo de nuevo',
+      buttons: ['OK'],
+    });
 
+    await alert.present();
+  }
 }

@@ -1,6 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CartItem } from 'src/app/models/cart-item.model';
-
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-cart-item',
@@ -8,19 +6,10 @@ import { CartItem } from 'src/app/models/cart-item.model';
   styleUrls: ['./cart-item.component.scss'],
 })
 export class CartItemComponent {
-  @Input() item:CartItem;
+  @Input() item;
   @Output() increase :EventEmitter<any> = new EventEmitter();
   @Output() decrease :EventEmitter<any> = new EventEmitter();
 
-  // constructor(){
-  //   this.item={
-  //     id:1,
-  //     name:'Sea Food',
-  //     price: 12,
-  //     image: 'assets/images/imagen.png',
-  //     quantity:1,
-  //   }
-  // }
-
-
+  constructor(){
+  }
 }

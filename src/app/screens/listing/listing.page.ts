@@ -12,13 +12,31 @@ import { dataService } from 'src/app/services/data.service';
 export class ListingPage implements OnInit {
   getdata = [];
   public results: any[] = [];
+  usuarioInsert;
   constructor(
     private router: Router,
     private _services: dataService,
     private alertController: AlertController
   ) {
+    this.usuarioInsert=localStorage.getItem("user");
   }
  
+  handleRefresh(event) {
+    setTimeout(() => {
+      this._services
+          .getDatos(JSON.parse(localStorage.getItem('user')))
+          .subscribe(
+            (data) => {
+              this.getdata = data;
+              localStorage.setItem('storage', JSON.stringify(data));
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+      event.target.complete();
+    }, 2000);
+  };
 
   ngOnInit() {
 
@@ -47,7 +65,7 @@ export class ListingPage implements OnInit {
     const alert = await this.alertController.create({
       header: 'Ingresa tu usuario',
       subHeader: 'Este usuario no se podra cambiar!',
-      message:'Mediante el usuario se filtrara la infromación que se mostrara en la aplicación',
+      message:'Mediante el usuario se filtrara la información que se mostrara en la aplicación',
       inputs: [
         {
           placeholder: 'UsuarioMbcase',
@@ -59,9 +77,9 @@ export class ListingPage implements OnInit {
           text: 'ok',
           handler: (alertData) => {
             localStorage.setItem('user', JSON.stringify(alertData.usuario));
-            setTimeout(() => {
-              window.location.reload();
-            }, 100);
+            // setTimeout(() => {
+            //   window.location.reload();
+            // }, 100);
           },
         },
       ],

@@ -40,8 +40,8 @@ export class CartPage implements OnInit {
 
   async sendStorageW8(){
     if(this.status){
-
-      var data = JSON.parse(localStorage.getItem("storageWait"));
+      setTimeout(() => {
+        var data = JSON.parse(localStorage.getItem("storageWait"));
       data.map(e=>{
         const url = `http://200.7.249.20/vision360ServicioCliente/Api_rest_movil/controller/categoria.php?op=pull&data=${JSON.stringify(e)}`;
         var send = this._http.get(url);
@@ -53,6 +53,7 @@ export class CartPage implements OnInit {
       this.showLoading().then((e) => {});
       setTimeout(() => {
         this.presentToast('Registros Enviados');
+      }, 3000);        
       }, 3000);
     }else{
       this.presentAlert();

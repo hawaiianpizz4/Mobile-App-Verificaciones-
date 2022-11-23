@@ -19,8 +19,8 @@ export class ModalInfoPage implements OnInit {
   @Input() operacion;
   @Input() gestor;
   PostUser: Observable<any>;
-  latitude: any = 0;
-  longitude: any = 0;
+  latitude= 111.111;
+  longitude= 1111.111;
   status:boolean;
   constructor(
     private modalCtrl: ModalController,
@@ -32,7 +32,12 @@ export class ModalInfoPage implements OnInit {
   ) {
     
   }
-
+  // handleRefresh(event) {
+  //   setTimeout(() => {
+  //     this.getCurrentCoordinates();
+  //     event.target.complete();
+  //   }, 2000);
+  // };
   async ngOnInit() {
     this.getCurrentCoordinates();
     Network.addListener('networkStatusChange',status=>{
@@ -59,13 +64,13 @@ export class ModalInfoPage implements OnInit {
         this.longitude = resp.coords.longitude;
       })
       .catch((error) => {
-        console.log('Error getting location', error);
+        console.log(error);
       });
   }
 
-  async showLoading() {
+  async showLoading(msg) {
     const loading = await this.loadingCtrl.create({
-      message: 'Guardando Registro...!',
+      message: msg,
       duration: 2000,
     });
 
@@ -100,14 +105,14 @@ export class ModalInfoPage implements OnInit {
         plazoInsert = plazo.value;
         valorInsert = valorRe.value;
       } else {
-        plazoInsert = '0';
-        valorInsert = '0';
+        plazoInsert = "0";
+        valorInsert = "0";
       }
       var data = `{"cedula":"${this.cedula}","operacion":"${this.operacion}","gestion":"${gestion.value}","cobranza":"${cobranza.value}","observacion":"${observacion.value}","contacto":"${contacto.value}","plazoNuevo":${plazoInsert},"valorRenegocio":${valorInsert},"latitud":${lat.value},"longitud":${long.value},"gestor":"${this.gestor}"}`;
       const url = `http://200.7.249.20/vision360ServicioCliente/Api_rest_movil/controller/categoria.php?op=pull&data=${data}`;
       this.PostUser = this._http.get(url);
       this.PostUser.subscribe((data) => {
-        this.showLoading().then((e) => {});
+        this.showLoading("Guardando Registro...").then((e) => {});
       });
       setTimeout(() => {
         this.presentToast('Registro Enviado');
@@ -118,8 +123,8 @@ export class ModalInfoPage implements OnInit {
         plazoInsert = plazo.value;
         valorInsert = valorRe.value;
       } else {
-        plazoInsert = 0;
-        valorInsert = 0;
+        plazoInsert = "0";
+        valorInsert = "0";
       }
       var data = `{"cedula":"${this.cedula}","operacion":"${this.operacion}","gestion":"${gestion.value}","cobranza":"${cobranza.value}","observacion":"${observacion.value}","contacto":"${contacto.value}","plazoNuevo":${plazoInsert},"valorRenegocio":${valorInsert},"latitud":${lat.value},"longitud":${long.value},"gestor":"${this.gestor}"}`;
       var dataInLocalStorage = localStorage.getItem('storageWait');
@@ -128,12 +133,18 @@ export class ModalInfoPage implements OnInit {
         local = Array.from(JSON.parse(dataInLocalStorage));
         local.push(JSON.parse(data));
         localStorage.setItem("storageWait",JSON.stringify(local));
-        this.presentToast('Registro Guardado para ser enviado');
+        this.showLoading('Guardando registro para ser enviado');
+        setTimeout(() => {
+          this.presentToast('Registro Guardado');
+        }, 3000);
       } else {
         var insert = Array.from(JSON.parse(data));
         insert.push(JSON.parse(data));
         localStorage.setItem('storageWait',JSON.stringify(insert));
-        this.presentToast('Registro Guardado para ser enviado');
+        this.showLoading('Guardando registro para ser enviado');
+        setTimeout(() => {
+          this.presentToast('Registro Guardado');
+        }, 3000);
       }
     }
   }

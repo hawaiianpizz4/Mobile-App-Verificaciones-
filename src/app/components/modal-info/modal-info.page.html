@@ -5,6 +5,14 @@
         <ion-icon slot="icon-only" name="arrow-back" color="light"></ion-icon>
       </ion-button>
     </ion-buttons>
+    <!-- <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+      <ion-refresher-content
+        pullingIcon="chevron-down-circle-outline"
+        pullingText="Pull to refresh"
+        refreshingSpinner="circles"
+        refreshingText="Actualizando...">
+      </ion-refresher-content>
+    </ion-refresher> -->
   </div>
   <div class="card">
     <div class="image" >
@@ -16,7 +24,7 @@
           <ion-list >
             <ion-item>
               <ion-label>Tipo de Gestion</ion-label>
-              <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar" name="gestion" >
+              <ion-select (ionChange)="handleChange($event)" interface="popover" placeholder="Seleccionar" name="gestion" >
                 <ion-select-option value="Renegociación">Renegociación</ion-select-option>
                 <ion-select-option value="Gestión">Gestión Cobranza</ion-select-option>
                 <ion-select-option value="Recojo">Recojo</ion-select-option>
@@ -26,7 +34,7 @@
             </ion-item>
             <ion-item >
               <ion-label>Gestion Cobranza</ion-label>
-              <ion-select (ionChange)="handleChange($event)" id="change" interface="action-sheet" placeholder="Seleccionar" name="cobranza" >
+              <ion-select (ionChange)="handleChange($event)" id="change" interface="popover" placeholder="Seleccionar" name="cobranza" >
               </ion-select>
             </ion-item>
             <div id="plazo"> 
@@ -46,21 +54,21 @@
             </ion-item>
             <ion-item >
               <ion-label>Tipo Contacto</ion-label>
-              <ion-select interface="action-sheet" placeholder="Seleccionar" name="contacto">
+              <ion-select interface="popover" placeholder="Seleccionar" name="contacto" aria-required="required">
                 <ion-select-option value="Contactado">Contactado</ion-select-option>
                 <ion-select-option value="NoContactado">No Contactado</ion-select-option>
               </ion-select>
             </ion-item>
             <ion-item>
-              <ion-input name="lat" value="{{latitude}}"><p>Latitud:</p>{{latitude}}</ion-input>
+              <ion-input name="lat" value="{{latitude}}" disabled="true"><p>Latitud:</p></ion-input>
             </ion-item>
             <ion-item>
-              <ion-input name="long" value="{{longitude}}"><p>Longitud:</p>{{longitude}}</ion-input>
+              <ion-input name="long" value="{{longitude}}" disabled="true"><p>Longitud:</p></ion-input>
             </ion-item>              
             <ion-row>
               <ion-col>
                 <ion-button type="submit" color="danger" expand="block"
-                  >Submit</ion-button
+                  >Enviar</ion-button
                 >
               </ion-col>
             </ion-row>

@@ -11,7 +11,6 @@ export class dataService {
     
   }
   getDatos(user:string){
-    console.log(user);
     return this._http.get<any>(`http://200.7.249.20/vision360ServicioCliente/Api_rest_movil/controller/categoria.php?op=user&nombre=${user}`);
   }
   getFood(id:number){

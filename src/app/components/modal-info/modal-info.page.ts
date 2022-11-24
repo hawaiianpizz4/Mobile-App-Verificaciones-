@@ -5,9 +5,11 @@ import { Network} from "@capacitor/network";
 import {
   LoadingController,
   ModalController,
+  NavController,
   ToastController,
 } from '@ionic/angular';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-modal-info',
@@ -28,16 +30,11 @@ export class ModalInfoPage implements OnInit {
     private loadingCtrl: LoadingController,
     private geolocation: Geolocation,
     private toastController: ToastController,
-    private ngZone : NgZone
+    private ngZone : NgZone,
+    private navCtrl : NavController
   ) {
     
   }
-  // handleRefresh(event) {
-  //   setTimeout(() => {
-  //     this.getCurrentCoordinates();
-  //     event.target.complete();
-  //   }, 2000);
-  // };
   async ngOnInit() {
     this.getCurrentCoordinates();
     Network.addListener('networkStatusChange',status=>{
@@ -53,6 +50,9 @@ export class ModalInfoPage implements OnInit {
     this.status ? this.presentToast("Conectado"): this.presentToast("Sin conexion");
   }
 
+  redirect (){
+    this.navCtrl.navigateForward('home/listing');
+  }
   exit() {
     this.modalCtrl.dismiss();
   }
@@ -116,6 +116,8 @@ export class ModalInfoPage implements OnInit {
       });
       setTimeout(() => {
         this.presentToast('Registro Enviado');
+        this.redirect();
+        this.exit();
       }, 3000);
     } else {
       var plazoInsert, valorInsert;
@@ -144,6 +146,8 @@ export class ModalInfoPage implements OnInit {
         this.showLoading('Guardando registro para ser enviado');
         setTimeout(() => {
           this.presentToast('Registro Guardado');
+          this.redirect();
+          this.exit();
         }, 3000);
       }
     }

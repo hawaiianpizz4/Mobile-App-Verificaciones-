@@ -18,12 +18,13 @@ export class ListingPage implements OnInit {
     private _services: dataService,
     private alertController: AlertController
   ) {
-    this.usuarioInsert=localStorage.getItem("user");
+    
   }
  
   handleRefresh(event) {
     setTimeout(() => {
-      this._services
+      if(this.usuarioInsert=localStorage.getItem("user").length>2){
+        this._services
           .getDatos(JSON.parse(localStorage.getItem('user')))
           .subscribe(
             (data) => {
@@ -34,6 +35,11 @@ export class ListingPage implements OnInit {
               console.log(error);
             }
           );
+      }else{
+        this.presentAlert();
+      }  
+      
+      
       event.target.complete();
     }, 2000);
   };

@@ -1,6 +1,8 @@
+
 ion-content{
     --pading-start:1rem;
     --pading-end:2rem;
+    // --ion-background-color:;
     .header{
         display: flex;
         justify-content: space-between;
@@ -35,7 +37,7 @@ ion-content{
     }
     .list-header{
         font-weight: 700;
-        color: #515151;
+        color: #2c2b2b;
         font-size: 1.8rem;
         margin-bottom: 1.6rem;
         margin-top: .5rem;
@@ -55,6 +57,9 @@ ion-content{
         top: 40%;
         left: 65%;
         transform: translate(-50%, -50%);
+        h1{
+            color: #000000;
+        }
     }
     .empty-cart{
         height: 50%;

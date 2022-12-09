@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, NgZone, OnInit } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { Network} from "@capacitor/network";
+import { Network } from '@capacitor/network';
 import {
   LoadingController,
   ModalController,
@@ -21,36 +21,36 @@ export class ModalInfoPage implements OnInit {
   @Input() operacion;
   @Input() gestor;
   PostUser: Observable<any>;
-  latitude= 111.111;
-  longitude= 1111.111;
-  status:boolean;
+  latitude = 111.111;
+  longitude = 1111.111;
+  status: boolean;
   constructor(
     private modalCtrl: ModalController,
     private _http: HttpClient,
     private loadingCtrl: LoadingController,
     private geolocation: Geolocation,
     private toastController: ToastController,
-    private ngZone : NgZone,
-    private navCtrl : NavController
-  ) {
-    
-  }
+    private ngZone: NgZone,
+    private navCtrl: NavController
+  ) {}
   async ngOnInit() {
     this.getCurrentCoordinates();
-    Network.addListener('networkStatusChange',status=>{
-      this.ngZone.run(()=>{
+    Network.addListener('networkStatusChange', (status) => {
+      this.ngZone.run(() => {
         this.changeStatus(status);
       });
     });
     const status = await Network.getStatus();
     this.changeStatus(status);
   }
-  changeStatus(status){
+  changeStatus(status) {
     this.status = status?.connected;
-    this.status ? this.presentToast("Conectado"): this.presentToast("Sin conexion");
+    this.status
+      ? this.presentToast('Conectado', 'wifi-outline', 'success')
+      : this.presentToast('Sin conexion', 'globe-outline', 'warning');
   }
 
-  redirect (){
+  redirect() {
     this.navCtrl.navigateForward('home/listing');
   }
   exit() {
@@ -76,11 +76,13 @@ export class ModalInfoPage implements OnInit {
 
     loading.present();
   }
-  async presentToast(message) {
+  async presentToast(message, iconInsert, color) {
     const toast = await this.toastController.create({
       message: message,
       duration: 2500,
       position: 'top',
+      icon: iconInsert,
+      color: color,
     });
 
     await toast.present();
@@ -98,58 +100,74 @@ export class ModalInfoPage implements OnInit {
       plazo,
       valorRe,
     } = e.target;
-
-    if (this.status) {
-      var plazoInsert, valorInsert;
-      if (plazo && valorRe) {
-        plazoInsert = plazo.value;
-        valorInsert = valorRe.value;
-      } else {
-        plazoInsert = "0";
-        valorInsert = "0";
-      }
-      var data = `{"cedula":"${this.cedula}","operacion":"${this.operacion}","gestion":"${gestion.value}","cobranza":"${cobranza.value}","observacion":"${observacion.value}","contacto":"${contacto.value}","plazoNuevo":${plazoInsert},"valorRenegocio":${valorInsert},"latitud":${lat.value},"longitud":${long.value},"gestor":"${this.gestor}"}`;
-      const url = `http://200.7.249.20/vision360ServicioCliente/Api_rest_movil/controller/categoria.php?op=pull&data=${data}`;
-      this.PostUser = this._http.get(url);
-      this.PostUser.subscribe((data) => {
-        this.showLoading("Guardando Registro...").then((e) => {});
-      });
-      setTimeout(() => {
-        this.presentToast('Registro Enviado');
-        this.redirect();
-        this.exit();
-      }, 3000);
-    } else {
-      var plazoInsert, valorInsert;
-      if (plazo && valorRe) {
-        plazoInsert = plazo.value;
-        valorInsert = valorRe.value;
-      } else {
-        plazoInsert = "0";
-        valorInsert = "0";
-      }
-      var data = `{"cedula":"${this.cedula}","operacion":"${this.operacion}","gestion":"${gestion.value}","cobranza":"${cobranza.value}","observacion":"${observacion.value}","contacto":"${contacto.value}","plazoNuevo":${plazoInsert},"valorRenegocio":${valorInsert},"latitud":${lat.value},"longitud":${long.value},"gestor":"${this.gestor}"}`;
-      var dataInLocalStorage = localStorage.getItem('storageWait');
-      var local = [];
-      if (dataInLocalStorage) {
-        local = Array.from(JSON.parse(dataInLocalStorage));
-        local.push(JSON.parse(data));
-        localStorage.setItem("storageWait",JSON.stringify(local));
-        this.showLoading('Guardando registro para ser enviado');
+    if (
+      gestion.value && gestion.value != undefined &&
+      cobranza != undefined &&
+      observacion.value && observacion.value != undefined&&
+      contacto.value && contacto.value != undefined
+    ) {
+      if (this.status) {
+        var plazoInsert, valorInsert;
+        if (plazo && valorRe) {
+          plazoInsert = plazo.value;
+          valorInsert = valorRe.value;
+        } else {
+          plazoInsert = '0';
+          valorInsert = '0';
+        }
+        var data = `{"cedula":"${this.cedula}","operacion":"${this.operacion}","gestion":"${gestion.value}","cobranza":"${cobranza.value}","observacion":"${observacion.value}","contacto":"${contacto.value}","plazoNuevo":${plazoInsert},"valorRenegocio":${valorInsert},"latitud":${lat.value},"longitud":${long.value},"gestor":"${this.gestor}"}`;
+        const url = `http://200.7.249.20/vision360ServicioCliente/Api_rest_movil/controller/categoria.php?op=pull&data=${data}`;
+        this.PostUser = this._http.get(url);
+        this.PostUser.subscribe((data) => {
+          this.showLoading('Guardando Registro...').then((e) => {});
+        });
         setTimeout(() => {
-          this.presentToast('Registro Guardado');
-        }, 3000);
-      } else {
-        var insert = Array.from(JSON.parse(data));
-        insert.push(JSON.parse(data));
-        localStorage.setItem('storageWait',JSON.stringify(insert));
-        this.showLoading('Guardando registro para ser enviado');
-        setTimeout(() => {
-          this.presentToast('Registro Guardado');
+          this.presentToast('Registro Enviado', 'checkmark-outline', 'success');
           this.redirect();
           this.exit();
         }, 3000);
+      } else {
+        var plazoInsert, valorInsert;
+        if (plazo && valorRe) {
+          plazoInsert = plazo.value;
+          valorInsert = valorRe.value;
+        } else {
+          plazoInsert = '0';
+          valorInsert = '0';
+        }
+        var data = `{"cedula":"${this.cedula}","operacion":"${this.operacion}","gestion":"${gestion.value}","cobranza":"${cobranza.value}","observacion":"${observacion.value}","contacto":"${contacto.value}","plazoNuevo":${plazoInsert},"valorRenegocio":${valorInsert},"latitud":${lat.value},"longitud":${long.value},"gestor":"${this.gestor}"}`;
+        var dataInLocalStorage = localStorage.getItem('storageWait');
+        var local = [];
+        if (dataInLocalStorage) {
+          local = Array.from(JSON.parse(dataInLocalStorage));
+          local.push(JSON.parse(data));
+          localStorage.setItem('storageWait', JSON.stringify(local));
+          this.showLoading('Guardando registro para ser enviado');
+          setTimeout(() => {
+            this.presentToast(
+              'Registro Guardado',
+              'checkmark-outline',
+              'success'
+            );
+          }, 3000);
+        } else {
+          var insert = Array.from(JSON.parse(data));
+          insert.push(JSON.parse(data));
+          localStorage.setItem('storageWait', JSON.stringify(insert));
+          this.showLoading('Guardando registro para ser enviado');
+          setTimeout(() => {
+            this.presentToast(
+              'Registro Guardado',
+              'checkmark-outline',
+              'success'
+            );
+            this.redirect();
+            this.exit();
+          }, 3000);
+        }
       }
+    }else{
+      this.presentToast("No debe existir campos vacios","alert","warning");
     }
   }
   handleChange(e) {
@@ -167,11 +185,12 @@ export class ModalInfoPage implements OnInit {
         insertNewValuesRenegocioValor.innerHTML =
           '<ion-item><ion-label>Valor a renegociar</ion-label><ion-input type="number" placeholder="Ingresa el valor" name="valorRe"></ion-input></ion-item>';
         break;
-      case 'Gestión':
+      case 'Gestión Cobranza':
         insertChangeValues.innerHTML =
           '<ion-select-option value="Visita contactada">Visita contactada</ion-select-option><ion-select-option value="Visita no contactada">Visita no contactada</ion-select-option><ion-select-option value="Pago">Pago</ion-select-option>';
         insertNewValuesRenegocioPlazo.innerHTML = '';
         insertNewValuesRenegocioValor.innerHTML = '';
+        break;
       case 'Recojo':
         insertChangeValues.innerHTML =
           '<ion-select-option value="Recojo">Recojo</ion-select-option><ion-select-option value="Recojo con abono">Recojo con abono</ion-select-option>';

@@ -18,6 +18,7 @@ export class CartPage implements OnInit {
     handleRefresh(event) {
       setTimeout(() => {
         this.storageW8 = JSON.parse(localStorage.getItem("storageWait"));
+        this.presentToast("La Informacion ha sido Actualizada correctamente","pulse-outline","success");
         event.target.complete();
       }, 2000);
     };
@@ -52,9 +53,9 @@ export class CartPage implements OnInit {
       localStorage.setItem("storageWait",JSON.stringify([]));
       this.showLoading().then((e) => {});
       setTimeout(() => {
-        this.presentToast('Registros Enviados');
+        this.presentToast('Registros Enviados','checkmark-outline','success');
       }, 3000);        
-      }, 3000);
+      }, 1000);
     }else{
       this.presentAlert();
     }
@@ -67,11 +68,13 @@ export class CartPage implements OnInit {
 
     loading.present();
   }
-  async presentToast(message) {
+  async presentToast(message,icon,color) {
     const toast = await this.toastController.create({
       message: message,
       duration: 2500,
       position: 'top',
+      icon:icon,
+      color:color
     });
 
     await toast.present();

@@ -20,13 +20,13 @@
     </div>
     <div class="card-content">
       <div class="card-body">
-        <form  (submit)="submitForm($event)" novalidate>
+        <form  (submit)="submitForm($event)" novalidate >
           <ion-list >
             <ion-item>
               <ion-label>Tipo de Gestion</ion-label>
-              <ion-select (ionChange)="handleChange($event)" interface="popover" placeholder="Seleccionar" name="gestion" >
+              <ion-select (ionChange)="handleChange($event)"  interface="action-sheet" placeholder="Seleccionar" name="gestion" >
                 <ion-select-option value="Renegociación">Renegociación</ion-select-option>
-                <ion-select-option value="Gestión">Gestión Cobranza</ion-select-option>
+                <ion-select-option value="Gestión Cobranza">Gestión Cobranza</ion-select-option>
                 <ion-select-option value="Recojo">Recojo</ion-select-option>
                 <ion-select-option value="Verificación">Verificación</ion-select-option>
                 <ion-select-option value="Matriculación">Matriculación</ion-select-option>
@@ -34,7 +34,7 @@
             </ion-item>
             <ion-item >
               <ion-label>Gestion Cobranza</ion-label>
-              <ion-select (ionChange)="handleChange($event)" id="change" interface="popover" placeholder="Seleccionar" name="cobranza" >
+              <ion-select (ionChange)="handleChange($event)" id="change"  interface="action-sheet" placeholder="Seleccionar" name="cobranza" >
               </ion-select>
             </ion-item>
             <div id="plazo"> 
@@ -54,7 +54,7 @@
             </ion-item>
             <ion-item >
               <ion-label>Tipo Contacto</ion-label>
-              <ion-select interface="popover" placeholder="Seleccionar" name="contacto" aria-required="required">
+              <ion-select interface="action-sheet" placeholder="Seleccionar" name="contacto" aria-required="required">
                 <ion-select-option value="Contactado">Contactado</ion-select-option>
                 <ion-select-option value="NoContactado">No Contactado</ion-select-option>
               </ion-select>

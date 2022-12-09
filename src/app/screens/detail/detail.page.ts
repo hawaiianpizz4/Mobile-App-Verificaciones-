@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ModalController, ToastController } from '@ionic/angular';
+import { ModalController, NavController, ToastController } from '@ionic/angular';
 import { ModalInfoPage } from 'src/app/components/modal-info/modal-info.page';
 
 
@@ -17,21 +17,28 @@ export class DetailPage implements OnInit {
   gestor:string;
 
   constructor(private activatedRoute: ActivatedRoute, 
-    private toastCtrl: ToastController, private modalCtrl : ModalController) {
-    this.id = +this.activatedRoute.snapshot.paramMap.get('id');
+    private toastCtrl: ToastController, private modalCtrl : ModalController,private navCtrl : NavController) {
+      this.id = +this.activatedRoute.snapshot.paramMap.get('id');
     const users = JSON.parse(localStorage.getItem("storage"));
     const v = Object.entries(users);
     const Total: any = [];
     v.map((m) => {
       Total.push(m[1]);
     });
-    this.getdata = Total.find(e=>e.cedulaCliente === this.id.toString());
+    this.getdata = Total.find(e=>e.cedulaCliente == this.id);
+    if(!this.getdata){
+      this.presentToast("Error, El usuario no se pudo encontrar");
+      this.redirect();
+    }
+      
    }
 
   ngOnInit() {
-
   } 
   
+  redirect (){
+    this.navCtrl.navigateForward('home/listing');
+  }
   async openModal(cedula:string,operacion:string,gestor:string){
     const modal = await this.modalCtrl.create({
       component:ModalInfoPage,
@@ -44,12 +51,14 @@ export class DetailPage implements OnInit {
     await modal.present();
   }
 
-  async presentToast(){
+  async presentToast(mensaje){
     const toast = await this.toastCtrl.create({
-      message:'Food add to cart',
+      message:mensaje,
       mode:'ios',
-      duration:1000,
+      duration:2000,
       position:'top',
+      icon: 'alert-circle-outline',
+      color:"danger"
     });
     toast.present();
   }

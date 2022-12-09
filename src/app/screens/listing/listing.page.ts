@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { dataService } from 'src/app/services/data.service';
 
 @Component({
@@ -16,14 +16,14 @@ export class ListingPage implements OnInit {
   constructor(
     private router: Router,
     private _services: dataService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private toastCtrl: ToastController
   ) {
-    
   }
- 
   handleRefresh(event) {
     setTimeout(() => {
       if(this.usuarioInsert=localStorage.getItem("user").length>2){
+        localStorage.setItem('storage',JSON.stringify([]));
         this._services
           .getDatos(JSON.parse(localStorage.getItem('user')))
           .subscribe(
@@ -38,14 +38,11 @@ export class ListingPage implements OnInit {
       }else{
         this.presentAlert();
       }  
-      
-      
       event.target.complete();
+      this.presentToast("La Informacion ha sido Actualizada correctamente","pulse-outline","success");
     }, 2000);
   };
-
   ngOnInit() {
-
     if (!localStorage.getItem('storage')) {
       if (localStorage.getItem('user')) {
         this._services
@@ -105,5 +102,16 @@ export class ListingPage implements OnInit {
       Total.push(m[1]);
     });
     this.results = Total.filter((e) => e.cedulaCliente.includes(query));
+  }
+  async presentToast(mensaje,icon,color){
+    const toast = await this.toastCtrl.create({
+      message:mensaje,
+      mode:'ios',
+      duration:2000,
+      position:'top',
+      icon: icon,
+      color:color
+    });
+    toast.present();
   }
 }

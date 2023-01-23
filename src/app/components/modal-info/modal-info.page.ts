@@ -9,7 +9,6 @@ import {
   ToastController,
 } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-modal-info',
@@ -181,7 +180,7 @@ export class ModalInfoPage implements OnInit {
         insertChangeValues.innerHTML =
           '<ion-select-option value="Renegociación valor 0">Renegociación valor 0</ion-select-option><ion-select-option value="Renegociación abono">Renegociación abono</ion-select-option><ion-select-option value="Renegociación">Renegociación</ion-select-option>';
         insertNewValuesRenegocioPlazo.innerHTML =
-          '<ion-item><ion-label>Tipo de Gestion</ion-label><ion-select interface="action-sheet" placeholder="Seleccionar" name="plazo"><ion-select-option value="3">3</ion-select-option><ion-select-option value="6">6</ion-select-option><ion-select-option value="9">9</ion-select-option><ion-select-option value="12">12</ion-select-option><ion-select-option value="15">15</ion-select-option><ion-select-option value="18">18</ion-select-option><ion-select-option value="24">24</ion-select-option><ion-select-option value="28">28</ion-select-option><ion-select-option value="30">30</ion-select-option><ion-select-option value="36">36</ion-select-option><ion-select-option value="40">40</ion-select-option><ion-select-option value="44">44</ion-select-option><ion-select-option value="48">48</ion-select-option></ion-select></ion-item>';
+          '<ion-item><ion-label>Plazo a renegociar</ion-label><ion-select interface="action-sheet" placeholder="Seleccionar" name="plazo"><ion-select-option value="3">3</ion-select-option><ion-select-option value="6">6</ion-select-option><ion-select-option value="9">9</ion-select-option><ion-select-option value="12">12</ion-select-option><ion-select-option value="15">15</ion-select-option><ion-select-option value="18">18</ion-select-option><ion-select-option value="24">24</ion-select-option><ion-select-option value="28">28</ion-select-option><ion-select-option value="30">30</ion-select-option><ion-select-option value="36">36</ion-select-option><ion-select-option value="40">40</ion-select-option><ion-select-option value="44">44</ion-select-option><ion-select-option value="48">48</ion-select-option></ion-select></ion-item>';
         insertNewValuesRenegocioValor.innerHTML =
           '<ion-item><ion-label>Valor a renegociar</ion-label><ion-input type="number" placeholder="Ingresa el valor" name="valorRe"></ion-input></ion-item>';
         break;

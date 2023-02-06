@@ -1,0 +1,20 @@
+#map {
+  width: 400px;
+  height: 1000px;
+}
+
+capacitor-google-maps {
+  display: inline-block;
+}
+
+ion-content {
+  // --background: #6b45bc;
+  position: relative;
+
+  --background: transparent;
+
+  .container {
+    width: 200px;
+    height: 1000px;
+  }
+}

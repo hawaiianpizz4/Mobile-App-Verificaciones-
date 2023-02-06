@@ -1,0 +1,30 @@
+<ion-content>
+  <h3 class="title" *ngIf="(storageW8).length || 0">{{(storageW8).length}} Registros sin enviar</h3>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Arrastra para refrescar"
+      refreshingSpinner="circles"
+      refreshingText="Actualizando...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-list lines="none" >
+    <ion-item-sliding  *ngFor="let item  of storageW8">
+      <ion-item>
+        <app-cart-item [item]="item"></app-cart-item>
+      </ion-item>
+      <ion-item-options>
+        <ion-item-option>
+          <!-- <ion-icon color="danger" size="large" name="trash-outline"></ion-icon> -->
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <div class="empty-cart" *ngIf="!(storageW8).length || 0">
+    <ion-icon  name="cart"></ion-icon>
+    <p>0 Registros</p>
+  </div>
+  <app-button *ngIf="(storageW8).length" (click)="sendStorageW8()">
+    Enviar -- <ion-icon  name="send"></ion-icon>
+  </app-button>
+</ion-content>

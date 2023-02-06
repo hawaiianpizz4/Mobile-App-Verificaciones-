@@ -16,6 +16,12 @@
   <app-searchbar (ionChange)="handleChange($event)"></app-searchbar>
   <ion-item>
     <ion-badge slot="start">{{results.length}} Resultados</ion-badge>
+    <ion-buttons slot="end">
+      <ion-button (click)="openModal()">
+        <ion-label>Registro Manual</ion-label>
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-item>
   <div class="categories">
     <!-- <app-category-item *ngFor="let item of categories" [item]="item"></app-category-item> -->
@@ -25,14 +31,14 @@
     <app-food-card
       *ngFor="let user of getdata  | slice:0:15;"
       [item]="user"
-      (clicked)="goToDetailPage(user.cedulaCliente)"
+      (clicked)="goToDetailPage(user.numeroCredito)"
     ></app-food-card>
   </div>
   <div class="food-list">
     <app-food-card
       *ngFor="let user of results | slice:0:15"
       [item]="user"
-      (clicked)="goToDetailPage(user.cedulaCliente)"
+      (clicked)="goToDetailPage(user.numeroCredito)"
     ></app-food-card>
   </div>
   <div class="empty-cart" *ngIf="!(getdata).length || 0">

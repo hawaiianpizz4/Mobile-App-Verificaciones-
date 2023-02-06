@@ -1,16 +1,39 @@
-
-
-<ion-tabs>
-  <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="listing" >
-      <ion-icon name="stats-chart" ></ion-icon>
-    </ion-tab-button>
-      <ion-tab-button tab="cart">
-        <ion-icon name="newspaper"></ion-icon>
-      </ion-tab-button>
-  </ion-tab-bar>
-
-
-</ion-tabs>
+<!-- 
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu Content</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-list>
+      <ion-item *ngFor="let option of menuOptions">
+        <ion-icon name="{{ option.icon }}" slot="start"></ion-icon>
+        <ion-button>{{ option.title }}</ion-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu> -->
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-tabs>
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button tab="listing" >
+          <ion-icon name="stats-chart" ></ion-icon>
+        </ion-tab-button>
+          <ion-tab-button tab="cart">
+            <ion-icon name="newspaper"></ion-icon>
+          </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-content>
+</div>
 
 

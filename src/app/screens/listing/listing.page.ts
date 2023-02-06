@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { dataService } from 'src/app/services/data.service';
+import { ModalManualPage } from '../modal-manual/modal-manual.page';
 
 @Component({
   selector: 'app-listing',
@@ -17,9 +18,11 @@ export class ListingPage implements OnInit {
     private router: Router,
     private _services: dataService,
     private alertController: AlertController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private modalCtrl: ModalController,
   ) {
   }
+ 
   handleRefresh(event) {
     setTimeout(() => {
       if(this.usuarioInsert=localStorage.getItem("user").length>2){
@@ -51,6 +54,7 @@ export class ListingPage implements OnInit {
             (data) => {
               this.getdata = data;
               localStorage.setItem('storage', JSON.stringify(data));
+              
             },
             (error) => {
               console.log(error);
@@ -62,6 +66,14 @@ export class ListingPage implements OnInit {
     } else {
       this.getdata = JSON.parse(localStorage.getItem('storage'));
     }
+    // console.log(this.getdata);
+  }
+  
+  async openModal() {
+    const modal = await this.modalCtrl.create({
+      component: ModalManualPage
+    });
+    return await modal.present();
   }
 
   async presentAlert() {

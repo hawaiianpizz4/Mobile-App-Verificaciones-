@@ -15,6 +15,10 @@ const routes: Routes = [
     path: 'detail/:id',
     loadChildren: () => import('./screens/detail/detail.module').then( m => m.DetailPageModule)
   },
+  {
+    path: 'modal-manual',
+    loadChildren: () => import('./screens/modal-manual/modal-manual.module').then( m => m.ModalManualPageModule)
+  },
 ];
 
 @NgModule({

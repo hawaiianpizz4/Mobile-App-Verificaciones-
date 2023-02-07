@@ -113,7 +113,7 @@ export class ListingPage implements OnInit {
     v.map((m) => {
       Total.push(m[1]);
     });
-    this.results = Total.filter((e) => e.cedulaCliente.includes(query));
+    this.results = Total.filter((e) => e.numeroCredito.includes(query));
   }
   async presentToast(mensaje,icon,color){
     const toast = await this.toastCtrl.create({

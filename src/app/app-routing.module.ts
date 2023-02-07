@@ -19,6 +19,10 @@ const routes: Routes = [
     path: 'modal-manual',
     loadChildren: () => import('./screens/modal-manual/modal-manual.module').then( m => m.ModalManualPageModule)
   },
+  {
+    path: 'historial',
+    loadChildren: () => import('./screens/historial/historial.module').then( m => m.HistorialPageModule)
+  },
 ];
 
 @NgModule({

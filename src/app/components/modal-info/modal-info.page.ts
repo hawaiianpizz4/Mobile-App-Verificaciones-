@@ -87,6 +87,7 @@ export class ModalInfoPage implements OnInit {
     await toast.present();
   }
 
+
   submitForm(e) {
     e.preventDefault();
     const {
@@ -118,7 +119,7 @@ export class ModalInfoPage implements OnInit {
         const url = `http://200.7.249.20/vision360ServicioCliente/Api_rest_movil/controller/categoria.php?op=pull&data=${data}`;
         this.PostUser = this._http.get(url);
         this.PostUser.subscribe((data) => {
-          this.showLoading('Guardando Registro...').then((e) => {});
+          this.showLoading('Enviando Registro...').then((e) => {});
         });
         setTimeout(() => {
           this.presentToast('Registro Enviado', 'checkmark-outline', 'success');

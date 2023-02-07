@@ -16,6 +16,10 @@ const routes: Routes = [
         loadChildren: () => import('../screens/cart/cart.module').then( m => m.CartPageModule)
       },
       {
+        path: 'historial',
+        loadChildren: () => import('../screens/historial/historial.module').then( m => m.HistorialPageModule)
+      },
+      {
         path:'',
         redirectTo:'listing',
         pathMatch:'full',

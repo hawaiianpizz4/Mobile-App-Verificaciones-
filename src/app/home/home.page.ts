@@ -14,9 +14,9 @@ export class HomePage {
  
   }
   menuOptions: any[] = [
-    { title: 'Option 1', icon: 'flask' },
-    { title: 'Option 2', icon: 'logo-github' },
-    { title: 'Option 3', icon: 'cube' },
+    { title: 'Gestiones Cobranza', icon: 'flask', route:'/listing' },
+    { title: 'Historiales ', icon: 'logo-github' , route:'/historial'},
+    { title: '----', icon: 'cube', route:'' },
   ];
  
 

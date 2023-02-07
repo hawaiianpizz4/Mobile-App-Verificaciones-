@@ -16,4 +16,7 @@ export class dataService {
   getFood(id:number){
     return  this.getDatos(localStorage.getItem("user")).pipe(map(user=>user.find((e:any)=>e.cedulaCliente == id.toString())));
   }
+  getHist(user:string){
+    return  this._http.get<any>(`http://200.7.249.20/vision360ServicioCliente/Api_rest_movil/controller/categoria.php?op=historial&nombre=${user}`); 
+  }
 }

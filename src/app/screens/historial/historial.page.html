@@ -1,9 +1,29 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>historial</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-
+  <h3 class="title" *ngIf="(getHist).length || 0">{{(getHist).length}} Registros</h3>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Arrastra para refrescar"
+      refreshingSpinner="circles"
+      refreshingText="Actualizando...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-list lines="none" >
+    <ion-item-sliding  *ngFor="let item  of getHist">
+      <ion-item>
+        <app-hist-card [item]="item"></app-hist-card>
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
+  <div class="empty-cart" *ngIf="!(getHist).length || 0">
+    <ion-icon  name="cart"></ion-icon>
+    <p>0 Registros</p>
+  </div>
 </ion-content>

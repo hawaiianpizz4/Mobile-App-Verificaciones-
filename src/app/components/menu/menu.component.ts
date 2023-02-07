@@ -10,5 +10,9 @@ export class MenuComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {}
+  menuOptions: any[] = [
+    { title: 'Principal', icon: 'ribbon-outline' , route:'/'},
+    { title: 'Historiales ', icon: 'calendar-outline' , route:'/historial'},
+  ];
 
 }

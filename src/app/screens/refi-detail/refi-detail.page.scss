@@ -1,12 +1,15 @@
-input-wrapper {
-  input-label {
-    margin-bottom: 10px;
+ion-item {
+  --padding-start: 0px;
+  --inner-padding-end: 0px;
+
+  ion-label {
+    color: black;
   }
 }
 
-.label-stacked.sc-ion-label-md-h,
 .label-floating.sc-ion-label-md-h {
   margin-bottom: 15px;
+  color: red;
 }
 
 #map {
@@ -26,10 +29,6 @@ ion-content {
   position: relative;
 
   ion-input {
-    border: solid 1px #6b45bc;
-  }
-
-  ion-item {
     border: solid 1px #6b45bc;
   }
 

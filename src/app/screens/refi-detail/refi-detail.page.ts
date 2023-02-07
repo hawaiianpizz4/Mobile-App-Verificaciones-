@@ -21,7 +21,9 @@ declare var mapboxgl: any;
 import { RefiModalMapPage } from 'src/app/components/refi-modal-map/refi-modal-map.page';
 import { dataService } from 'src/app/services/data.service';
 
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { IonDatetime } from '@ionic/angular';
+
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-refi-detail',
@@ -29,13 +31,27 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./refi-detail.page.scss'],
 })
 export class RefiDetailPage implements OnInit {
-  exampleForm = new FormGroup({
-    username: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [
-      Validators.required,
-      Validators.minLength(8),
-    ]),
+  selectedDate: string;
+
+  dateChanged(event) {
+    console.dir(event.detail);
+
+    this.selectedDate = event.detail.value;
+  }
+
+  ionSelectSexo: FormControl = new FormControl([]);
+  ionSelectClienteNivel: FormControl = new FormControl([]);
+  ionSelectClienteEstadoCivil: FormControl = new FormControl([]);
+  ionSelectTipoVivienda: FormControl = new FormControl([]);
+  ionSelectTrabajoActividad: FormControl = new FormControl([]);
+
+  dataForm = new FormGroup({
+    // username: new FormControl('', [Validators.required]),
+    // email: new FormControl('', [Validators.required, Validators.email]),
+    // password: new FormControl('', [
+    //   Validators.required,
+    //   Validators.minLength(8),
+    // ]),
   });
 
   id: string;
@@ -55,6 +71,8 @@ export class RefiDetailPage implements OnInit {
   @ViewChild('map') mapRef: ElementRef;
   map: GoogleMap;
 
+  public currentDate: string;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private navCtrl: NavController,
@@ -68,31 +86,7 @@ export class RefiDetailPage implements OnInit {
 
     private modalCtrl: ModalController
   ) {
-    this.nombreUsuario = JSON.parse(localStorage.getItem('user'));
-    this.id = this.activatedRoute.snapshot.paramMap.get('id');
-
-    const users = JSON.parse(localStorage.getItem('refi-storage'));
-
-    // this.getdata = this._services.getDatosCliente(this.id);
-
-    this._services.getDatosCliente(this.id).subscribe(
-      (data) => {
-        console.log(data[0]);
-
-        this.presentToast(JSON.stringify(data), 'pulse-outline', 'success');
-        this.getdata = data[0];
-        localStorage.setItem('refi-storage', JSON.stringify(data));
-      },
-      (error) => {
-        console.log(error);
-        this.presentToast(JSON.parse(error), 'pulse-outline', 'success');
-      }
-    );
-
-    if (!this.getdata) {
-      this.presentToast('El usuario no se pudo encontrar', 'Error', 'warning');
-      this.redirect();
-    }
+    this.currentDate = new Date().toISOString();
   }
 
   // ionViewDidEnter() {
@@ -150,6 +144,40 @@ export class RefiDetailPage implements OnInit {
 
   async ngOnInit() {
     this.getCurrentCoordinates();
+    this.nombreUsuario = JSON.parse(localStorage.getItem('user'));
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+
+    const users = JSON.parse(localStorage.getItem('refi-storage'));
+
+    // this.getdata = this._services.getDatosCliente(this.id);
+
+    this._services.getDatosCliente(this.id).subscribe(
+      (data) => {
+        console.log(data[0]);
+
+        // this.presentToast(JSON.stringify(data), 'pulse-outline', 'success');
+        this.getdata = data[0];
+        localStorage.setItem('refi-storage', JSON.stringify(data));
+        console.log(this.getdata['des_sexo']);
+
+        this.ionSelectSexo.setValue(this.getdata['des_sexo']);
+        this.ionSelectClienteNivel.setValue(this.getdata['nivel_instruccion']);
+        this.ionSelectClienteEstadoCivil.setValue(this.getdata['estado_civ']);
+        this.ionSelectTipoVivienda.setValue(this.getdata['tipo_vivienda']);
+        this.ionSelectTrabajoActividad.setValue(
+          this.getdata['relacion_dependencia']
+        );
+      },
+      (error) => {
+        console.log(error);
+        this.presentToast(JSON.parse(error), 'pulse-outline', 'success');
+      }
+    );
+
+    if (!this.getdata) {
+      this.presentToast('El usuario no se pudo encontrar', 'Error', 'warning');
+      this.redirect();
+    }
     Network.addListener('networkStatusChange', (status) => {
       this.ngZone.run(() => {
         this.changeStatus(status);
@@ -202,39 +230,39 @@ export class RefiDetailPage implements OnInit {
     this.photoService.addNewToGallery();
   }
 
-  // ngAfterViewInit() {
-  //   mapboxgl.accessToken =
-  //     'pk.eyJ1IjoiZHNhbGF6YXIxOTg4IiwiYSI6ImNsZG95aWhrczBuZHgzb3V1ZWp4bHJqYjIifQ.L1vMimye2NhSQKaxsvbFtQ';
-  //   const map = new mapboxgl.Map({
-  //     // style: 'mapbox://styles/mapbox/streets-v12',
-  //     style: 'mapbox://styles/mapbox/light-v10',
-  //     // center: [5, 6],
-  //     zoom: 5,
-  //     pitch: 0,
-  //     bearing: -17.6,
-  //     container: 'map',
-  //     antialias: true,
-  //   });
+  ngAfterViewInit() {
+    mapboxgl.accessToken =
+      'pk.eyJ1IjoiZHNhbGF6YXIxOTg4IiwiYSI6ImNsZG95aWhrczBuZHgzb3V1ZWp4bHJqYjIifQ.L1vMimye2NhSQKaxsvbFtQ';
+    const map = new mapboxgl.Map({
+      // style: 'mapbox://styles/mapbox/streets-v12',
+      style: 'mapbox://styles/mapbox/light-v10',
+      center: [50, 50],
+      zoom: 5,
+      pitch: 0,
+      bearing: -17.6,
+      container: 'map',
+      antialias: true,
+    });
 
-  //   map.on('load', () => {
-  //     map.resize(); //cambiar el tamanio
-  //     //marcador|| marker
+    map.on('load', () => {
+      map.resize(); //cambiar el tamanio
+      //marcador|| marker
 
-  //     new mapboxgl.Marker()
-  //       .setLngLat([this.longitude, this.latitude])
-  //       .addTo(map);
-  //     // console.log(mapboxgl)
-  //     // Insert the layer beneath any symbol layer.
-  //     const layers = map.getStyle().layers;
-  //     let labelLayerId;
-  //     for (let i = 0; i < layers.length; i++) {
-  //       if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
-  //         labelLayerId = layers[i].id;
-  //         break;
-  //       }
-  //     }
-  //   });
-  // }
+      new mapboxgl.Marker()
+        .setLngLat([this.longitude, this.latitude])
+        .addTo(map);
+      // console.log(mapboxgl)
+      // Insert the layer beneath any symbol layer.
+      const layers = map.getStyle().layers;
+      let labelLayerId;
+      for (let i = 0; i < layers.length; i++) {
+        if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
+          labelLayerId = layers[i].id;
+          break;
+        }
+      }
+    });
+  }
 
   submitForm(e) {
     const {
@@ -420,6 +448,8 @@ export class RefiDetailPage implements OnInit {
       this.presentToast('No debe existir campos vacios', 'alert', 'warning');
     }
   }
+
+  handleChange(event: Event) {}
 
   redirect() {
     this.navCtrl.navigateForward('home/refi-listing');

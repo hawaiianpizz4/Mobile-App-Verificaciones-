@@ -26,15 +26,15 @@ export class dataService {
 
   getListaClientesRefi() {
     return this._http.get<any>(
-      // `http://171.23.12.100/API_Cobranzas/controller/refinanciamiento.php?op=getClientes`
-      `http://172.16.10.49/API_Cobranzas/controller/refinanciamiento.php?op=getClientes`
+      `http://171.23.12.43/API_Cobranzas/controller/refinanciamiento.php?op=getClientes`
+      // `http://172.16.10.49/API_Cobranzas/controller/refinanciamiento.php?op=getClientes`
     );
   }
 
   getDatosCliente(id: string) {
     return this._http.get<any>(
-      // `http://171.23.12.100/API_Cobranzas/controller/refinanciamiento.php?op=getClientesId&id=${id}`
-      `http://172.16.10.49/API_Cobranzas/controller/refinanciamiento.php?op=getClientesId&id=${id}`
+      `http://171.23.12.43/API_Cobranzas/controller/refinanciamiento.php?op=getClientesId&id=${id}`
+      // `http://172.16.10.49/API_Cobranzas/controller/refinanciamiento.php?op=getClientesId&id=${id}`
     );
   }
 }

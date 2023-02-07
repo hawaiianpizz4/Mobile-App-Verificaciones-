@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -20,6 +22,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     RefiDetailPageRoutingModule,
     BadgeModule,
     ButtonModule,
+    ReactiveFormsModule,
   ],
   declarations: [RefiDetailPage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

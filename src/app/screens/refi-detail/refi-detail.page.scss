@@ -1,3 +1,14 @@
+input-wrapper {
+  input-label {
+    margin-bottom: 10px;
+  }
+}
+
+.label-stacked.sc-ion-label-md-h,
+.label-floating.sc-ion-label-md-h {
+  margin-bottom: 15px;
+}
+
 #map {
   margin-top: 1vh;
   width: 100%;
@@ -14,11 +25,14 @@ ion-content {
   --background: #6b45bc;
   position: relative;
 
-  // --background: transparent;
-
   ion-input {
     border: solid 1px #6b45bc;
   }
+
+  ion-item {
+    border: solid 1px #6b45bc;
+  }
+
   .container {
     width: 200px;
     height: 600px;

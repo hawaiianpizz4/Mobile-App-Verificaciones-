@@ -19,95 +19,52 @@
             </ion-item>
 
             <div class="ion-padding" slot="content">
-              <h1>Nombre de Refinanciador</h1>
-              <ion-input
-                value="{{this.nombreUsuario}}"
-                disabled="true"
-              ></ion-input>
-
-              <h1>Número de Operacion</h1>
-              <ion-input
-                value="{{getdata.operacion}}"
-                name="operacion"
-              ></ion-input>
-
-              <h1>Número de Autorización</h1>
-              <ion-input
-                value="{{getdata.autorizacion}}"
-                name="autorizacion"
-              ></ion-input>
-
-              <h1>Número de Autorización Original</h1>
-              <ion-input
-                value="{{getdata.autorizacion_original}}"
-                name="autorizacion_original"
-              ></ion-input>
-
-              <h1>Plazo(meses)</h1>
-              <ion-select
-                (ionChange)="handleChange($event)"
-                interface="action-sheet"
-                placeholder="Seleccionar"
-                name="refi_plazo"
-              >
-                <ion-select-option value="3">3</ion-select-option>
-                <ion-select-option value="6">6</ion-select-option>
-                <ion-select-option value="9">9</ion-select-option>
-                <ion-select-option value="12">12</ion-select-option>
-                <ion-select-option value="15">15</ion-select-option>
-                <ion-select-option value="18">18</ion-select-option>
-                <ion-select-option value="24">24</ion-select-option>
-                <ion-select-option value="32">32</ion-select-option>
-                <ion-select-option value="48">48</ion-select-option>
-              </ion-select>
-
-              <h1>Valor Cuota</h1>
-              <ion-input
-                value="{{getdata.refi_valor_cuota}}"
-                name="refi_valor_cuota"
-              ></ion-input>
-
-              <h1>Fecha Primer Pago</h1>
-              <ion-input
-                value="{{getdata.refi_fecha_primer_pago}}"
-                name="refi_fecha_primer_pago"
-              ></ion-input>
-
-              <h1>Pago de Gastos Administrativos</h1>
-              <ion-input
-                value="{{getdata.refi_pago_gastos_administrativos}}"
-                name="refi_pago_gastos_administrativos"
-              ></ion-input>
-
-              <ion-button (click)="addPhotoToGallery()">
-                Capturar Comprobante
-              </ion-button>
-
-              <ion-grid>
-                <ion-row>
-                  <ion-col
-                    size="6"
-                    *ngFor="let photo of photoService.photos; index as position"
+              <form [formGroup]="exampleForm">
+                <ion-item>
+                  <ion-label position="floating">Username</ion-label>
+                  <ion-input formControlName="username" type="text"></ion-input>
+                  <ion-note
+                    *ngIf="exampleForm.controls.username.invalid && exampleForm.controls.username.touched"
                   >
-                    <ion-img [src]="photo.webviewPath"></ion-img>
-                  </ion-col>
-                </ion-row>
-              </ion-grid>
-
-              <h1>Total Reestructuración</h1>
-              <ion-input
-                value="{{getdata.refi_total_reestructuracion}}"
-                name="refi_total_reestructuracion"
-              ></ion-input>
-
-              <h1>Total a Pagar</h1>
-              <ion-input
-                value="{{getdata.refi_total_a_pagar}}"
-                name="refi_total_a_pagar"
-              ></ion-input>
+                    Please enter a valid username
+                  </ion-note>
+                </ion-item>
+                <ion-item>
+                  <ion-label position="floating">Email</ion-label>
+                  <ion-input formControlName="email" type="email"></ion-input>
+                  <ion-note
+                    *ngIf="exampleForm.controls.email.invalid && exampleForm.controls.email.touched"
+                  >
+                    Please enter a valid email address
+                  </ion-note>
+                </ion-item>
+                <ion-item>
+                  <ion-label position="floating">Password</ion-label>
+                  <ion-input
+                    formControlName="password"
+                    type="password"
+                  ></ion-input>
+                  <ion-note
+                    *ngIf="exampleForm.controls.password.invalid && exampleForm.controls.password.touched"
+                  >
+                    Please enter a password with at least 8 characters
+                  </ion-note>
+                </ion-item>
+                <ion-button
+                  [disabled]="exampleForm.invalid"
+                  expand="block"
+                  color="primary"
+                  type="submit"
+                  >Submit</ion-button
+                >
+              </form>
             </div>
           </ion-accordion>
         </ion-accordion-group>
+
+        <ion-button type="submit" color="danger" expand="block"
+          >Realizar Gestion
+        </ion-button>
       </form>
     </div>
   </div>

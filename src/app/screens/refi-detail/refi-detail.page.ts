@@ -21,12 +21,23 @@ declare var mapboxgl: any;
 import { RefiModalMapPage } from 'src/app/components/refi-modal-map/refi-modal-map.page';
 import { dataService } from 'src/app/services/data.service';
 
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+
 @Component({
   selector: 'app-refi-detail',
   templateUrl: './refi-detail.page.html',
   styleUrls: ['./refi-detail.page.scss'],
 })
 export class RefiDetailPage implements OnInit {
+  exampleForm = new FormGroup({
+    username: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+    ]),
+  });
+
   id: string;
   getdata = [];
   cedula: string;

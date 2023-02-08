@@ -67,6 +67,7 @@ export class RefiDetailPage implements OnInit {
   status: boolean;
   markerId: string = '';
   markersId: string[] = [];
+  imagen_paths: string[] = [];
 
   @ViewChild('map') mapRef: ElementRef;
   map: GoogleMap;
@@ -146,6 +147,9 @@ export class RefiDetailPage implements OnInit {
     this.getCurrentCoordinates();
     this.nombreUsuario = JSON.parse(localStorage.getItem('user'));
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.operacion = this.activatedRoute.snapshot.paramMap.get('operacion');
+
+    console.log(this.id + ' - ' + this.operacion);
 
     const users = JSON.parse(localStorage.getItem('refi-storage'));
 
@@ -266,18 +270,16 @@ export class RefiDetailPage implements OnInit {
 
   submitForm(e) {
     const {
-      operacion,
-      autorizacion,
-      autorizacion_original,
-      cedula,
+      refi_usuario,
+      refi_operacion,
+      refi_autorizacion,
+      refi_autorizacion_original,
       refi_plazo,
       refi_valor_cuota,
-      refi_fecha_primer_pago,
-      refi_pago_gastos_administrativos,
-      refi_total_reestructuracion,
-      refi_total_a_pagar,
-      cliente_apellido_paterno,
-      cliente_apellido_materno,
+      refi_pago_gastos_admin,
+      refi_total_reest,
+      refi_total_pagar,
+      cliente_cedula,
       cliente_nombres,
       cliente_nacionalidad,
       cliente_ciudad_nacimiento,
@@ -288,51 +290,66 @@ export class RefiDetailPage implements OnInit {
       cliente_estado_civil,
       cliente_numero_dependientes,
       dir_direccion_exacta,
+      dir_provincia,
+      dir_canton_ciudad,
+      dir_parroquia,
       dir_direccion,
+      dir_calle_transversal,
+      dir_numero,
       dir_latitud,
       dir_longitud,
-      dir_calle_secundaria,
       dir_referencia,
       dir_tipo_vivienda,
-      dir_telefono_domicilio,
-      dir_celular,
-      dir_correo_electronico,
+      dir_tiempo,
+      dir_telf_1,
+      dir_telf_2,
+      dir_email,
+      dir_nombre_arrendador,
+      dir_telf_arrendador,
       conyuge_cedula,
-      conyuge_apellido_paterno,
-      conyuge_apellido_materno,
       conyuge_nombres,
-      conyuge_celular,
-      conyuge_correo_electronico,
-      ref1_apellido_paterno,
-      ref1_apellido_materno,
+      conyuge_email,
+      conyuge_telf_1,
+      conyuge_telf_2,
+      conyuge_tipo_actividad,
+      conyuge_nombre_empresa,
+      conyuge_actividad_empresa,
+      conyuge_cargo,
+      conyuge_telefono_empresa,
+      conyuge_ingresos_mensuales,
       ref1_nombres,
       ref1_parentesco,
-      ref1_celular1,
-      ref1_celular2,
-      ref2_apellido_paterno,
-      ref2_apellido_materno,
+      ref1_telf_1,
+      ref1_telf_2,
       ref2_nombres,
       ref2_parentesco,
-      ref2_celular1,
-      ref2_celular2,
+      ref2_telf_1,
+      ref2_telf_2,
+      trabajo_tipo_actividad,
       trabajo_ruc,
       trabajo_nombre,
-      trabajo_telefono1,
-      //filename,
+      trabajo_provincia,
+      trabajo_canton,
+      trabajo_parroquia,
+      trabajo_barrio,
+      trabajo_direccion,
+      trabajo_numero,
+      trabajo_calle_transversal,
+      trabajo_ref_ubicacion,
+      trabajo_telefono,
+      trabajo_antiguedad,
     } = e.target;
     const postData = {
-      operacion: operacion.value,
-      autorizacion: autorizacion.value,
-      autorizacion_original: autorizacion_original.value,
-      cedula: cedula.value,
+      refi_usuario: refi_usuario.value,
+      refi_operacion: refi_operacion.value,
+      refi_autorizacion: refi_autorizacion.value,
+      refi_autorizacion_original: refi_autorizacion_original.value,
       refi_plazo: refi_plazo.value,
       refi_valor_cuota: refi_valor_cuota.value,
-      refi_fecha_primer_pago: refi_fecha_primer_pago.value,
-      refi_pago_gastos_administrativos: refi_pago_gastos_administrativos.value,
-      refi_total_reestructuracion: refi_total_reestructuracion.value,
-      refi_total_a_pagar: refi_total_a_pagar.value,
-      cliente_apellido_paterno: cliente_apellido_paterno.value,
-      cliente_apellido_materno: cliente_apellido_materno.value,
+      refi_pago_gastos_admin: refi_pago_gastos_admin.value,
+      refi_total_reest: refi_total_reest.value,
+      refi_total_pagar: refi_total_pagar.value,
+      cliente_cedula: cliente_cedula.value,
       cliente_nombres: cliente_nombres.value,
       cliente_nacionalidad: cliente_nacionalidad.value,
       cliente_ciudad_nacimiento: cliente_ciudad_nacimiento.value,
@@ -343,43 +360,61 @@ export class RefiDetailPage implements OnInit {
       cliente_estado_civil: cliente_estado_civil.value,
       cliente_numero_dependientes: cliente_numero_dependientes.value,
       dir_direccion_exacta: dir_direccion_exacta.value,
+      dir_provincia: dir_provincia.value,
+      dir_canton_ciudad: dir_canton_ciudad.value,
+      dir_parroquia: dir_parroquia.value,
       dir_direccion: dir_direccion.value,
+      dir_calle_transversal: dir_calle_transversal.value,
+      dir_numero: dir_numero.value,
       dir_latitud: dir_latitud.value,
       dir_longitud: dir_longitud.value,
-      dir_calle_secundaria: dir_direccion.value,
       dir_referencia: dir_referencia.value,
-      dir_telefono_domicilio: dir_telefono_domicilio.value,
-      dir_celular: dir_celular.value,
-      dir_correo_electronico: dir_correo_electronico.value,
+      dir_tipo_vivienda: dir_tipo_vivienda.value,
+      dir_tiempo: dir_tiempo.value,
+      dir_telf_1: dir_telf_1.value,
+      dir_telf_2: dir_telf_2.value,
+      dir_email: dir_email.value,
+      dir_nombre_arrendador: dir_nombre_arrendador.value,
+      dir_telf_arrendador: dir_telf_arrendador.value,
       conyuge_cedula: conyuge_cedula.value,
-      conyuge_apellido_paterno: conyuge_apellido_paterno.value,
-      conyuge_apellido_materno: conyuge_apellido_materno.value,
       conyuge_nombres: conyuge_nombres.value,
-      conyuge_celular: conyuge_celular.value,
-      conyuge_correo_electronico: conyuge_correo_electronico.value,
-      ref1_apellido_paterno: ref1_apellido_paterno.value,
-      ref1_apellido_materno: ref1_apellido_materno.value,
+      conyuge_email: conyuge_email.value,
+      conyuge_telf_1: conyuge_telf_1.value,
+      conyuge_telf_2: conyuge_telf_2.value,
+      conyuge_tipo_actividad: conyuge_tipo_actividad.value,
+      conyuge_nombre_empresa: conyuge_nombre_empresa.value,
+      conyuge_actividad_empresa: conyuge_actividad_empresa.value,
+      conyuge_cargo: conyuge_cargo.value,
+      conyuge_telefono_empresa: conyuge_telefono_empresa.value,
+      conyuge_ingresos_mensuales: conyuge_ingresos_mensuales.value,
       ref1_nombres: ref1_nombres.value,
       ref1_parentesco: ref1_parentesco.value,
-      ref1_celular1: ref1_celular1.value,
-      ref1_celular2: ref1_celular2.value,
-      ref2_apellido_paterno: ref2_apellido_paterno.value,
-      ref2_apellido_materno: ref2_apellido_materno.value,
+      ref1_telf_1: ref1_telf_1.value,
+      ref1_telf_2: ref1_telf_2.value,
       ref2_nombres: ref2_nombres.value,
       ref2_parentesco: ref2_parentesco.value,
-      ref2_celular1: ref2_celular1.value,
-      ref2_celular2: ref2_celular2.value,
+      ref2_telf_1: ref2_telf_1.value,
+      ref2_telf_2: ref2_telf_2.value,
+      trabajo_tipo_actividad: trabajo_tipo_actividad.value,
       trabajo_ruc: trabajo_ruc.value,
       trabajo_nombre: trabajo_nombre.value,
-      trabajo_telefono1: trabajo_nombre.value,
-      nombreUsuario: JSON.parse(localStorage.getItem('user')),
-      archivoAdjunto: this.photoService.photos,
+      trabajo_provincia: trabajo_provincia.value,
+      trabajo_canton: trabajo_canton.value,
+      trabajo_parroquia: trabajo_parroquia.value,
+      trabajo_barrio: trabajo_barrio.value,
+      trabajo_direccion: trabajo_direccion.value,
+      trabajo_numero: trabajo_numero.value,
+      trabajo_calle_transversal: trabajo_calle_transversal.value,
+      trabajo_ref_ubicacion: trabajo_ref_ubicacion.value,
+      trabajo_telefono: trabajo_telefono.value,
+      trabajo_antiguedad: trabajo_antiguedad.value,
+      imagen_files: this.photoService.photosBase64,
     };
-    console.log(postData.nombreUsuario);
+    console.dir(postData);
 
-    if (cedula.value && cedula.value != undefined) {
+    if (cliente_cedula.value && cliente_cedula.value != undefined) {
       if (this.status) {
-        const url = `http://localhost/api_rest_movil/controller/refinanciamiento.php?op=insertRefi`;
+        const url = `http://171.23.12.43/api_cobranzas/controller/refinanciamiento.php?op=insertRefi`;
 
         const httpOptions = {
           headers: new HttpHeaders({
@@ -387,28 +422,27 @@ export class RefiDetailPage implements OnInit {
           }),
         };
 
-        console.log(JSON.stringify(this.photoService.photosBlob.length));
-        // this._http.post(url, JSON.stringify(postData), httpOptions).subscribe(
-        //   () => {
-        //     this.showLoading('Guardando Registro...').then((e) => {});
-        //     setTimeout(() => {
-        //       this.presentToast(
-        //         'Registro Enviado',
-        //         'checkmark-outline',
-        //         'success'
-        //       );
-        //       this.redirect();
-        //     }, 3000);
-        // this.photoService.photosBlob;
-        //   },
-        //   (error) => {
-        //     setTimeout(() => {
-        //       this.presentToast('Error', error, 'error');
-        //       this.redirect();
-        //     }, 3000);
-        //     console.log(error);
-        //   }
-        // );
+        // console.log(JSON.stringify(this.photoService.photosBase64.length));
+        this._http.post(url, JSON.stringify(postData), httpOptions).subscribe(
+          () => {
+            this.showLoading('Guardando Registro...').then((e) => {});
+            setTimeout(() => {
+              this.presentToast(
+                'Registro Enviado',
+                'checkmark-outline',
+                'success'
+              );
+              this.redirect();
+            }, 3000);
+          },
+          (error) => {
+            setTimeout(() => {
+              this.presentToast('Error', error, 'error');
+              this.redirect();
+            }, 3000);
+            console.log(error);
+          }
+        );
 
         setTimeout(() => {
           this.presentToast('Registro Enviado', 'checkmark-outline', 'success');
@@ -452,6 +486,6 @@ export class RefiDetailPage implements OnInit {
   handleChange(event: Event) {}
 
   redirect() {
-    this.navCtrl.navigateForward('home/refi-listing');
+    this.navCtrl.navigateForward('home/listing');
   }
 }

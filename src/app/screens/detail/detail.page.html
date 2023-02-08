@@ -1,14 +1,14 @@
 <ion-content>
   <div class="header">
-    <ion-buttons >
-      <ion-button routerLink = "/home/listing">
+    <ion-buttons>
+      <ion-button routerLink="/home/listing">
         <ion-icon slot="icon-only" name="arrow-back" color="light"></ion-icon>
       </ion-button>
     </ion-buttons>
   </div>
   <div class="card">
-    <div class="image" >
-      <ion-img  src="assets/images/default.png"></ion-img>
+    <div class="image">
+      <ion-img src="assets/images/default.png"></ion-img>
     </div>
     <div class="card-content">
       <div class="card-title">
@@ -22,8 +22,16 @@
       <h1>ValorCuota</h1>
       <app-badge icon="alert-circle" text="{{getdata.valorCuota}}"></app-badge>
       <h1>PlazoOperacion</h1>
-      <app-badge icon="newspaper" text="{{getdata.plazoOperacion}}"></app-badge> 
+      <app-badge icon="newspaper" text="{{getdata.plazoOperacion}}"></app-badge>
     </div>
-    <app-button (click)="openModal(getdata.cedulaCliente,getdata.numeroCredito,getdata.usuario)" >Realizar Gestion</app-button>
+    <app-button
+      (click)="openModal(getdata.cedulaCliente,getdata.numeroCredito,getdata.usuario)"
+      >Realizar Gestion</app-button
+    >
+
+    <app-button
+      (click)="goToDetailPage(getdata.cedulaCliente,getdata.numeroCredito)"
+      >Realizar Refinanciamiento</app-button
+    >
   </div>
 </ion-content>

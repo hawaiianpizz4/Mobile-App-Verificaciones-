@@ -1,10 +1,9 @@
 <!-- <div id="map"></div> -->
-<app-button (click)="openModal()">Realizar Gestion</app-button>
 
 <ion-content>
   <div class="header">
     <ion-buttons>
-      <ion-button routerLink="/home/refi-listing">
+      <ion-button routerLink="/home/listing">
         <ion-icon slot="icon-only" name="arrow-back" color="light"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -37,6 +36,7 @@
                 <ion-input
                   value="{{this.nombreUsuario}}"
                   disabled="true"
+                  name="refi_usuario"
                 ></ion-input>
               </ion-item>
 
@@ -44,7 +44,7 @@
                 <ion-label position="floating">Número de Operacion</ion-label>
                 <ion-input
                   name="refi_operacion"
-                  value=""
+                  value="{{this.operacion}}"
                   type="number"
                 ></ion-input>
               </ion-item>
@@ -119,7 +119,7 @@
                   >Pago de Gastos Administrativos</ion-label
                 >
                 <ion-input
-                  name="refi_pago_gastos_administrativos"
+                  name="refi_pago_gastos_admin"
                   value=""
                   type="number"
                 ></ion-input>
@@ -145,7 +145,7 @@
                   >Total Reestructuración</ion-label
                 >
                 <ion-input
-                  name="refi_total_reestructuracion"
+                  name="refi_total_reest"
                   value=""
                   type="number"
                 ></ion-input>
@@ -154,7 +154,7 @@
               <ion-item>
                 <ion-label position="floating">Total a Pagar</ion-label>
                 <ion-input
-                  name="refi_total_a_pagar"
+                  name="refi_total_pagar"
                   value=""
                   type="number"
                 ></ion-input>
@@ -166,11 +166,22 @@
             <ion-item slot="header" color="light">
               <ion-label>Datos Personales</ion-label>
             </ion-item>
+
             <div class="ion-padding" slot="content">
+              <ion-item>
+                <ion-label position="floating">Cédula/ID</ion-label>
+                <ion-input
+                  name="cliente_cedula"
+                  disabled="true"
+                  value="{{this.id}}"
+                  type="text"
+                ></ion-input>
+              </ion-item>
+
               <ion-item>
                 <ion-label position="floating">Nombres Completos</ion-label>
                 <ion-input
-                  name="cliente_nombres_completos"
+                  name="cliente_nombres"
                   disabled="true"
                   value="{{getdata.nombres}}"
                   type="text"
@@ -458,7 +469,7 @@
               <ion-item>
                 <ion-label position="floating">Email</ion-label>
                 <ion-input
-                  name="conyuge_correo_electronico"
+                  name="conyuge_email"
                   value=""
                   type="email"
                 ></ion-input>

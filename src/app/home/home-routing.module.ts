@@ -19,13 +19,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('../screens/cart/cart.module').then((m) => m.CartPageModule),
       },
-      {
-        path: 'refi-listing',
-        loadChildren: () =>
-          import('../screens/refi-listing/refi-listing.module').then(
-            (m) => m.RefiListingPageModule
-          ),
-      },
+
       {
         path: '',
         redirectTo: 'listing',

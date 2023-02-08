@@ -29,11 +29,13 @@ export class PhotoService {
       filepath: filePath,
       webviewPath: capturedPhoto.webPath,
     });
-
+    console.log(filePath);
     this.photosBase64.unshift(filePath.split(',')[1]);
 
     const response = await fetch(capturedPhoto.webPath);
-    const blob = await response.blob();
+    const blob = new Blob([await response.arrayBuffer()], {
+      type: 'image/png',
+    });
     this.photosBlob.unshift(blob);
   }
 

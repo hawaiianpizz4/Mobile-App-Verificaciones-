@@ -19,7 +19,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'refi-detail/:id',
+    path: 'refi-detail/:id/:operacion',
     loadChildren: () =>
       import('./screens/refi-detail/refi-detail.module').then(
         (m) => m.RefiDetailPageModule
@@ -27,7 +27,10 @@ const routes: Routes = [
   },
   {
     path: 'refi-modal-map',
-    loadChildren: () => import('./components/refi-modal-map/refi-modal-map.module').then( m => m.RefiModalMapPageModule)
+    loadChildren: () =>
+      import('./components/refi-modal-map/refi-modal-map.module').then(
+        (m) => m.RefiModalMapPageModule
+      ),
   },
 ];
 

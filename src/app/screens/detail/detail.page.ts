@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -23,7 +25,8 @@ export class DetailPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private toastCtrl: ToastController,
     private modalCtrl: ModalController,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private router: Router
   ) {
     this.id = +this.activatedRoute.snapshot.paramMap.get('id');
     const users = JSON.parse(localStorage.getItem('storage'));
@@ -66,5 +69,9 @@ export class DetailPage implements OnInit {
       color: 'danger',
     });
     toast.present();
+  }
+
+  goToDetailPage(id: string, operacion: string) {
+    this.router.navigate(['refi-detail', id, operacion]);
   }
 }

@@ -20,6 +20,10 @@ const routes: Routes = [
         loadChildren: () => import('../screens/historial/historial.module').then( m => m.HistorialPageModule)
       },
       {
+        path: 'verificacion',
+        loadChildren: () => import('../screens/verificacion/verificacion.module').then( m => m.VerificacionPageModule)
+      },
+      {
         path:'',
         redirectTo:'listing',
         pathMatch:'full',

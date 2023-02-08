@@ -23,6 +23,16 @@ const routes: Routes = [
     path: 'historial',
     loadChildren: () => import('./screens/historial/historial.module').then( m => m.HistorialPageModule)
   },
+  {
+    path: 'formularioVerificacion',
+    loadChildren: () => import('./screens/verificacion/verificacion.module').then( m => m.VerificacionPageModule)
+  },
+  {
+    path: 'verificacion',
+    loadChildren: () => import('./screens/verificacion/verificacion.module').then( m => m.VerificacionPageModule)
+  },
+
+
 ];
 
 @NgModule({

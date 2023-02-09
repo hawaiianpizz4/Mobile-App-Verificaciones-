@@ -23,6 +23,10 @@ const routes: Routes = [
     path: 'historial',
     loadChildren: () => import('./screens/historial/historial.module').then( m => m.HistorialPageModule)
   },
+  {
+    path: 'map',
+    loadChildren: () => import('./screens/map/map.module').then( m => m.MapPageModule)
+  },
 ];
 
 @NgModule({

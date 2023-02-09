@@ -13,11 +13,7 @@ export class HomePage {
   constructor() {
  
   }
-  menuOptions: any[] = [
-    { title: 'Gestiones Cobranza', icon: 'flask', route:'/listing' },
-    { title: 'Historiales ', icon: 'logo-github' , route:'/historial'},
-    { title: '----', icon: 'cube', route:'' },
-  ];
+
  
 
 }

@@ -16,4 +16,9 @@ export class dataService {
   getFood(id:number){
     return  this.getDatos(localStorage.getItem("user")).pipe(map(user=>user.find((e:any)=>e.cedulaCliente == id.toString())));
   }
+  getCurrentPoss(lat:number,long:number,apiKey:string){
+    // console.log(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lat},${long}.json?access_token=${apiKey}`);
+    
+    return  this._http.get<any>(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lat},${long}.json?access_token=${apiKey}`);
+  }
 }

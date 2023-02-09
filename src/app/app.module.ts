@@ -10,10 +10,11 @@ import { HttpClientModule } from "@angular/common/http";
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { Network } from '@ionic-native/network/ngx';
+import { menuModule } from './components/menu/menu.module';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,HttpClientModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,HttpClientModule,menuModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },Geolocation,NativeGeocoder,Network],
   bootstrap: [AppComponent],
 })

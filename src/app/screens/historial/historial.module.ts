@@ -7,13 +7,19 @@ import { IonicModule } from '@ionic/angular';
 import { HistorialPageRoutingModule } from './historial-routing.module';
 
 import { HistorialPage } from './historial.page';
+import { ButtonModule } from 'src/app/components/button/button.module';
+
+import { HistCardComponentModule } from 'src/app/components/hist-card/hist-card.module';
+
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HistorialPageRoutingModule
+    HistorialPageRoutingModule,
+    HistCardComponentModule,
+    ButtonModule
   ],
   declarations: [HistorialPage]
 })

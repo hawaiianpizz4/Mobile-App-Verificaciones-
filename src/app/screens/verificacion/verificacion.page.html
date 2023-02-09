@@ -2,61 +2,64 @@
   <div class="header">
 
     <ion-buttons>
-      <ion-button routerLink="/..home">
+      <ion-button routerLink= "/home/">
         <ion-icon slot="icon-only" name="arrow-back" color="light"></ion-icon>
       </ion-button>
     </ion-buttons>
-
-
   </div>
+
   <div class="card">
-    <div class="image">
-      <ion-img src="assets/images/default.png"></ion-img>
-    </div>
-
-
     <div class="about">
-      <h1>Formulario </h1>
+         <h1 style="color:rgb(251, 214,71); text-align:center">Formulario De Verificación </h1>
 
-      <ion-item>
-        <ion-label position="floating">Nombre Gestor</ion-label>
-        <ion-input value="{{this.nombreUsuario}}" disabled="true" name="refi_usuario"></ion-input>
-      </ion-item>
+      <ion-grid>
+        <ion-row justify-content-around>
+          <ion-col>
+            <ion-label position="floating">Nombre Gestor</ion-label>
+            <ion-input value="{{this.nombreUsuario}}" disabled="true" name="nomGestorVer"></ion-input>
+          </ion-col>
+          <ion-col>
+            <ion-label position="floating">Fecha actual</ion-label>
+            <ion-input value="{{this.nombreUsuario}}" disabled="true" name="fechaVer"></ion-input>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-grid>
+        <ion-row justify-content-around>
+          <ion-col>
+            <ion-label position="floating">Nombre Tienda</ion-label>
+            <ion-input value="{{this.nombreUsuario}}" disabled="true" name="nombTiendaVer"></ion-input>
+          </ion-col>
+          <ion-col>
+            <ion-label position="floating">Nombre Cliente</ion-label>
+            <ion-input value="{{this.nombreUsuario}}" disabled="true" name="nombClienteVer"></ion-input>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
 
 
-      <ion-item>
-        <ion-label position="floating">Fecha actual</ion-label>
-        <ion-input value="{{this.nombreUsuario}}" disabled="true" name="refi_usuario"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="floating">Nombre Tienda</ion-label>
-        <ion-input value="{{this.nombreUsuario}}" disabled="true" name="refi_usuario"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="floating">Nombre Cliente</ion-label>
-        <ion-input value="{{this.nombreUsuario}}" disabled="true" name="refi_usuario"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="floating">Numero Cédula</ion-label>
-        <ion-input value="{{this.nombreUsuario}}" disabled="true" name="refi_usuario"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="floating">Direccion Cliente</ion-label>
-        <ion-input value="{{this.nombreUsuario}}" disabled="true" name="refi_usuario"></ion-input>
-      </ion-item>
+      <ion-grid>
+        <ion-row justify-content-around>
+          <ion-col>
+            <ion-label position="floating">Numero Cédula</ion-label>
+            <ion-input value="{{this.nombreUsuario}}" disabled="true" name="numCédulaVer"></ion-input>
+          </ion-col>
+          <ion-col>
+            <ion-label position="floating">Direccion Cliente</ion-label>
+            <ion-input value="{{this.nombreUsuario}}" disabled="true" name="dirClienteVer"></ion-input>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
 
       <ion-item>
         <ion-label position="floating">Código</ion-label>
-        <ion-input value="{{this.nombreUsuario}}" disabled="true" name="refi_usuario"></ion-input>
+        <ion-input value="{{this.nombreUsuario}}" disabled="true" name="codVer"></ion-input>
       </ion-item>
 
       <form (submit)="submitForm($event)" novalidate [formGroup]="dataForm">
         <ion-accordion-group>
-          <ion-accordion value="datosVeri">
+          <ion-accordion value="datosVivienda">
             <ion-item slot="header" color="light">
               <ion-label>Verificación Vivienda</ion-label>
             </ion-item>
@@ -65,19 +68,19 @@
               <ion-item>
                 <ion-label position="floating">Tipo Vivienda</ion-label>
                 <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar"
-                  name="tipoVivienda">
-                  <ion-select-option value="Propia">Propia</ion-select-option>
-                  <ion-select-option value="Familiar">Familiar</ion-select-option>
-                  <ion-select-option value="Arrendada">Arrendada</ion-select-option>
+                  name="viviendaVer">
+                  <ion-select-option value="propia">Propia</ion-select-option>
+                  <ion-select-option value="familiar">Familiar</ion-select-option>
+                  <ion-select-option value="arrendada">Arrendada</ion-select-option>
                 </ion-select>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Persona Realiza Verificación </ion-label>
                 <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar"
-                  name="PersonaVerifica">
-                  <ion-select-option value="Titular">Titular</ion-select-option>
-                  <ion-select-option value="Familiar">Familiar</ion-select-option>
+                  name="personaVer">
+                  <ion-select-option value="titular">Titular</ion-select-option>
+                  <ion-select-option value="familiar">Familiar</ion-select-option>
                 </ion-select>
               </ion-item>
 
@@ -85,7 +88,7 @@
               <ion-item>
                 <ion-label position="floating">Residencia (Minimo 3 meses)</ion-label>
                 <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar"
-                  name="refi_plazo">
+                  name="recidenciaVer">
                   <ion-select-option value="3">3</ion-select-option>
                   <ion-select-option value="4">4</ion-select-option>
                   <ion-select-option value="5">5</ion-select-option>
@@ -103,7 +106,7 @@
               <ion-item>
                 <ion-label position="floating"> Local o Terreno </ion-label>
                 <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar"
-                  name="refi_plazo">
+                  name="localTerrenoVer">
                   <ion-select-option value="Propia">Propio</ion-select-option>
                   <ion-select-option value="Arrendada">Arrendado</ion-select-option>
                 </ion-select>
@@ -113,31 +116,27 @@
         </ion-accordion-group>
 
         <!-- SEGUNDO ACORDEON -->
-
         <ion-accordion-group>
-          <ion-accordion value="datosVeri">
+          <ion-accordion value="datosServicios">
             <ion-item slot="header" color="light">
               <ion-label>Verificació Servicios</ion-label>
             </ion-item>
-
             <div class="ion-padding" slot="content">
-              <ion-item>
-                <ion-label position="floating">Planilla Servicios Básico</ion-label>
-                <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar"
-                  name="tipoVivienda">
-                  <ion-select-option value="si">SI</ion-select-option>
-                  <ion-select-option value="no">NO</ion-select-option>
-                </ion-select>
-              </ion-item>
+
+              <ion-list>
+                <ion-item>
+                  <ion-label>Planilla Servicios Básico</ion-label>
+                  <ion-toggle color="success" [checked]="false">SI</ion-toggle>
+                  <ion-toggle color="danger" [checked]="false">NO</ion-toggle>
+                </ion-item>
+              </ion-list>
 
               <ion-item>
-                <ion-label position="floating">Planilla Servicio Básico </ion-label>
+                <ion-label position="floating">Imagen Servicio Básico </ion-label>
                 <ion-input name="refi_pago_gastos_admin" value="" type="number"></ion-input>
-
                 <ion-button (click)="addPhotoToGallery()">
                   Captura Planilla
                 </ion-button>
-
                 <ion-grid>
                   <ion-row>
                     <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
@@ -150,7 +149,7 @@
               <ion-item>
                 <ion-label position="floating">Seguridad Puertas Ventanas</ion-label>
                 <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar"
-                  name="refi_plazo">
+                  name="seguridadVer">
                   <ion-select-option value="si">SI</ion-select-option>
                   <ion-select-option value="no">NO</ion-select-option>
                 </ion-select>
@@ -159,7 +158,7 @@
               <ion-item>
                 <ion-label position="floating"> Mueblería Básica </ion-label>
                 <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar"
-                  name="refi_plazo">
+                  name="muebleriaVer">
                   <ion-select-option value="si">SI</ion-select-option>
                   <ion-select-option value="no">NO</ion-select-option>
                 </ion-select>
@@ -168,7 +167,7 @@
               <ion-item>
                 <ion-label position="floating"> Material Casa </ion-label>
                 <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar"
-                  name="refi_plazo">
+                  name="matCasaVer">
                   <ion-select-option value="cemento">Cemento</ion-select-option>
                   <ion-select-option value="madera">Madera</ion-select-option>
                   <ion-select-option value="caña">Caña</ion-select-option>
@@ -178,45 +177,42 @@
               <ion-item>
                 <ion-label position="floating"> Periocidad Actividades Laborales </ion-label>
                 <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar"
-                  name="refi_plazo">
+                  name="actLaboralVer">
                   <ion-select-option value="diario">Diario</ion-select-option>
                   <ion-select-option value="semanal">Semanal</ion-select-option>
                   <ion-select-option value="quincenal">Quincenal</ion-select-option>
                   <ion-select-option value="finde">Fin De Semana</ion-select-option>
                 </ion-select>
               </ion-item>
-
             </div>
           </ion-accordion>
         </ion-accordion-group>
 
         <!-- TERCER ACORDEON -->
-
         <ion-accordion-group>
-          <ion-accordion value="datosVeri">
+          <ion-accordion value="datosVecino">
             <ion-item slot="header" color="light">
               <ion-label>Verificació Vecinos</ion-label>
             </ion-item>
-
             <div class="ion-padding" slot="content">
               <ion-item>
-                <ion-label position="floating">Confirmación Vecinos</ion-label>
+                <ion-label>Confirmación Vecinos</ion-label>
                 <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar"
-                  name="tipoVivienda">
+                  name="confirVecino">
                   <ion-select-option value="si">SI</ion-select-option>
                   <ion-select-option value="no">NO</ion-select-option>
                 </ion-select>
               </ion-item>
 
               <ion-item>
-                <ion-label>Nombre Del Vecino</ion-label>
-                <ion-textarea name="observacion" placeholder="Escribir" [clearOnEdit]="true">
+                <ion-label position="floating">Nombre Del Vecino</ion-label>
+                <ion-textarea name="nomVecinoVer" placeholder="Escribir.." [clearOnEdit]="true">
                 </ion-textarea>
               </ion-item>
 
               <ion-item>
-                <ion-label>Celular Vecino</ion-label>
-                <ion-textarea name="observacion" placeholder="Escribir" [clearOnEdit]="true" type="number">
+                <ion-label position="floating">Celular Vecino</ion-label>
+                <ion-textarea name="celVecinoVer" placeholder="Escribir.." [clearOnEdit]="true" type="number">
                 </ion-textarea>
               </ion-item>
             </div>
@@ -224,14 +220,12 @@
         </ion-accordion-group>
 
         <!-- CUARTO ACORDEON IMAGENES -->
-
         <ion-accordion-group>
-          <ion-accordion value="datosVeri">
+          <ion-accordion value="datosImagenes">
             <ion-item slot="header" color="light">
               <ion-label>Verificació De Imágenes</ion-label>
             </ion-item>
             <div class="ion-padding" slot="content">
-
 
               <ion-item>
                 <ion-label position="floating">Estabilidad Laboral Mayor 6 Meses</ion-label>
@@ -403,26 +397,25 @@
         <div>
         </div>
 
-        <ion-item>
-          <ion-label position="floating">Latitud</ion-label>
-          <ion-input value="{{this.nombreUsuario}}" disabled="true" name="refi_usuario"></ion-input>
-        </ion-item>
 
-        <ion-item>
-          <ion-label position="floating">Longitud</ion-label>
-          <ion-input value="{{this.nombreUsuario}}" disabled="true" name="refi_usuario"></ion-input>
-        </ion-item>
-
+        <ion-grid>
+          <ion-row justify-content-around>
+            <ion-col>
+              <ion-label position="floating">Latitud</ion-label>
+              <ion-input value="{{this.nombreUsuario}}" disabled="true" name="latitudVer"></ion-input>
+            </ion-col>
+            <ion-col>
+              <ion-label position="floating">Longitud</ion-label>
+              <ion-input value="{{this.nombreUsuario}}" disabled="true" name="LongitudVer"></ion-input>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
         <!-- BOTON -->
-
-        <ion-button [disabled]="dataForm.invalid" expand="block" color="primary" type="submit">
+        <ion-button [disabled]="dataForm.invalid" expand="block" color="warning" type="submit">
           Realizar Verificación
         </ion-button>
       </form>
 
-
     </div>
-    <app-button (click)="openModal(getdata.cedulaCliente,getdata.numeroCredito,getdata.usuario)">Realizar
-      Gestion</app-button>
   </div>
 </ion-content>

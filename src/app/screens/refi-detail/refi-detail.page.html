@@ -1,5 +1,4 @@
 <!-- <div id="map"></div> -->
-
 <ion-content>
   <div class="header">
     <ion-buttons>
@@ -11,7 +10,8 @@
 
   <div class="card">
     <div class="card-content">
-      <form (submit)="submitForm($event)" novalidate [formGroup]="dataForm">
+      <!-- <form (submit)="submitForm($event)" novalidate [formGroup]="dataForm" (ngSubmit)="submitForm()"> -->
+      <form [formGroup]="dataForm" (ngSubmit)="submitForm()">
         <ion-accordion-group>
           <ion-accordion value="datosRefi">
             <ion-item slot="header" color="light">
@@ -21,12 +21,10 @@
             <div class="ion-padding" slot="content">
               <ion-item>
                 <ion-label position="floating">Fecha Refinanciación</ion-label>
-
-                <ion-datetime
-                  [value]="currentDate"
-                  displayFormat="MMM DD, YYYY HH:mm"
-                  disabled="true"
-                ></ion-datetime>
+                <ion-input
+                  value="{{this.currentDate}}"
+                  formControlName="refi_fecha"
+                ></ion-input>
               </ion-item>
 
               <ion-item>
@@ -35,15 +33,14 @@
                 >
                 <ion-input
                   value="{{this.nombreUsuario}}"
-                  disabled="true"
-                  name="refi_usuario"
+                  formControlName="refi_usuario"
                 ></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Número de Operacion</ion-label>
                 <ion-input
-                  name="refi_operacion"
+                  formControlName="refi_operacion"
                   value="{{this.operacion}}"
                   type="number"
                 ></ion-input>
@@ -54,7 +51,7 @@
                   >Número de Autorización</ion-label
                 >
                 <ion-input
-                  name="refi_autorizacion"
+                  formControlName="refi_autorizacion"
                   value=""
                   type="number"
                 ></ion-input>
@@ -65,7 +62,7 @@
                   >Número de Autorización Original</ion-label
                 >
                 <ion-input
-                  name="refi_autorizacion_original"
+                  formControlName="refi_autorizacion_original"
                   value=""
                   type="number"
                 ></ion-input>
@@ -77,7 +74,7 @@
                   (ionChange)="handleChange($event)"
                   interface="action-sheet"
                   placeholder="Seleccionar"
-                  name="refi_plazo"
+                  formControlName="refi_plazo"
                 >
                   <ion-select-option value="3">3</ion-select-option>
                   <ion-select-option value="6">6</ion-select-option>
@@ -94,7 +91,7 @@
               <ion-item>
                 <ion-label position="floating">Valor Cuota</ion-label>
                 <ion-input
-                  name="refi_valor_cuota"
+                  formControlName="refi_valor_cuota"
                   value=""
                   type="number"
                 ></ion-input>
@@ -102,15 +99,12 @@
 
               <ion-item>
                 <ion-label position="floating">Fecha Primer Pago</ion-label>
-                <ion-input
-                  value="{{this.selectedDate}}"
-                  disabled="true"
-                ></ion-input>
+                <ion-input value="{{this.selectedDatePrimerPago}}"></ion-input>
 
                 <ion-datetime
                   [mode]="'ios'"
                   displayFormat="DD/MM/YYYY"
-                  (ionChange)="dateChanged($event)"
+                  (ionChange)="dateChangedPrimerPago($event)"
                 ></ion-datetime>
               </ion-item>
 
@@ -119,7 +113,7 @@
                   >Pago de Gastos Administrativos</ion-label
                 >
                 <ion-input
-                  name="refi_pago_gastos_admin"
+                  formControlName="refi_pago_gastos_admin"
                   value=""
                   type="number"
                 ></ion-input>
@@ -145,7 +139,7 @@
                   >Total Reestructuración</ion-label
                 >
                 <ion-input
-                  name="refi_total_reest"
+                  formControlName="refi_total_reest"
                   value=""
                   type="number"
                 ></ion-input>
@@ -154,7 +148,7 @@
               <ion-item>
                 <ion-label position="floating">Total a Pagar</ion-label>
                 <ion-input
-                  name="refi_total_pagar"
+                  formControlName="refi_total_pagar"
                   value=""
                   type="number"
                 ></ion-input>
@@ -171,8 +165,7 @@
               <ion-item>
                 <ion-label position="floating">Cédula/ID</ion-label>
                 <ion-input
-                  name="cliente_cedula"
-                  disabled="true"
+                  formControlName="cliente_cedula"
                   value="{{this.id}}"
                   type="text"
                 ></ion-input>
@@ -181,8 +174,7 @@
               <ion-item>
                 <ion-label position="floating">Nombres Completos</ion-label>
                 <ion-input
-                  name="cliente_nombres"
-                  disabled="true"
+                  formControlName="cliente_nombres"
                   value="{{getdata.nombres}}"
                   type="text"
                 ></ion-input>
@@ -191,8 +183,7 @@
               <ion-item>
                 <ion-label position="floating">Nacionalidad</ion-label>
                 <ion-input
-                  name="cliente_nacionalidad"
-                  disabled="true"
+                  formControlName="cliente_nacionalidad"
                   value="{{getdata.nacionalidad}}"
                   type="text"
                 ></ion-input>
@@ -201,8 +192,7 @@
               <ion-item>
                 <ion-label position="floating">Ciudad Nacimiento</ion-label>
                 <ion-input
-                  name="cliente_ciudad_nacimiento"
-                  disabled="true"
+                  formControlName="cliente_ciudad_nacimiento"
                   type="text"
                   value="{{getdata.cod_cant_nacim}}"
                 ></ion-input>
@@ -211,8 +201,7 @@
               <ion-item>
                 <ion-label position="floating">Fecha Nacimiento</ion-label>
                 <ion-input
-                  name="cliente_fecha_nacimiento"
-                  disabled="true"
+                  formControlName="cliente_fecha_nacimiento"
                   value="{{getdata.fecha_naci}}"
                   type="text"
                 ></ion-input>
@@ -222,16 +211,14 @@
                 <ion-label position="floating">Sexo</ion-label>
 
                 <ion-select
-                  (ionChange)="handleChange($event)"
                   interface="action-sheet"
-                  placeholder="Seleccionar"
-                  name="cliente_sexo"
+                  placeholder="Seleccionarx"
+                  formControlName="cliente_sexo"
                   value="{{getdata.des_sexo}}"
                   [formControl]="ionSelectSexo"
                 >
-                  <ion-select-option value="M">M</ion-select-option>
-                  <ion-select-option value="F">F</ion-select-option>
-                  <ion-select-option value="X">X</ion-select-option>
+                  <ion-select-option value="M">Masculino</ion-select-option>
+                  <ion-select-option value="F">Femenino</ion-select-option>
                 </ion-select>
               </ion-item>
 
@@ -241,21 +228,27 @@
                   (ionChange)="handleChange($event)"
                   interface="action-sheet"
                   placeholder="Seleccionar"
-                  name="cliente_nivel_educativo"
+                  formControlName="cliente_nivel_educativo"
                   [formControl]="ionSelectClienteNivel"
                 >
-                  <ion-select-option value="1.0">1.0</ion-select-option>
-                  <ion-select-option value="2.0">2.0</ion-select-option>
-                  <ion-select-option value="3.0">3.0</ion-select-option>
-                  <ion-select-option value="4.0">4.0</ion-select-option>
+                  <ion-select-option value="0">Ninguna</ion-select-option>
+                  <ion-select-option value="1">Primaria</ion-select-option>
+                  <ion-select-option value="2">Secundaria</ion-select-option>
+                  <ion-select-option value="3">Técnica</ion-select-option>
+                  <ion-select-option value="4">Superior</ion-select-option>
+                  <ion-select-option value="5">Posgrado</ion-select-option>
+                  <ion-select-option value="6">Uso Futuro</ion-select-option>
+                  <ion-select-option value="7"
+                    >Universit. Imcopm</ion-select-option
+                  >
+                  <ion-select-option value="8">Universitario</ion-select-option>
                 </ion-select>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Profesión</ion-label>
                 <ion-input
-                  name="cliente_profesion"
-                  disabled="true"
+                  formControlName="cliente_profesion"
                   value="{{getdata.des_profes}}"
                   type="text"
                 ></ion-input>
@@ -267,21 +260,23 @@
                   (ionChange)="handleChange($event)"
                   interface="action-sheet"
                   placeholder="Seleccionar"
-                  name="cliente_estado_civil"
+                  formControlName="cliente_estado_civil"
                   [formControl]="ionSelectClienteEstadoCivil"
                 >
-                  <ion-select-option value="S">Soltero/a</ion-select-option>
-                  <ion-select-option value="C">Casado/a</ion-select-option>
-                  <ion-select-option value="D">Divorciado/a</ion-select-option>
-                  <ion-select-option value="V">Viudo/a</ion-select-option>
+                  <ion-select-option value="C">Casado(a)</ion-select-option>
+                  <ion-select-option value="D">Divorciado(a)</ion-select-option>
+                  <ion-select-option value="E">Empresarial</ion-select-option>
+                  <ion-select-option value="N">No Definido</ion-select-option>
+                  <ion-select-option value="S">Soltero(a)</ion-select-option>
                   <ion-select-option value="U">Unión Libre</ion-select-option>
+                  <ion-select-option value="V">Viudo(a)</ion-select-option>
                 </ion-select>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Número Dependientes</ion-label>
                 <ion-input
-                  name="cliente_numero_dependientes"
+                  formControlName="cliente_numero_dependientes"
                   value="{{getdata.num_hijos}}"
                   type="number"
                 ></ion-input>
@@ -297,7 +292,7 @@
               <ion-item>
                 <ion-label position="floating">Dirección</ion-label>
                 <ion-input
-                  name="dir_direccion_exacta"
+                  formControlName="dir_direccion_exacta"
                   value=""
                   type="text"
                 ></ion-input>
@@ -308,7 +303,7 @@
               <ion-item>
                 <ion-label position="floating">Provincia</ion-label>
                 <ion-input
-                  name="dir_provincia"
+                  formControlName="dir_provincia"
                   value="{{getdata.cod_prov_dom}}"
                   type="text"
                 ></ion-input>
@@ -317,7 +312,7 @@
               <ion-item>
                 <ion-label position="floating">Cantón/Ciudad</ion-label>
                 <ion-input
-                  name="dir_canton_ciudad"
+                  formControlName="dir_canton_ciudad"
                   value="{{getdata.cod_cant_dom}}"
                   type="text"
                 ></ion-input>
@@ -326,7 +321,7 @@
               <ion-item>
                 <ion-label position="floating">Parroquia</ion-label>
                 <ion-input
-                  name="dir_parroquia"
+                  formControlName="dir_parroquia"
                   value="{{getdata.cod_parr_dom}}"
                   type="text"
                 ></ion-input>
@@ -335,7 +330,7 @@
               <ion-item>
                 <ion-label position="floating">Dirección</ion-label>
                 <ion-input
-                  name="dir_direccion"
+                  formControlName="dir_direccion"
                   value=""
                   type="text"
                 ></ion-input>
@@ -344,7 +339,7 @@
               <ion-item>
                 <ion-label position="floating">Calle Transversal</ion-label>
                 <ion-input
-                  name="dir_calle_transversal"
+                  formControlName="dir_calle_transversal"
                   value=""
                   type="text"
                 ></ion-input>
@@ -352,35 +347,37 @@
 
               <ion-item>
                 <ion-label position="floating">Número</ion-label>
-                <ion-input name="dir_numero" value="" type="text"></ion-input>
+                <ion-input
+                  formControlName="dir_numero"
+                  value=""
+                  type="text"
+                ></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Latitud</ion-label>
                 <ion-input
-                  name="dir_latitud"
+                  formControlName="dir_latitud"
                   value=""
                   type="number"
-                  disabled="true"
                 ></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Longitud</ion-label>
                 <ion-input
-                  name="dir_longitud"
+                  formControlName="dir_longitud"
                   value=""
                   type="number"
-                  disabled="true"
                 ></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Referencia</ion-label>
                 <ion-input
-                  name="dir_referencia"
+                  formControlName="dir_referencia"
                   value=""
-                  type="number"
+                  type="text"
                 ></ion-input>
               </ion-item>
 
@@ -390,33 +387,51 @@
                   (ionChange)="handleChange($event)"
                   interface="action-sheet"
                   placeholder="Seleccionar"
-                  name="dir_tipo_vivienda"
+                  formControlName="dir_tipo_vivienda"
                   [formControl]="ionSelectTipoVivienda"
                 >
                   <ion-select-option value="P">PROPIA</ion-select-option>
                   <ion-select-option value="A">ARRENDADA</ion-select-option>
-                  <ion-select-option value="F">FAMILIAR</ion-select-option>
+                  <ion-select-option value="F"
+                    >VIVE CON FAMILIARES</ion-select-option
+                  >
                 </ion-select>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Tiempo Residencia</ion-label>
-                <ion-input name="dir_tiempo" value="" type="number"></ion-input>
+                <ion-input
+                  formControlName="dir_tiempo"
+                  value=""
+                  type="number"
+                ></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Teléfono #1</ion-label>
-                <ion-input name="dir_telf_1" value="" type="tel"></ion-input>
+                <ion-input
+                  formControlName="dir_telf_1"
+                  value=""
+                  type="tel"
+                ></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Teléfono #2</ion-label>
-                <ion-input name="dir_telf_2" value="" type="tel"></ion-input>
+                <ion-input
+                  formControlName="dir_telf_2"
+                  value=""
+                  type="tel"
+                ></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Email</ion-label>
-                <ion-input name="dir_email" value="" type="email"></ion-input>
+                <ion-input
+                  formControlName="dir_email"
+                  value=""
+                  type="email"
+                ></ion-input>
               </ion-item>
 
               <ion-item>
@@ -424,7 +439,7 @@
                   >Nombre Arrendador/Familiar</ion-label
                 >
                 <ion-input
-                  name="dir_nombre_arrendador"
+                  formControlName="dir_nombre_arrendador"
                   value=""
                   type="text"
                 ></ion-input>
@@ -435,9 +450,9 @@
                   >Teléfono Arrendador/Familiar</ion-label
                 >
                 <ion-input
-                  name="dir_telf_arrendador"
+                  formControlName="dir_telf_arrendador"
                   value=""
-                  type="text"
+                  type="tel"
                 ></ion-input>
               </ion-item>
             </div>
@@ -451,7 +466,7 @@
               <ion-item>
                 <ion-label position="floating">Cédula</ion-label>
                 <ion-input
-                  name="conyuge_cedula"
+                  formControlName="conyuge_cedula"
                   value=""
                   type="number"
                 ></ion-input>
@@ -460,7 +475,7 @@
               <ion-item>
                 <ion-label position="floating">Nombres Completos</ion-label>
                 <ion-input
-                  name="conyuge_nombres"
+                  formControlName="conyuge_nombres"
                   value=""
                   type="text"
                 ></ion-input>
@@ -469,7 +484,7 @@
               <ion-item>
                 <ion-label position="floating">Email</ion-label>
                 <ion-input
-                  name="conyuge_email"
+                  formControlName="conyuge_email"
                   value=""
                   type="email"
                 ></ion-input>
@@ -478,7 +493,7 @@
               <ion-item>
                 <ion-label position="floating">Telefono #1</ion-label>
                 <ion-input
-                  name="conyuge_telf_1"
+                  formControlName="conyuge_telf_1"
                   value=""
                   type="tel"
                 ></ion-input>
@@ -487,7 +502,7 @@
               <ion-item>
                 <ion-label position="floating">Telefono #2</ion-label>
                 <ion-input
-                  name="conyuge_telf_2"
+                  formControlName="conyuge_telf_2"
                   value=""
                   type="tel"
                 ></ion-input>
@@ -501,32 +516,26 @@
             </ion-item>
             <div class="ion-padding" slot="content">
               <ion-item>
-                <ion-label position="floating"
-                  >Tipo de Actividad Económica</ion-label
-                >
+                <ion-label position="floating">Tipo de Económica</ion-label>
                 <ion-select
                   (ionChange)="handleChange($event)"
                   interface="action-sheet"
                   placeholder="Seleccionar"
-                  name="conyuge_tipo_actividad"
+                  formControlName="conyuge_tipo_actividad"
                 >
-                  <ion-select-option value="DEPENDENCIA"
-                    >DEPENDENCIA</ion-select-option
-                  >
-                  <ion-select-option value="INDEPENDIENTE"
+                  <ion-select-option value="DEP">DEPENDENCIA</ion-select-option>
+                  <ion-select-option value="IND"
                     >INDEPENDIENTE</ion-select-option
                   >
-                  <ion-select-option value="INFORMAL"
-                    >INFORMAL</ion-select-option
-                  >
-                  <ion-select-option value="CESANTE">CESANTE</ion-select-option>
+                  <ion-select-option value="CES">CESANTE</ion-select-option>
+                  <ion-select-option value="INF">INFORMAL</ion-select-option>
                 </ion-select>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Nombre Empresa</ion-label>
                 <ion-input
-                  name="conyuge_nombre_empresa"
+                  formControlName="conyuge_nombre_empresa"
                   value=""
                   type="text"
                 ></ion-input>
@@ -535,7 +544,7 @@
               <ion-item>
                 <ion-label position="floating">Actividad Empresa</ion-label>
                 <ion-input
-                  name="conyuge_actividad_empresa"
+                  formControlName="conyuge_actividad_empresa"
                   value=""
                   type="text"
                 ></ion-input>
@@ -544,7 +553,7 @@
               <ion-item>
                 <ion-label position="floating">Cargo</ion-label>
                 <ion-input
-                  name="conyuge_cargo"
+                  formControlName="conyuge_cargo"
                   value=""
                   type="text"
                 ></ion-input>
@@ -553,7 +562,7 @@
               <ion-item>
                 <ion-label position="floating">Teléfono</ion-label>
                 <ion-input
-                  name="conyuge_telefono_empresa"
+                  formControlName="conyuge_telefono_empresa"
                   value=""
                   type="tel"
                 ></ion-input>
@@ -562,7 +571,7 @@
               <ion-item>
                 <ion-label position="floating">Ingresos Mensuales</ion-label>
                 <ion-input
-                  name="conyuge_ingresos_mensuales"
+                  formControlName="conyuge_ingresos_mensuales"
                   value=""
                   type="text"
                 ></ion-input>
@@ -577,13 +586,17 @@
             <div class="ion-padding" slot="content">
               <ion-item>
                 <ion-label position="floating">Nombres Completos</ion-label>
-                <ion-input name="ref1_nombres" value="" type="text"></ion-input>
+                <ion-input
+                  formControlName="ref1_nombres"
+                  value=""
+                  type="text"
+                ></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Parentesco</ion-label>
                 <ion-input
-                  name="ref1_parentesco"
+                  formControlName="ref1_parentesco"
                   value=""
                   type="text"
                 ></ion-input>
@@ -591,12 +604,20 @@
 
               <ion-item>
                 <ion-label position="floating">Teléfono #1</ion-label>
-                <ion-input name="ref1_telf_1" value="" type="tel"></ion-input>
+                <ion-input
+                  formControlName="ref1_telf_1"
+                  value=""
+                  type="tel"
+                ></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Teléfono #2</ion-label>
-                <ion-input name="ref1_telf_2" value="" type="tel"></ion-input>
+                <ion-input
+                  formControlName="ref1_telf_2"
+                  value=""
+                  type="tel"
+                ></ion-input>
               </ion-item>
             </div>
           </ion-accordion>
@@ -608,13 +629,17 @@
             <div class="ion-padding" slot="content">
               <ion-item>
                 <ion-label position="floating">Nombres Completos</ion-label>
-                <ion-input name="ref2_nombres" value="" type="text"></ion-input>
+                <ion-input
+                  formControlName="ref2_nombres"
+                  value=""
+                  type="text"
+                ></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Parentesco</ion-label>
                 <ion-input
-                  name="ref2_parentesco"
+                  formControlName="ref2_parentesco"
                   value=""
                   type="text"
                 ></ion-input>
@@ -622,12 +647,20 @@
 
               <ion-item>
                 <ion-label position="floating">Teléfono #1</ion-label>
-                <ion-input name="ref2_telf_1" value="" type="tel"></ion-input>
+                <ion-input
+                  formControlName="ref2_telf_1"
+                  value=""
+                  type="tel"
+                ></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Teléfono #2</ion-label>
-                <ion-input name="ref2_telf_2" value="" type="tel"></ion-input>
+                <ion-input
+                  formControlName="ref2_telf_2"
+                  value=""
+                  type="tel"
+                ></ion-input>
               </ion-item>
             </div>
           </ion-accordion>
@@ -644,15 +677,15 @@
                 <ion-select
                   interface="action-sheet"
                   placeholder="Seleccionar"
-                  name="trabajo_tipo_actividad"
+                  formControlName="trabajo_tipo_actividad"
                   [formControl]="ionSelectTrabajoActividad"
                 >
                   <ion-select-option value="DEP">DEPENDENCIA</ion-select-option>
                   <ion-select-option value="IND"
                     >INDEPENDIENTE</ion-select-option
                   >
-                  <ion-select-option value="INF">INFORMAL</ion-select-option>
                   <ion-select-option value="CES">CESANTE</ion-select-option>
+                  <ion-select-option value="INF">INFORMAL</ion-select-option>
                 </ion-select>
               </ion-item>
             </div>
@@ -666,7 +699,7 @@
               <ion-item>
                 <ion-label position="floating">RUC</ion-label>
                 <ion-input
-                  name="trabajo_ruc"
+                  formControlName="trabajo_ruc"
                   value=""
                   type="number"
                 ></ion-input>
@@ -675,7 +708,7 @@
               <ion-item>
                 <ion-label position="floating">Nombre</ion-label>
                 <ion-input
-                  name="trabajo_nombre"
+                  formControlName="trabajo_nombre"
                   value="{{getdata.nombre_empresa_titular}}"
                   type="text"
                 ></ion-input>
@@ -684,7 +717,7 @@
               <ion-item>
                 <ion-label position="floating">Provincia</ion-label>
                 <ion-input
-                  name="trabajo_provincia"
+                  formControlName="trabajo_provincia"
                   value="{{getdata.cod_prov_trabajo_titular}}"
                   type="text"
                 ></ion-input>
@@ -693,7 +726,7 @@
               <ion-item>
                 <ion-label position="floating">Cantón/Ciudad</ion-label>
                 <ion-input
-                  name="trabajo_canton"
+                  formControlName="trabajo_canton"
                   value="{{getdata.cod_cant_trabajo_titular}}"
                   type="text"
                 ></ion-input>
@@ -702,7 +735,7 @@
               <ion-item>
                 <ion-label position="floating">Parroquia</ion-label>
                 <ion-input
-                  name="trabajo_parroquia"
+                  formControlName="trabajo_parroquia"
                   value="{{getdata.cod_parr_trabajo_titular}}"
                   type="text"
                 ></ion-input>
@@ -710,7 +743,7 @@
               <ion-item>
                 <ion-label position="floating">Barrio</ion-label>
                 <ion-input
-                  name="trabajo_barrio"
+                  formControlName="trabajo_barrio"
                   value=""
                   type="text"
                 ></ion-input>
@@ -718,7 +751,7 @@
               <ion-item>
                 <ion-label position="floating">Dirección</ion-label>
                 <ion-input
-                  name="trabajo_direccion"
+                  formControlName="trabajo_direccion"
                   value=""
                   type="text"
                 ></ion-input>
@@ -727,7 +760,7 @@
               <ion-item>
                 <ion-label position="floating">Número</ion-label>
                 <ion-input
-                  name="trabajo_numero"
+                  formControlName="trabajo_numero"
                   value=""
                   type="text"
                 ></ion-input>
@@ -736,7 +769,7 @@
               <ion-item>
                 <ion-label position="floating">Calle Transversal</ion-label>
                 <ion-input
-                  name="trabajo_calle_transversal"
+                  formControlName="trabajo_calle_transversal"
                   value=""
                   type="text"
                 ></ion-input>
@@ -745,7 +778,7 @@
               <ion-item>
                 <ion-label position="floating">Referencia Ubicacion</ion-label>
                 <ion-input
-                  name="trabajo_ref_ubicacion"
+                  formControlName="trabajo_ref_ubicacion"
                   value=""
                   type="text"
                 ></ion-input>
@@ -754,7 +787,7 @@
               <ion-item>
                 <ion-label position="floating">Teléfono</ion-label>
                 <ion-input
-                  name="trabajo_telefono"
+                  formControlName="trabajo_telefono"
                   value=""
                   type="text"
                 ></ion-input>
@@ -763,7 +796,7 @@
               <ion-item>
                 <ion-label position="floating">Antigüedad</ion-label>
                 <ion-input
-                  name="trabajo_antiguedad"
+                  formControlName="trabajo_antiguedad"
                   value="{{getdata.antiguedad_lab}}"
                   type="number"
                 ></ion-input>

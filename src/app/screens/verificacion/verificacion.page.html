@@ -1,231 +1,428 @@
 <ion-content>
   <div class="header">
+
     <ion-buttons>
-      <ion-button (click)="exit()">
+      <ion-button routerLink="/..home">
         <ion-icon slot="icon-only" name="arrow-back" color="light"></ion-icon>
       </ion-button>
     </ion-buttons>
-   <!--  <ion-buttons >
-      <ion-button routerLink = "/home/listing">
-        <ion-icon slot="icon-only" name="arrow-back" color="light"></ion-icon>
-      </ion-button>
-    </ion-buttons> -->
+
+
   </div>
   <div class="card">
-    <div class="image" >
-      <ion-img  src="assets/images/default.png"></ion-img>
+    <div class="image">
+      <ion-img src="assets/images/default.png"></ion-img>
     </div>
-    <div class="card-content">
-      <div class="card-title">
-        <h1 class="ion-no-margin">{{getdata.genericoClidente}}</h1>
-        <p class="ion-no-margin"><sup>$</sup>{{getdata.DetalleCliente}}</p>
-      </div>
-    </div>
+
+
     <div class="about">
-      <h1>Tienda</h1>
-     <!--<app-badge icon="at-circle" text="{{getdata.numeroCredito}}"></app-badge>-->
-      <h1>Nombre Cliente</h1>
-     <!-- <app-badge icon="alert-circle" text="{{getdata.valorCuota}}"></app-badge> -->
-      <h1>CedulaCliente</h1>
-     <!--  <app-badge icon="newspaper" text="{{getdata.plazoOperacion}}"></app-badge> -->
-     <h1>Dirección Cliente</h1>
-     <h1>Código</h1>
-     <h1>Nombre Tienda</h1>
-     <h1>Tipo Vivienda (combo)</h1>
-     <h1>Persona Verifica (combo)</h1>
-     <h1>Residencia (3 meses mínimo- combo con meses)</h1>
-     <h1>Local o Terreno (combo con dos opciones) </h1>
-     <h1>Planilla Servicio Básico</h1>
-     <h1>Foto Planilla Servicio Básico</h1>
-     <h1>Seguridad Puertas y Ventanas (combo)</h1>
-     <h1>Muebleria báscia (combo)</h1>
-     <h1>Material casa(combo)</h1>
-     <h1>Periodicidad de actividades laborales(combo)</h1>
-     <h1>Cofirmacion Informacion Vecinos (combo)</h1>
-     <h1>Nombre Vecino</h1>
-     <h1>Celular Vecino</h1>
-     <h1>IMAGENES QUE DEBE CARGAR</h1>
-     <h1>Estabilidad Laboral (mas e 6 meses)</h1>
-     <h1>Facturas Proveedores (Ultimos 3 meses )</h1>
-     <h1> Fachada Negocio</h1>
-     <h1>Interior Negocio</h1>
-     <h1> Cleinte Dentro Del Negocio</h1>
-     <h1> Cliente Fuera Del Negocio</h1>
-     <h1>Titulo Propiedad Garante o Codeudor</h1>
-     <h1>Impuesto Predial</h1>
-     <h1>Respaldo Ingresos (Transferencias bancarias o cheques)</h1>
-     <h1>Certificado Laboral</h1>
-     <h1>Interior Domicilio</h1>
-     <h1>Latitud</h1>
-     <h1>Longuitud</h1>
+      <h1>Formulario </h1>
 
-
-     <ion-item>
-      <ion-label>Gestion Cobranza</ion-label>
-      <ion-select
-        (ionChange)="handleChange($event)"
-        id="change"
-        interface="action-sheet"
-        placeholder="Seleccionar"
-        name="cobranza"
-      >
-      </ion-select>
-    </ion-item>
-    <div id="plazo"></div>
-    <div id="valorRene"></div>
-    <ion-item>
-      <ion-label>Observacion Detalle Gestion</ion-label>
-      <ion-textarea
-        name="observacion"
-        placeholder="Escribir"
-        [clearOnEdit]="true"
-      ></ion-textarea>
-    </ion-item>
-    <ion-item>
-      <ion-label>Tipo Contacto</ion-label>
-      <ion-select
-        interface="action-sheet"
-        placeholder="Seleccionar"
-        name="contacto"
-        aria-required="required"
-      >
-        <ion-select-option value="Contactado"
-          >Contactado</ion-select-option
-        >
-        <ion-select-option value="NoContactado"
-          >No Contactado</ion-select-option
-        >
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-input name="lat" value="{{latitude}}" disabled="true"
-        ><p>Latitud:</p></ion-input
-      >
-    </ion-item>
-    <ion-item>
-      <ion-input name="long" value="{{longitude}}" disabled="true"
-        ><p>Longitud:</p></ion-input
-      >
-    </ion-item>
-    <ion-row>
-      <ion-col>
-        <ion-button type="submit" color="danger" expand="block"
-          >Enviar</ion-button
-        >
-      </ion-col>
-    </ion-row>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <ion-list>
       <ion-item>
-        <ion-label>Numero de cedula</ion-label>
-        <ion-input name="cedula" type="number"></ion-input>
+        <ion-label position="floating">Nombre Gestor</ion-label>
+        <ion-input value="{{this.nombreUsuario}}" disabled="true" name="refi_usuario"></ion-input>
       </ion-item>
-      <ion-item>
-        <ion-label>Numero de credito</ion-label>
-        <ion-input
-          name="numCredito"
-          type="number"
-        ></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Tipo de Gestion</ion-label>
-        <ion-select
-          (ionChange)="handleChange($event)"
-          interface="action-sheet"
-          placeholder="Seleccionar"
-          name="gestion"
-        >
-          <ion-select-option value="Renegociación"
-            >Renegociación</ion-select-option
-          >
-          <ion-select-option value="Gestión Cobranza"
-            >Gestión Cobranza</ion-select-option
-          >
-          <ion-select-option value="Recojo">Recojo</ion-select-option>
-          <ion-select-option value="Verificación"
-            >Verificación</ion-select-option
-          >
-          <ion-select-option value="Matriculación"
-            >Matriculación</ion-select-option
-          >
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label>Gestion Cobranza</ion-label>
-        <ion-select
-          (ionChange)="handleChange($event)"
-          id="change"
-          interface="action-sheet"
-          placeholder="Seleccionar"
-          name="cobranza"
-        >
-        </ion-select>
-      </ion-item>
-      <div id="plazo"></div>
-      <div id="valorRene"></div>
-      <ion-item>
-        <ion-label>Observacion Detalle Gestion</ion-label>
-        <ion-textarea
-          name="observacion"
-          placeholder="Escribir"
-          [clearOnEdit]="true"
-        ></ion-textarea>
-      </ion-item>
-      <ion-item>
-        <ion-label>Tipo Contacto</ion-label>
-        <ion-select
-          interface="action-sheet"
-          placeholder="Seleccionar"
-          name="contacto"
-          aria-required="required"
-        >
-          <ion-select-option value="Contactado"
-            >Contactado</ion-select-option
-          >
-          <ion-select-option value="NoContactado"
-            >No Contactado</ion-select-option
-          >
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-input name="lat" value="{{latitude}}" disabled="true"
-          ><p>Latitud:</p></ion-input
-        >
-      </ion-item>
-      <ion-item>
-        <ion-input name="long" value="{{longitude}}" disabled="true"
-          ><p>Longitud:</p></ion-input
-        >
-      </ion-item>
-      <ion-row>
-        <ion-col>
-          <ion-button type="submit" color="danger" expand="block"
-            >Enviar</ion-button
-          >
-        </ion-col>
-      </ion-row>
-    </ion-list>
 
 
+      <ion-item>
+        <ion-label position="floating">Fecha actual</ion-label>
+        <ion-input value="{{this.nombreUsuario}}" disabled="true" name="refi_usuario"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Nombre Tienda</ion-label>
+        <ion-input value="{{this.nombreUsuario}}" disabled="true" name="refi_usuario"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Nombre Cliente</ion-label>
+        <ion-input value="{{this.nombreUsuario}}" disabled="true" name="refi_usuario"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Numero Cédula</ion-label>
+        <ion-input value="{{this.nombreUsuario}}" disabled="true" name="refi_usuario"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Direccion Cliente</ion-label>
+        <ion-input value="{{this.nombreUsuario}}" disabled="true" name="refi_usuario"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Código</ion-label>
+        <ion-input value="{{this.nombreUsuario}}" disabled="true" name="refi_usuario"></ion-input>
+      </ion-item>
+
+      <form (submit)="submitForm($event)" novalidate [formGroup]="dataForm">
+        <ion-accordion-group>
+          <ion-accordion value="datosVeri">
+            <ion-item slot="header" color="light">
+              <ion-label>Verificación Vivienda</ion-label>
+            </ion-item>
+
+            <div class="ion-padding" slot="content">
+              <ion-item>
+                <ion-label position="floating">Tipo Vivienda</ion-label>
+                <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar"
+                  name="tipoVivienda">
+                  <ion-select-option value="Propia">Propia</ion-select-option>
+                  <ion-select-option value="Familiar">Familiar</ion-select-option>
+                  <ion-select-option value="Arrendada">Arrendada</ion-select-option>
+                </ion-select>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Persona Realiza Verificación </ion-label>
+                <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar"
+                  name="PersonaVerifica">
+                  <ion-select-option value="Titular">Titular</ion-select-option>
+                  <ion-select-option value="Familiar">Familiar</ion-select-option>
+                </ion-select>
+              </ion-item>
 
 
+              <ion-item>
+                <ion-label position="floating">Residencia (Minimo 3 meses)</ion-label>
+                <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar"
+                  name="refi_plazo">
+                  <ion-select-option value="3">3</ion-select-option>
+                  <ion-select-option value="4">4</ion-select-option>
+                  <ion-select-option value="5">5</ion-select-option>
+                  <ion-select-option value="6">6</ion-select-option>
+                  <ion-select-option value="7">7</ion-select-option>
+                  <ion-select-option value="8">8</ion-select-option>
+                  <ion-select-option value="9">9</ion-select-option>
+                  <ion-select-option value="10">10</ion-select-option>
+                  <ion-select-option value="11">11</ion-select-option>
+                  <ion-select-option value="12">12</ion-select-option>
+                  <ion-select-option value="más">13</ion-select-option>
+                </ion-select>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating"> Local o Terreno </ion-label>
+                <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar"
+                  name="refi_plazo">
+                  <ion-select-option value="Propia">Propio</ion-select-option>
+                  <ion-select-option value="Arrendada">Arrendado</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </div>
+          </ion-accordion>
+        </ion-accordion-group>
+
+        <!-- SEGUNDO ACORDEON -->
+
+        <ion-accordion-group>
+          <ion-accordion value="datosVeri">
+            <ion-item slot="header" color="light">
+              <ion-label>Verificació Servicios</ion-label>
+            </ion-item>
+
+            <div class="ion-padding" slot="content">
+              <ion-item>
+                <ion-label position="floating">Planilla Servicios Básico</ion-label>
+                <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar"
+                  name="tipoVivienda">
+                  <ion-select-option value="si">SI</ion-select-option>
+                  <ion-select-option value="no">NO</ion-select-option>
+                </ion-select>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Planilla Servicio Básico </ion-label>
+                <ion-input name="refi_pago_gastos_admin" value="" type="number"></ion-input>
+
+                <ion-button (click)="addPhotoToGallery()">
+                  Captura Planilla
+                </ion-button>
+
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
+                      <ion-img [src]="photo.webviewPath"></ion-img>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Seguridad Puertas Ventanas</ion-label>
+                <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar"
+                  name="refi_plazo">
+                  <ion-select-option value="si">SI</ion-select-option>
+                  <ion-select-option value="no">NO</ion-select-option>
+                </ion-select>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating"> Mueblería Básica </ion-label>
+                <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar"
+                  name="refi_plazo">
+                  <ion-select-option value="si">SI</ion-select-option>
+                  <ion-select-option value="no">NO</ion-select-option>
+                </ion-select>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating"> Material Casa </ion-label>
+                <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar"
+                  name="refi_plazo">
+                  <ion-select-option value="cemento">Cemento</ion-select-option>
+                  <ion-select-option value="madera">Madera</ion-select-option>
+                  <ion-select-option value="caña">Caña</ion-select-option>
+                </ion-select>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating"> Periocidad Actividades Laborales </ion-label>
+                <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar"
+                  name="refi_plazo">
+                  <ion-select-option value="diario">Diario</ion-select-option>
+                  <ion-select-option value="semanal">Semanal</ion-select-option>
+                  <ion-select-option value="quincenal">Quincenal</ion-select-option>
+                  <ion-select-option value="finde">Fin De Semana</ion-select-option>
+                </ion-select>
+              </ion-item>
+
+            </div>
+          </ion-accordion>
+        </ion-accordion-group>
+
+        <!-- TERCER ACORDEON -->
+
+        <ion-accordion-group>
+          <ion-accordion value="datosVeri">
+            <ion-item slot="header" color="light">
+              <ion-label>Verificació Vecinos</ion-label>
+            </ion-item>
+
+            <div class="ion-padding" slot="content">
+              <ion-item>
+                <ion-label position="floating">Confirmación Vecinos</ion-label>
+                <ion-select (ionChange)="handleChange($event)" interface="action-sheet" placeholder="Seleccionar"
+                  name="tipoVivienda">
+                  <ion-select-option value="si">SI</ion-select-option>
+                  <ion-select-option value="no">NO</ion-select-option>
+                </ion-select>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Nombre Del Vecino</ion-label>
+                <ion-textarea name="observacion" placeholder="Escribir" [clearOnEdit]="true">
+                </ion-textarea>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Celular Vecino</ion-label>
+                <ion-textarea name="observacion" placeholder="Escribir" [clearOnEdit]="true" type="number">
+                </ion-textarea>
+              </ion-item>
+            </div>
+          </ion-accordion>
+        </ion-accordion-group>
+
+        <!-- CUARTO ACORDEON IMAGENES -->
+
+        <ion-accordion-group>
+          <ion-accordion value="datosVeri">
+            <ion-item slot="header" color="light">
+              <ion-label>Verificació De Imágenes</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
 
 
+              <ion-item>
+                <ion-label position="floating">Estabilidad Laboral Mayor 6 Meses</ion-label>
+                <ion-input name="refi_pago_gastos_admin" value="" type="number"></ion-input>
+                <ion-button (click)="addPhotoToGallery()">
+                  Estabilidad Laboral
+                </ion-button>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
+                      <ion-img [src]="photo.webviewPath"></ion-img>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Facturas Proveedores Ultimos 3 Meses</ion-label>
+                <ion-input name="refi_pago_gastos_admin" value="" type="number"></ion-input>
+                <ion-button (click)="addPhotoToGallery()">
+                  Factura Proveedores
+                </ion-button>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
+                      <ion-img [src]="photo.webviewPath"></ion-img>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Foto Exterior Negocio</ion-label>
+                <ion-input name="refi_pago_gastos_admin" value="" type="number"></ion-input>
+                <ion-button (click)="addPhotoToGallery()">
+                  Capturar Exterior Negocio
+                </ion-button>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
+                      <ion-img [src]="photo.webviewPath"></ion-img>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Foto Interior Negocio</ion-label>
+                <ion-input name="refi_pago_gastos_admin" value="" type="number"></ion-input>
+                <ion-button (click)="addPhotoToGallery()">
+                  Capturar Interior Negocio
+                </ion-button>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
+                      <ion-img [src]="photo.webviewPath"></ion-img>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Cliente Dentro Negocio</ion-label>
+                <ion-input name="refi_pago_gastos_admin" value="" type="number"></ion-input>
+                <ion-button (click)="addPhotoToGallery()">
+                  Capturar Cliente Dentro Negocio
+                </ion-button>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
+                      <ion-img [src]="photo.webviewPath"></ion-img>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Cliente Exterior Negocio </ion-label>
+                <ion-input name="refi_pago_gastos_admin" value="" type="number"></ion-input>
+                <ion-button (click)="addPhotoToGallery()">
+                  Capturar Exterior Negocio
+                </ion-button>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
+                      <ion-img [src]="photo.webviewPath"></ion-img>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Titulo Propiedad Garante Codeudor </ion-label>
+                <ion-input name="refi_pago_gastos_admin" value="" type="number"></ion-input>
+                <ion-button (click)="addPhotoToGallery()">
+                  Capturar Titulo Propiedad
+                </ion-button>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
+                      <ion-img [src]="photo.webviewPath"></ion-img>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Impuesto Predial</ion-label>
+                <ion-input name="refi_pago_gastos_admin" value="" type="number"></ion-input>
+                <ion-button (click)="addPhotoToGallery()">
+                  Capturar Impuesto Predial
+                </ion-button>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
+                      <ion-img [src]="photo.webviewPath"></ion-img>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Respaldo Ingresos</ion-label>
+                <ion-input name="refi_pago_gastos_admin" value="" type="number"></ion-input>
+                <ion-button (click)="addPhotoToGallery()">
+                  Capturar Ingresos
+                </ion-button>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
+                      <ion-img [src]="photo.webviewPath"></ion-img>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Certificado Laboral</ion-label>
+                <ion-input name="refi_pago_gastos_admin" value="" type="number"></ion-input>
+                <ion-button (click)="addPhotoToGallery()">
+                  Capturar Certificado Laboral
+                </ion-button>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
+                      <ion-img [src]="photo.webviewPath"></ion-img>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Foto Interior Domicilio</ion-label>
+                <ion-input name="refi_pago_gastos_admin" value="" type="number"></ion-input>
+                <ion-button (click)="addPhotoToGallery()">
+                  Capturar Interior Domicilio
+                </ion-button>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
+                      <ion-img [src]="photo.webviewPath"></ion-img>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-item>
+            </div>
+          </ion-accordion>
+        </ion-accordion-group>
+        <div>
+        </div>
+
+        <ion-item>
+          <ion-label position="floating">Latitud</ion-label>
+          <ion-input value="{{this.nombreUsuario}}" disabled="true" name="refi_usuario"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Longitud</ion-label>
+          <ion-input value="{{this.nombreUsuario}}" disabled="true" name="refi_usuario"></ion-input>
+        </ion-item>
+
+        <!-- BOTON -->
+
+        <ion-button [disabled]="dataForm.invalid" expand="block" color="primary" type="submit">
+          Realizar Verificación
+        </ion-button>
+      </form>
 
 
     </div>
-    <app-button (click)="openModal(getdata.cedulaCliente,getdata.numeroCredito,getdata.usuario)" >Realizar Gestion</app-button>
+    <app-button (click)="openModal(getdata.cedulaCliente,getdata.numeroCredito,getdata.usuario)">Realizar
+      Gestion</app-button>
   </div>
 </ion-content>

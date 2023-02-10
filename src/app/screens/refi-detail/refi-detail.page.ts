@@ -1,13 +1,5 @@
-import {
-  estadoCivilPairs,
-  nivelEduPairs,
-  sexoPairs,
-  tipoViviendaPairs,
-  tiempoResidenciaPairs,
-  tipoFamiliaPairs,
-  referenciaPairs,
-  tipoEmpleoPairs,
-} from 'src/app/models/dictionaries';
+import mapboxgl from 'mapbox-gl/';
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, NgZone } from '@angular/core';
@@ -25,20 +17,27 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 import { PhotoService } from '../../services/photo.service';
-import { ElementRef, ViewChild } from '@angular/core';
-import { GoogleMap, Marker, MapType } from '@capacitor/google-maps';
 
 import { RefiModalMapPage } from 'src/app/components/refi-modal-map/refi-modal-map.page';
 import { dataService } from 'src/app/services/data.service';
 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-declare var mapboxgl: any;
+
 @Component({
   selector: 'app-refi-detail',
   templateUrl: './refi-detail.page.html',
   styleUrls: ['./refi-detail.page.scss'],
 })
 export class RefiDetailPage implements OnInit {
+  selectedDatePrimerPago: string;
+
+  dateChangedPrimerPago(event) {
+    console.dir(event.detail);
+    this.selectedDatePrimerPago = event.detail.value;
+  }
+
+  map;
+  infoPoss = [];
   dataForm = new FormGroup({
     refi_fecha: new FormControl(
       { value: new Date().toUTCString(), disabled: true },
@@ -129,9 +128,6 @@ export class RefiDetailPage implements OnInit {
   markersId: string[] = [];
   imagen_paths: string[] = [];
 
-  @ViewChild('map') mapRef: ElementRef;
-  map: GoogleMap;
-
   public currentDate: string = new Date().toISOString();
 
   constructor(
@@ -151,6 +147,7 @@ export class RefiDetailPage implements OnInit {
   }
 
   async ngOnInit() {
+    this.initMap();
     this.getCurrentCoordinates();
     this.photoService.resetPhotos();
     this.nombreUsuario = JSON.parse(localStorage.getItem('user'));
@@ -249,40 +246,6 @@ export class RefiDetailPage implements OnInit {
 
   addPhotoToGallery() {
     this.photoService.addNewToGallery();
-  }
-
-  ngAfterViewInit() {
-    mapboxgl.accessToken =
-      'pk.eyJ1IjoiZHNhbGF6YXIxOTg4IiwiYSI6ImNsZG95aWhrczBuZHgzb3V1ZWp4bHJqYjIifQ.L1vMimye2NhSQKaxsvbFtQ';
-    const map = new mapboxgl.Map({
-      // style: 'mapbox://styles/mapbox/streets-v12',
-      style: 'mapbox://styles/mapbox/light-v10',
-      center: [17, 50],
-      zoom: 5,
-      pitch: 0,
-      bearing: -17.6,
-      container: 'map',
-      antialias: true,
-    });
-
-    map.on('load', () => {
-      map.resize(); //cambiar el tamanio
-      //marcador|| marker
-
-      new mapboxgl.Marker()
-        .setLngLat([this.longitude, this.latitude])
-        .addTo(map);
-      // console.log(mapboxgl)
-      // Insert the layer beneath any symbol layer.
-      const layers = map.getStyle().layers;
-      let labelLayerId;
-      for (let i = 0; i < layers.length; i++) {
-        if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
-          labelLayerId = layers[i].id;
-          break;
-        }
-      }
-    });
   }
 
   async submitForm(e) {
@@ -473,5 +436,57 @@ export class RefiDetailPage implements OnInit {
       component: RefiModalMapPage,
     });
     await modal.present();
+  }
+
+  initMap() {
+    mapboxgl.accessToken =
+      'pk.eyJ1IjoianF1aWxjaGFtaW4iLCJhIjoiY2xkdzJiaTN4MDM5NjNvbnV4eTI5MmV0MCJ9.xkxeH8IUvBcUTyHOLEORJg';
+    this.map = new mapboxgl.Map({
+      container: 'mapa',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [-79.4698468, -1.0037841],
+      zoom: 18,
+    });
+    // Add the control to the map.
+    this.map.addControl(
+      new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+      })
+    );
+
+    // Create a default Marker and add it to the map.
+    const marker = new mapboxgl.Marker({
+      draggable: true,
+    })
+      .setLngLat([-79.4698468, -1.0037841])
+      .addTo(this.map);
+
+    const coordinates = document.getElementById('coordinates');
+
+    function onDragEnd() {
+      const lngLat = marker.getLngLat();
+      coordinates.style.display = 'block';
+      coordinates.innerHTML = `Longitud: ${lngLat.lng}<br />Latitud: ${lngLat.lat}`;
+    }
+
+    marker.on('dragend', () => {
+      //mostrar coordenadas
+      const features = this.map.queryRenderedFeatures(marker._pos);
+      const lngLat = marker.getLngLat();
+      onDragEnd();
+      console.log(features[0].properties.name);
+      this._services
+        .getCurrentPoss(lngLat.lng, lngLat.lat, mapboxgl.accessToken)
+        .subscribe(
+          (data) => {
+            this.infoPoss = data;
+            console.log(this.infoPoss);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    });
   }
 }

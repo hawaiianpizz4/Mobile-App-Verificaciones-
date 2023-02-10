@@ -11,9 +11,9 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {}
   menuOptions: any[] = [
-    { title: 'Gestiones Cobranza', icon: 'flask', route:'/listing' },
+    { title: 'Gestiones Cobranza', icon: 'flask', route:'/'},
     { title: 'Historiales ', icon: 'logo-github' , route:'/historial'},
-    { title: '----', icon: 'cube', route:'' },
+    { title: 'verificacion', icon: 'map', route:'/verificaciones' },
   ];
 
 }

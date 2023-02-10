@@ -27,6 +27,10 @@ const routes: Routes = [
     path: 'map',
     loadChildren: () => import('./screens/map/map.module').then( m => m.MapPageModule)
   },
+  {
+    path: 'verificaciones',
+    loadChildren: () => import('./screens/verificaciones/verificaciones.module').then( m => m.VerificacionesPageModule)
+  },
 ];
 
 @NgModule({

@@ -27,4 +27,15 @@ export class dataService {
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${lat},${long}.json?access_token=${apiKey}`
     );
   }
+  getUserVerification() {
+    return this._http.get<any>(
+      'http://200.7.249.21:90/ApiVerificaciones/api/verificaciones?consult=UsuariosVerificaciones'
+    );
+  }
+
+  sendRequestVerifi(cedula:number) {
+    return this._http.get<any>(
+      `http://200.7.249.21:90/ApiVerificaciones/api/verificaciones?consult=UpdateUser&cedula=${cedula}`
+    );
+  }
 }

@@ -10,7 +10,7 @@
 
   <div class="card">
     <div class="about">
-         <h1 style="color:rgb(251, 214,71); text-align:center">Formulario De Verificación </h1>
+         <h1 style="color:#FF0000; text-align:center">Formulario De Verificación </h1>
 
       <ion-grid>
         <ion-row justify-content-around>
@@ -38,7 +38,6 @@
         </ion-row>
       </ion-grid>
 
-
       <ion-grid>
         <ion-row justify-content-around>
           <ion-col>
@@ -56,6 +55,7 @@
         <ion-label position="floating">Código</ion-label>
         <ion-input value="{{this.nombreUsuario}}" disabled="true" name="codVer"></ion-input>
       </ion-item>
+
 
       <form [formGroup]="dataFormVer" (ngSubmit)="submitForm()">
         <ion-accordion-group>
@@ -415,6 +415,7 @@
           Realizar Verificación
         </ion-button>
       </form>
+
 
     </div>
   </div>

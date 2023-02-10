@@ -12,6 +12,17 @@ ion-item {
   color: #45bc6e;
 }
 
+#map {
+  margin-top: 1vh;
+  width: 100%;
+  height: 400px;
+}
+
+capacitor-google-maps {
+  display: inline-block;
+  width: 100%;
+  height: 90%;
+}
 
 ion-content {
   --background: #6b45bc;

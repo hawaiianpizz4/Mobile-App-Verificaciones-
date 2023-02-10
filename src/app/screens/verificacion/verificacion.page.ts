@@ -29,7 +29,7 @@ declare var mapboxgl: any;
   styleUrls: ['./verificacion.page.scss'],
 })
 export class VerificacionPage implements OnInit {
-
+  status: boolean;
   dataFormVer = new FormGroup({
     fechaVer: new FormControl(
       { value: new Date().toUTCString(), disabled: true },
@@ -54,7 +54,7 @@ export class VerificacionPage implements OnInit {
 
   ) {
 
-      this.changeStatus();
+      // this.changeStatus();
 
   }
 
@@ -71,26 +71,26 @@ export class VerificacionPage implements OnInit {
 
 
 
-  async changeStatus() {
-    const status = await Network.getStatus();
-   // this.status = status?.connected;
-   // this.status
-      //? this.presentToast('Conectado', 'wifi-outline', 'success')
-      //: this.presentToast('Sin conexion', 'globe-outline', 'warning');
-  }
+  // async changeStatus() {
+  //   const status = await Network.getStatus();
+  //  this.status = status?.connected;
+  //  this.status
+  //     ? this.presentToast('Conectado', 'wifi-outline', 'success')
+  //     : this.presentToast('Sin conexion', 'globe-outline', 'warning');
+  // }
 
 
-  async presentToast(message, iconInsert, color) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration: 2500,
-      position: 'top',
-      icon: iconInsert,
-      color: color,
-    });
+  // async presentToast(message, iconInsert, color) {
+  //   const toast = await this.toastController.create({
+  //     message: message,
+  //     duration: 2500,
+  //     position: 'top',
+  //     icon: iconInsert,
+  //     color: color,
+  //   });
 
-    await toast.present();
-  }
+  //   await toast.present();
+  // }
 
 
 

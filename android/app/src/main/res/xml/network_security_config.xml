@@ -2,8 +2,11 @@
 <network-security-config>
   <domain-config cleartextTrafficPermitted="true">
     <domain includeSubdomains="true">200.7.249.20</domain>
+<<<<<<< HEAD
     <domain includeSubdomains="true">171.23.12.90</domain>
     <domain includeSubdomains="true">171.23.12.43</domain>
     <domain includeSubdomains="true">maps.googleapis.com</domain>
+=======
+>>>>>>> jordy-branch
   </domain-config>
 </network-security-config>

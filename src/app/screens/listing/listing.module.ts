@@ -19,6 +19,6 @@ import { FoodCardModule } from 'src/app/components/food-card/food-card.module';
     SearchbarModule,
     FoodCardModule,
   ],
-  declarations: [ListingPage],
+  declarations: [ListingPage]
 })
 export class ListingPageModule {}

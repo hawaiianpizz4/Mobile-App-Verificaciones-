@@ -1,0 +1,118 @@
+<ion-content>
+  <div class="header">
+    <ion-buttons>
+      <ion-button (click)="exit()">
+        <ion-icon slot="icon-only" name="arrow-back" color="light"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <!-- <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+      <ion-refresher-content
+        pullingIcon="chevron-down-circle-outline"
+        pullingText="Pull to refresh"
+        refreshingSpinner="circles"
+        refreshingText="Actualizando...">
+      </ion-refresher-content>
+    </ion-refresher> -->
+  </div>
+  <div class="card">
+    <div class="image">
+      <ion-img src="assets/images/encuesta.png"></ion-img>
+    </div>
+    <div class="card-content">
+      <div class="card-body">
+        <form (submit)="submitForm($event)" novalidate>
+          <ion-list>
+            <ion-item>
+              <ion-label>Numero de cedula</ion-label>
+              <ion-input name="cedula" type="number"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label>Numero de credito</ion-label>
+              <ion-input
+                name="numCredito"
+                type="number"
+              ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label>Tipo de Gestion</ion-label>
+              <ion-select
+                (ionChange)="handleChange($event)"
+                interface="action-sheet"
+                placeholder="Seleccionar"
+                name="gestion"
+              >
+                <ion-select-option value="Renegociación"
+                  >Renegociación</ion-select-option
+                >
+                <ion-select-option value="Gestión Cobranza"
+                  >Gestión Cobranza</ion-select-option
+                >
+                <ion-select-option value="Recojo">Recojo</ion-select-option>
+                <ion-select-option value="Verificación"
+                  >Verificación</ion-select-option
+                >
+                <ion-select-option value="Matriculación"
+                  >Matriculación</ion-select-option
+                >
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-label>Gestion Cobranza</ion-label>
+              <ion-select
+                (ionChange)="handleChange($event)"
+                id="change"
+                interface="action-sheet"
+                placeholder="Seleccionar"
+                name="cobranza"
+              >
+              </ion-select>
+            </ion-item>
+            <div id="plazo"></div>
+            <div id="valorRene"></div>
+            <ion-item>
+              <ion-label>Observacion Detalle Gestion</ion-label>
+              <ion-textarea
+                name="observacion"
+                placeholder="Escribir"
+                [clearOnEdit]="true"
+              ></ion-textarea>
+            </ion-item>
+            <ion-item>
+              <ion-label>Tipo Contacto</ion-label>
+              <ion-select
+                interface="action-sheet"
+                placeholder="Seleccionar"
+                name="contacto"
+                aria-required="required"
+              >
+                <ion-select-option value="Contactado"
+                  >Contactado</ion-select-option
+                >
+                <ion-select-option value="NoContactado"
+                  >No Contactado</ion-select-option
+                >
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-input name="lat" value="{{latitude}}" disabled="true"
+                ><p>Latitud:</p></ion-input
+              >
+            </ion-item>
+            <ion-item>
+              <ion-input name="long" value="{{longitude}}" disabled="true"
+                ><p>Longitud:</p></ion-input
+              >
+            </ion-item>
+            <ion-row>
+              <ion-col>
+                <ion-button type="submit" color="danger" expand="block"
+                  >Enviar</ion-button
+                >
+              </ion-col>
+            </ion-row>
+          </ion-list>
+        </form>
+      </div>
+    </div>
+  </div>
+</ion-content>

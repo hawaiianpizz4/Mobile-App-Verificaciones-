@@ -1,5 +1,4 @@
 import { Router } from '@angular/router';
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -35,7 +34,7 @@ export class DetailPage implements OnInit {
     v.map((m) => {
       Total.push(m[1]);
     });
-    this.getdata = Total.find((e) => e.cedulaCliente == this.id);
+    this.getdata = Total.find((e) => e.numeroCredito == this.id);
     if (!this.getdata) {
       this.presentToast('Error, El usuario no se pudo encontrar');
       this.redirect();

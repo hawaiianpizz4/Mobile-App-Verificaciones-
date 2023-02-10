@@ -17,8 +17,8 @@ import { ButtonModule } from 'src/app/components/button/button.module';
     IonicModule,
     DetailPageRoutingModule,
     BadgeModule,
-    ButtonModule,
+    ButtonModule
   ],
-  declarations: [DetailPage],
+  declarations: [DetailPage]
 })
 export class DetailPageModule {}

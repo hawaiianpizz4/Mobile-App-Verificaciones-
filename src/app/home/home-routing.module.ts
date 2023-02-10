@@ -6,31 +6,30 @@ const routes: Routes = [
   {
     path: '',
     component: HomePage,
-    children: [
+    children:[
       {
         path: 'listing',
-        loadChildren: () =>
-          import('../screens/listing/listing.module').then(
-            (m) => m.ListingPageModule
-          ),
+        loadChildren: () => import('../screens/listing/listing.module').then( m => m.ListingPageModule)
       },
       {
         path: 'cart',
-        loadChildren: () =>
-          import('../screens/cart/cart.module').then((m) => m.CartPageModule),
+        loadChildren: () => import('../screens/cart/cart.module').then( m => m.CartPageModule)
       },
-
       {
-        path: '',
-        redirectTo: 'listing',
-        pathMatch: 'full',
+        path: 'historial',
+        loadChildren: () => import('../screens/historial/historial.module').then( m => m.HistorialPageModule)
       },
-    ],
-  },
+      {
+        path:'',
+        redirectTo:'listing',
+        pathMatch:'full',
+      }
+    ]
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class HomePageRoutingModule {}

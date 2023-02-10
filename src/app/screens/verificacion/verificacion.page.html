@@ -57,7 +57,7 @@
         <ion-input value="{{this.nombreUsuario}}" disabled="true" name="codVer"></ion-input>
       </ion-item>
 
-      <form (submit)="submitForm($event)" novalidate [formGroup]="dataForm">
+      <form [formGroup]="dataFormVer" (ngSubmit)="submitForm()">
         <ion-accordion-group>
           <ion-accordion value="datosVivienda">
             <ion-item slot="header" color="light">
@@ -402,11 +402,11 @@
           <ion-row justify-content-around>
             <ion-col>
               <ion-label position="floating">Latitud</ion-label>
-              <ion-input value="{{this.nombreUsuario}}" disabled="true" name="latitudVer"></ion-input>
+              <ion-input value="" disabled="true" name="latitudVer"></ion-input>
             </ion-col>
             <ion-col>
               <ion-label position="floating">Longitud</ion-label>
-              <ion-input value="{{this.nombreUsuario}}" disabled="true" name="LongitudVer"></ion-input>
+              <ion-input value="" disabled="true" name="LongitudVer"></ion-input>
             </ion-col>
           </ion-row>
         </ion-grid>

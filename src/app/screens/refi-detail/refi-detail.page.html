@@ -71,7 +71,6 @@
               <ion-item>
                 <ion-label position="floating">Plazo(meses)</ion-label>
                 <ion-select
-                  (ionChange)="handleChange($event)"
                   interface="action-sheet"
                   placeholder="Seleccionar"
                   formControlName="refi_plazo"
@@ -212,10 +211,9 @@
 
                 <ion-select
                   interface="action-sheet"
-                  placeholder="Seleccionarx"
+                  placeholder="Seleccionar"
                   formControlName="cliente_sexo"
                   value="{{getdata.des_sexo}}"
-                  [formControl]="ionSelectSexo"
                 >
                   <ion-select-option value="M">Masculino</ion-select-option>
                   <ion-select-option value="F">Femenino</ion-select-option>
@@ -225,11 +223,9 @@
               <ion-item>
                 <ion-label position="floating">Nivel Educativo</ion-label>
                 <ion-select
-                  (ionChange)="handleChange($event)"
                   interface="action-sheet"
                   placeholder="Seleccionar"
                   formControlName="cliente_nivel_educativo"
-                  [formControl]="ionSelectClienteNivel"
                 >
                   <ion-select-option value="0">Ninguna</ion-select-option>
                   <ion-select-option value="1">Primaria</ion-select-option>
@@ -261,7 +257,6 @@
                   interface="action-sheet"
                   placeholder="Seleccionar"
                   formControlName="cliente_estado_civil"
-                  [formControl]="ionSelectClienteEstadoCivil"
                 >
                   <ion-select-option value="C">Casado(a)</ion-select-option>
                   <ion-select-option value="D">Divorciado(a)</ion-select-option>
@@ -388,7 +383,6 @@
                   interface="action-sheet"
                   placeholder="Seleccionar"
                   formControlName="dir_tipo_vivienda"
-                  [formControl]="ionSelectTipoVivienda"
                 >
                   <ion-select-option value="P">PROPIA</ion-select-option>
                   <ion-select-option value="A">ARRENDADA</ion-select-option>
@@ -678,7 +672,6 @@
                   interface="action-sheet"
                   placeholder="Seleccionar"
                   formControlName="trabajo_tipo_actividad"
-                  [formControl]="ionSelectTrabajoActividad"
                 >
                   <ion-select-option value="DEP">DEPENDENCIA</ion-select-option>
                   <ion-select-option value="IND"

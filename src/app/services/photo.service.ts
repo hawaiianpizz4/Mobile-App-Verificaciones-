@@ -15,6 +15,12 @@ export class PhotoService {
   public photosBase64: string[] = [];
   public photosBlob: Blob[] = [];
 
+  public resetPhotos() {
+    this.photos = []; //
+    this.photosBase64 = []; //
+    this.photosBlob = []; //
+  }
+
   public async addNewToGallery() {
     // Take a photo
     const capturedPhoto = await Camera.getPhoto({

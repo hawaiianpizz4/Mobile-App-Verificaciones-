@@ -39,30 +39,13 @@ declare var mapboxgl: any;
   styleUrls: ['./refi-detail.page.scss'],
 })
 export class RefiDetailPage implements OnInit {
-  selectedDatePrimerPago: string;
-  selectedDateRefi: string;
-  selectedSexo: string;
-
-  dateChangedPrimerPago(event) {
-    console.dir(event.detail);
-    this.selectedDatePrimerPago = event.detail.value;
-  }
-
-  dateChangedRefi(event) {
-    console.dir(event.detail);
-    this.selectedDateRefi = event.detail.value;
-  }
-
-  ionSelectSexo: FormControl = new FormControl([]);
-  ionSelectClienteNivel: FormControl = new FormControl([]);
-  ionSelectClienteEstadoCivil: FormControl = new FormControl([]);
-  ionSelectTipoVivienda: FormControl = new FormControl([]);
-  ionSelectTrabajoActividad: FormControl = new FormControl([]);
-
   dataForm = new FormGroup({
-    refi_fecha: new FormControl('', [Validators.required]),
-    refi_usuario: new FormControl('', []),
-    refi_operacion: new FormControl('', []),
+    refi_fecha: new FormControl(
+      { value: new Date().toUTCString(), disabled: true },
+      []
+    ),
+    refi_usuario: new FormControl({ value: '', disabled: true }, []),
+    refi_operacion: new FormControl({ value: '', disabled: true }, []),
     refi_autorizacion: new FormControl('', []),
     refi_autorizacion_original: new FormControl('', []),
     refi_plazo: new FormControl('', []),
@@ -149,7 +132,7 @@ export class RefiDetailPage implements OnInit {
   @ViewChild('map') mapRef: ElementRef;
   map: GoogleMap;
 
-  public currentDate: string;
+  public currentDate: string = new Date().toISOString();
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -165,20 +148,23 @@ export class RefiDetailPage implements OnInit {
     private modalCtrl: ModalController
   ) {
     this.changeStatus();
-    this.currentDate = new Date().toISOString();
   }
 
   async ngOnInit() {
     this.getCurrentCoordinates();
+    this.photoService.resetPhotos();
     this.nombreUsuario = JSON.parse(localStorage.getItem('user'));
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.operacion = this.activatedRoute.snapshot.paramMap.get('operacion');
 
-    console.log(this.id + ' - ' + this.operacion);
+    console.log(`${this.id} - ${this.operacion} - ${this.currentDate}`);
 
     const users = JSON.parse(localStorage.getItem('refi-storage'));
 
-    // this.getdata = this._services.getDatosCliente(this.id);
+    this.dataForm.controls.refi_fecha.setValue(this.currentDate);
+    this.dataForm.controls.refi_operacion.setValue(this.operacion);
+    this.dataForm.controls.refi_usuario.setValue(this.nombreUsuario);
+    this.dataForm.controls.cliente_cedula.setValue(this.id);
 
     this._services.getDatosCliente(this.id).subscribe(
       (data) => {
@@ -189,11 +175,17 @@ export class RefiDetailPage implements OnInit {
         localStorage.setItem('refi-storage', JSON.stringify(data));
         // console.log(this.getdata['des_sexo']);
 
-        this.ionSelectSexo.setValue(this.getdata['des_sexo']);
-        this.ionSelectClienteNivel.setValue(this.getdata['nivel_instruccion']);
-        this.ionSelectClienteEstadoCivil.setValue(this.getdata['estado_civ']);
-        this.ionSelectTipoVivienda.setValue(this.getdata['tipo_vivienda']);
-        this.ionSelectTrabajoActividad.setValue(
+        this.dataForm.controls.cliente_sexo.setValue(this.getdata['des_sexo']);
+        this.dataForm.controls.cliente_nivel_educativo.setValue(
+          this.getdata['nivel_instruccion']
+        );
+        this.dataForm.controls.cliente_estado_civil.setValue(
+          this.getdata['estado_civ']
+        );
+        this.dataForm.controls.dir_tipo_vivienda.setValue(
+          this.getdata['tipo_vivienda']
+        );
+        this.dataForm.controls.trabajo_tipo_actividad.setValue(
           this.getdata['relacion_dependencia']
         );
       },
@@ -294,6 +286,14 @@ export class RefiDetailPage implements OnInit {
   }
 
   async submitForm(e) {
+    let cliente_sexo;
+
+    this.dataForm.controls['cliente_sexo'].valueChanges.subscribe(
+      (selectedValue) => {
+        console.log(selectedValue);
+        cliente_sexo = selectedValue;
+      }
+    );
     const postData = {
       refi_usuario: this.dataForm.controls.refi_usuario.value,
       refi_fecha: this.dataForm.controls.refi_fecha.value,
@@ -302,7 +302,7 @@ export class RefiDetailPage implements OnInit {
       refi_autorizacion_original:
         this.dataForm.controls.refi_autorizacion_original.value,
       refi_plazo: this.dataForm.controls.refi_plazo.value,
-      refi_valor_cuota: this.dataForm.controls.refi_valor_cuota.value,
+      refi_valor_cuota: this.dataForm.get('refi_valor_cuota').value,
       refi_pago_gastos_admin:
         this.dataForm.controls.refi_pago_gastos_admin.value,
       refi_total_reest: this.dataForm.controls.refi_total_reest.value,
@@ -314,11 +314,12 @@ export class RefiDetailPage implements OnInit {
         this.dataForm.controls.cliente_ciudad_nacimiento.value,
       cliente_fecha_nacimiento:
         this.dataForm.controls.cliente_fecha_nacimiento.value,
-      cliente_sexo: this.dataForm.controls.cliente_sexo.value,
-      cliente_nivel_educativo:
-        this.dataForm.controls.cliente_nivel_educativo.value,
+      // cliente_sexo: this.dataForm.controls.cliente_sexo.value,
+      cliente_sexo: this.dataForm.get('cliente_sexo').value,
+      cliente_nivel_educativo: this.dataForm.get('cliente_nivel_educativo')
+        .value,
       cliente_profesion: this.dataForm.controls.cliente_profesion.value,
-      cliente_estado_civil: this.dataForm.controls.cliente_estado_civil.value,
+      cliente_estado_civil: this.dataForm.get('cliente_estado_civil').value,
       cliente_numero_dependientes:
         this.dataForm.controls.cliente_numero_dependientes.value,
       dir_direccion_exacta: this.dataForm.controls.dir_direccion_exacta.value,
@@ -331,7 +332,7 @@ export class RefiDetailPage implements OnInit {
       dir_latitud: this.dataForm.controls.dir_latitud.value,
       dir_longitud: this.dataForm.controls.dir_longitud.value,
       dir_referencia: this.dataForm.controls.dir_referencia.value,
-      dir_tipo_vivienda: this.dataForm.controls.dir_tipo_vivienda.value,
+      dir_tipo_vivienda: this.dataForm.get('dir_tipo_vivienda').value,
       dir_tiempo: this.dataForm.controls.dir_tiempo.value,
       dir_telf_1: this.dataForm.controls.dir_telf_1.value,
       dir_telf_2: this.dataForm.controls.dir_telf_2.value,
@@ -343,8 +344,7 @@ export class RefiDetailPage implements OnInit {
       conyuge_email: this.dataForm.controls.conyuge_email.value,
       conyuge_telf_1: this.dataForm.controls.conyuge_telf_1.value,
       conyuge_telf_2: this.dataForm.controls.conyuge_telf_2.value,
-      conyuge_tipo_actividad:
-        this.dataForm.controls.conyuge_tipo_actividad.value,
+      conyuge_tipo_actividad: this.dataForm.get('conyuge_tipo_actividad').value,
       conyuge_nombre_empresa:
         this.dataForm.controls.conyuge_nombre_empresa.value,
       conyuge_actividad_empresa:
@@ -362,8 +362,7 @@ export class RefiDetailPage implements OnInit {
       ref2_parentesco: this.dataForm.controls.ref2_parentesco.value,
       ref2_telf_1: this.dataForm.controls.ref2_telf_1.value,
       ref2_telf_2: this.dataForm.controls.ref2_telf_2.value,
-      trabajo_tipo_actividad:
-        this.dataForm.controls.trabajo_tipo_actividad.value,
+      trabajo_tipo_actividad: this.dataForm.get('trabajo_tipo_actividad').value,
       trabajo_ruc: this.dataForm.controls.trabajo_ruc.value,
       trabajo_nombre: this.dataForm.controls.trabajo_nombre.value,
       trabajo_provincia: this.dataForm.controls.trabajo_provincia.value,
@@ -462,7 +461,11 @@ export class RefiDetailPage implements OnInit {
   handleChange(event: Event) {}
 
   redirect() {
-    this.navCtrl.navigateForward('home/listing');
+    // this.navCtrl.navigateForward('home/listing');
+    this.navCtrl.navigateRoot('/home/listing', {
+      animated: true,
+      animationDirection: 'forward',
+    });
   }
 
   async openModal() {

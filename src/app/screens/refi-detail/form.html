@@ -1,0 +1,588 @@
+<form (submit)="submitForm($event)" novalidate>
+  <ion-accordion-group>
+    <ion-accordion value="datosRefi">
+      <ion-item slot="header" color="light">
+        <ion-label>Datos Refinanciamiento</ion-label>
+      </ion-item>
+
+      <div class="ion-padding" slot="content">
+        <h1>Nombre de Refinanciador</h1>
+        <ion-input value="{{this.nombreUsuario}}" disabled="true"></ion-input>
+
+        <h1>Número de Operacion</h1>
+        <ion-input value="{{getdata.operacion}}" name="operacion"></ion-input>
+
+        <h1>Número de Autorización</h1>
+        <ion-input
+          value="{{getdata.autorizacion}}"
+          name="autorizacion"
+        ></ion-input>
+
+        <h1>Número de Autorización Original</h1>
+        <ion-input
+          value="{{getdata.autorizacion_original}}"
+          name="autorizacion_original"
+        ></ion-input>
+
+        <h1>Plazo(meses)</h1>
+        <ion-select
+          (ionChange)="handleChange($event)"
+          interface="action-sheet"
+          placeholder="Seleccionar"
+          name="refi_plazo"
+        >
+          <ion-select-option value="3">3</ion-select-option>
+          <ion-select-option value="6">6</ion-select-option>
+          <ion-select-option value="9">9</ion-select-option>
+          <ion-select-option value="12">12</ion-select-option>
+          <ion-select-option value="15">15</ion-select-option>
+          <ion-select-option value="18">18</ion-select-option>
+          <ion-select-option value="24">24</ion-select-option>
+          <ion-select-option value="32">32</ion-select-option>
+          <ion-select-option value="48">48</ion-select-option>
+        </ion-select>
+
+        <h1>Valor Cuota</h1>
+        <ion-input
+          value="{{getdata.refi_valor_cuota}}"
+          name="refi_valor_cuota"
+        ></ion-input>
+
+        <h1>Fecha Primer Pago</h1>
+        <ion-input
+          value="{{getdata.refi_fecha_primer_pago}}"
+          name="refi_fecha_primer_pago"
+        ></ion-input>
+
+        <h1>Pago de Gastos Administrativos</h1>
+        <ion-input
+          value="{{getdata.refi_pago_gastos_administrativos}}"
+          name="refi_pago_gastos_administrativos"
+        ></ion-input>
+
+        <ion-button (click)="addPhotoToGallery()">
+          Capturar Comprobante
+        </ion-button>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col
+              size="6"
+              *ngFor="let photo of photoService.photos; index as position"
+            >
+              <ion-img [src]="photo.webviewPath"></ion-img>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <h1>Total Reestructuración</h1>
+        <ion-input
+          value="{{getdata.refi_total_reestructuracion}}"
+          name="refi_total_reestructuracion"
+        ></ion-input>
+
+        <h1>Total a Pagar</h1>
+        <ion-input
+          value="{{getdata.refi_total_a_pagar}}"
+          name="refi_total_a_pagar"
+        ></ion-input>
+      </div>
+    </ion-accordion>
+
+    <ion-accordion value="datosPersonales">
+      <ion-item slot="header" color="light">
+        <ion-label>Datos Personales</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <h1>Cedula</h1>
+        <ion-input
+          value="{{getdata.cedula}}"
+          disabled="true"
+          name="cedula"
+        ></ion-input>
+
+        <h1>Nombres Completos</h1>
+        <ion-input
+          value="{{getdata.cliente_nombres_completos}}"
+          disabled="true"
+          name="cliente_nombres_completos"
+        ></ion-input>
+
+        <h1>Nacionalidad</h1>
+        <ion-input
+          value="{{getdata.cliente_nacionalidad}}"
+          disabled="true"
+          name="cliente_nacionalidad"
+        ></ion-input>
+
+        <h1>Ciudad Nacimiento</h1>
+        <ion-input
+          value="{{getdata.cliente_ciudad_nacimiento}}"
+          disabled="true"
+          name="cliente_ciudad_nacimiento"
+        ></ion-input>
+
+        <h1>Fecha Nacimiento</h1>
+        <ion-input
+          value="{{getdata.cliente_fecha_nacimiento}}"
+          disabled="true"
+          name="cliente_fecha_nacimiento"
+        ></ion-input>
+
+        <h1>Sexo</h1>
+        <ion-input
+          value="{{getdat 1a.cliente_sexo}}"
+          disabled="true"
+          name="cliente_sexo"
+        ></ion-input>
+
+        <h1>Nivel Educativo</h1>
+        <ion-select
+          (ionChange)="handleChange($event)"
+          interface="action-sheet"
+          placeholder="Seleccionar"
+          name="cliente_nivel_educativo"
+        >
+          <ion-select-option value="3">3</ion-select-option>
+          <ion-select-option value="6">6</ion-select-option>
+          <ion-select-option value="9">9</ion-select-option>
+        </ion-select>
+
+        <h1>Profesión</h1>
+        <ion-input
+          value="{{getdata.cliente_profesion}}"
+          disabled="true"
+          name="cliente_profesion"
+        ></ion-input>
+
+        <h1>Estado Civil</h1>
+        <ion-select
+          (ionChange)="handleChange($event)"
+          interface="action-sheet"
+          placeholder="Seleccionar"
+          name="cliente_estado_civil"
+        >
+          <ion-select-option value="3">3</ion-select-option>
+          <ion-select-option value="6">6</ion-select-option>
+          <ion-select-option value="9">9</ion-select-option>
+        </ion-select>
+
+        <h1>Número Dependientes</h1>
+        <ion-input
+          value="{{getdata.cliente_numero_dependientes}}"
+          name="cliente_numero_dependientes"
+        ></ion-input>
+      </div>
+    </ion-accordion>
+
+    <ion-accordion value="Ubicacion">
+      <ion-item slot="header" color="light">
+        <ion-label>Ubicación del Cliente</ion-label>
+      </ion-item>
+
+      <!-- <input type="text" [(ngModel)]="address" />
+        <button ion-button (click)="getLatLng()">
+          Get Latitude and Longitude
+        </button>
+        <div #map id="map" style="height: 300px; width: 100%"></div> -->
+
+      <div class="ion-padding" slot="content">
+        <h1>Dirección Exacta</h1>
+        <ion-input
+          value="{{getdata.dir_direccion_exacta}}"
+          name="dir_direccion_exacta"
+        ></ion-input>
+
+        <!-- <div id="container">
+            <capacitor-google-maps id="map" #map></capacitor-google-maps>
+          </div> -->
+
+        <div id="map"></div>
+
+        <h1>Provincia</h1>
+        <ion-input
+          value="{{getdata.dir_provincia}}"
+          name="dir_provincia"
+          disabled="false"
+        ></ion-input>
+
+        <h1>Cantón/Ciudad</h1>
+        <ion-input
+          value="{{getdata.dir_canton_ciudad}}"
+          name="dir_canton_ciudad"
+          disabled="false"
+        ></ion-input>
+
+        <h1>Parroquia</h1>
+        <ion-input
+          value="{{getdata.dir_parroquia}}"
+          name="dir_parroquia"
+          disabled="false"
+        ></ion-input>
+
+        <h1>Barrio</h1>
+        <ion-input
+          value="{{getdata.dir_barrio}}"
+          name="dir_barrio"
+          disabled="false"
+        ></ion-input>
+
+        <h1>Dirección</h1>
+        <ion-input
+          value="{{getdata.dir_direccion}}"
+          name="dir_direccion"
+          disabled="true"
+        ></ion-input>
+
+        <h1>Número</h1>
+        <ion-input
+          value="{{getdata.dir_direccion}}"
+          name="dir_direccion"
+          disabled="true"
+        ></ion-input>
+
+        <h1>Latitud</h1>
+        <ion-input
+          value="{{getdata.dir_latitud}}"
+          name="dir_latitud"
+          disabled="true"
+        ></ion-input>
+
+        <h1>Longitud</h1>
+        <ion-input
+          value="{{getdata.dir_longitud}}"
+          name="dir_longitud"
+          disabled="true"
+        ></ion-input>
+
+        <h1>Código Postal</h1>
+        <ion-input
+          value="{{getdata.dir_cod_postal}}"
+          name="dir_cod_postal"
+        ></ion-input>
+
+        <h1>Número de Casa</h1>
+        <ion-input
+          value="{{getdata.dir_num_casa}}"
+          name="dir_num_casa"
+        ></ion-input>
+
+        <h1>Calle Transversal</h1>
+        <ion-input
+          value="{{getdata.dir_calle_transversal}}"
+          name="dir_calle_transversal"
+        ></ion-input>
+
+        <h1>Referencia</h1>
+        <ion-input
+          value="{{getdata.dir_referencia}}"
+          name="dir_referencia"
+        ></ion-input>
+
+        <h1>Tipo Vivienda</h1>
+        <ion-select
+          (ionChange)="handleChange($event)"
+          interface="action-sheet"
+          placeholder="Seleccionar"
+          name="dir_tipo_vivienda"
+        >
+          <ion-select-option value="3">3</ion-select-option>
+          <ion-select-option value="6">6</ion-select-option>
+          <ion-select-option value="9">9</ion-select-option>
+        </ion-select>
+
+        <h1>Planilla Servicio Básico</h1>
+        <ion-input
+          value="{{getdata.dir_planilla}}"
+          name="dir_planilla"
+        ></ion-input>
+
+        <h1>Tiempo Residencia</h1>
+        <ion-input value="{{getdata.dir_tiempo}}" name="dir_tiempo"></ion-input>
+
+        <h1>Teléfono Domicilio</h1>
+        <ion-input
+          value="{{getdata.dir_telf_domicilio}}"
+          name="dir_celular"
+        ></ion-input>
+
+        <h1>Teléfono Celular</h1>
+        <ion-input
+          value="{{getdata.dir_celular}}"
+          name="dir_celular"
+        ></ion-input>
+
+        <h1>Email</h1>
+        <ion-input
+          value="{{getdata.dir_correo_electronico}}"
+          name="dir_correo_electronico"
+        ></ion-input>
+
+        <h1>Nombre Arrendador/Familiar</h1>
+        <ion-input
+          value="{{getdata.dir_nombre_arrendador}}"
+          name="dir_nombre_arrendador"
+        ></ion-input>
+
+        <h1>Número Arrendador/Familiar</h1>
+        <ion-input
+          value="{{getdata.dir_numero_arrendador}}"
+          name="dir_numero_arrendador"
+        ></ion-input>
+
+        <h1>Celular Arrendador/Familiar</h1>
+        <ion-input
+          value="{{getdata.dir_celular_arrendador}}"
+          name="dir_celular_arrendador"
+        ></ion-input>
+      </div>
+    </ion-accordion>
+
+    <ion-accordion value="datosConyuge">
+      <ion-item slot="header" color="light">
+        <ion-label>Datos de Cónyuge</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <h1>Cédula</h1>
+        <ion-input
+          value="{{getdata.conyuge_cedula}}"
+          name="conyuge_cedula"
+        ></ion-input>
+
+        <h1>Nombres Completos</h1>
+        <ion-input
+          value="{{getdata.conyuge_nombres}}"
+          name="conyuge_nombres"
+        ></ion-input>
+
+        <h1>Email</h1>
+        <ion-input
+          value="{{getdata.conyuge_correo_electronico}}"
+          name="conyuge_correo_electronico"
+        ></ion-input>
+
+        <h1>Celular</h1>
+        <ion-input
+          value="{{getdata.conyuge_celular}}"
+          name="conyuge_celular"
+        ></ion-input>
+
+        <h1>Teléfono Domicilio</h1>
+        <ion-input
+          value="{{getdata.conyuge_telefono}}"
+          name="conyuge_celular"
+        ></ion-input>
+      </div>
+    </ion-accordion>
+
+    <ion-accordion value="actividadConyuge">
+      <ion-item slot="header" color="light">
+        <ion-label>Actividad Económica de Cónyuge</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <h1>Tipo de Actividad Económica</h1>
+        <ion-select
+          (ionChange)="handleChange($event)"
+          interface="action-sheet"
+          placeholder="Seleccionar"
+          name="conyuge_tipo_actividad"
+        >
+          <ion-select-option value="3">3</ion-select-option>
+          <ion-select-option value="6">6</ion-select-option>
+          <ion-select-option value="9">9</ion-select-option>
+        </ion-select>
+
+        <h1>Nombre Empresa</h1>
+        <ion-input
+          value="{{getdata.conyuge_cedula}}"
+          name="conyuge_nombre_empresa"
+          disabled="true"
+        ></ion-input>
+
+        <h1>Actividad Empresa</h1>
+        <ion-input
+          value="{{getdata.conyuge_apellido_paterno}}"
+          name="conyuge_actividad_empresa"
+          disabled="true"
+        ></ion-input>
+
+        <h1>Cargo</h1>
+        <ion-input
+          value="{{getdata.conyuge_nombre_empresa}}"
+          name="conyuge_cargo"
+        ></ion-input>
+
+        <h1>Teléfono Empresa</h1>
+        <ion-input
+          value="{{getdata.conyuge_nombres}}"
+          name="conyuge_telefono_empresa"
+        ></ion-input>
+
+        <h1>Ingresos Mensuales</h1>
+        <ion-input
+          value="{{getdata.conyuge_nombres}}"
+          name="conyuge_ingresos_mensuales"
+        ></ion-input>
+      </div>
+    </ion-accordion>
+
+    <ion-accordion value="ref1">
+      <ion-item slot="header" color="light">
+        <ion-label>Referencia #1</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <h1>Nombres Completos</h1>
+        <ion-input
+          value="{{getdata.ref1_nombres}}"
+          name="ref1_nombres"
+        ></ion-input>
+
+        <h1>Parentesco</h1>
+        <ion-input
+          value="{{getdata.ref1_parentesco}}"
+          name="ref1_parentesco"
+        ></ion-input>
+
+        <h1>Teléfono Celular</h1>
+        <ion-input
+          value="{{getdata.ref1_celular1}}"
+          name="ref1_celular1"
+        ></ion-input>
+
+        <h1>Teléfono Fijo</h1>
+        <ion-input
+          value="{{getdata.ref1_celular2}}"
+          name="ref1_celular2"
+        ></ion-input>
+      </div>
+    </ion-accordion>
+
+    <ion-accordion value="ref2">
+      <ion-item slot="header" color="light">
+        <ion-label>Referencia #2</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <h1>Nombres Completos</h1>
+        <ion-input
+          value="{{getdata.ref2_nombres}}"
+          name="ref2_nombres"
+        ></ion-input>
+
+        <h1>Parentesco</h1>
+        <ion-input
+          value="{{getdata.ref2_parentesco}}"
+          name="ref2_parentesco"
+        ></ion-input>
+
+        <h1>Teléfono Celular</h1>
+        <ion-input
+          value="{{getdata.ref2_celular1}}"
+          name="ref2_celular1"
+        ></ion-input>
+
+        <h1>Teléfono Domicilio</h1>
+        <ion-input
+          value="{{getdata.ref2_celular2}}"
+          name="ref2_celular2"
+        ></ion-input>
+      </div>
+    </ion-accordion>
+
+    <ion-accordion value="ActEconómica">
+      <ion-item slot="header" color="light">
+        <ion-label>Actividad Económica</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <h1>Actividad Económica Cliente</h1>
+
+        <ion-select
+          (ionChange)="handleChange($event)"
+          interface="action-sheet"
+          placeholder="Seleccionar"
+          name="trabajo_actividad"
+        >
+          <ion-select-option value="Dependiente">Dependiente</ion-select-option>
+          <ion-select-option value="Independiente"
+            >Independiente</ion-select-option
+          >
+        </ion-select>
+      </div>
+    </ion-accordion>
+
+    <ion-accordion value="negocio">
+      <ion-item slot="header" color="light">
+        <ion-label>Datos Negocio/Trabajo</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <h1>Ruc</h1>
+        <ion-input
+          value="{{getdata.trabajo_ruc}}"
+          name="trabajo_ruc"
+        ></ion-input>
+
+        <h1>Nombre</h1>
+        <ion-input
+          value="{{getdata.trabajo_nombre}}"
+          name="trabajo_nombre"
+        ></ion-input>
+
+        <h1>Provincia</h1>
+        <ion-input
+          value="{{getdata.trabajo_provincia}}"
+          name="trabajo_provincia"
+        ></ion-input>
+
+        <h1>Cantón/Ciudad</h1>
+        <ion-input
+          value="{{getdata.trabajo_canton}}"
+          name="trabajo_canton"
+        ></ion-input>
+
+        <h1>Parroquia/Barrio</h1>
+        <ion-input
+          value="{{getdata.trabajo_provincia}}"
+          name="trabajo_provincia"
+        ></ion-input>
+
+        <h1>Dirección</h1>
+        <ion-input
+          value="{{getdata.trabajo_telefono1}}"
+          name="trabajo_direccion"
+        ></ion-input>
+
+        <h1>Número</h1>
+        <ion-input
+          value="{{getdata.trabajo_telefono1}}"
+          name="trabajo_numero"
+        ></ion-input>
+
+        <h1>Calle Transversal</h1>
+        <ion-input
+          value="{{getdata.trabajo_telefono1}}"
+          name="trabajo_calle_transversal"
+        ></ion-input>
+
+        <h1>Referencia Ubicacion</h1>
+        <ion-input
+          value="{{getdata.trabajo_telefono1}}"
+          name="trabajo_ref_ubicacion"
+        ></ion-input>
+
+        <h1>Teléfono</h1>
+        <ion-input
+          value="{{getdata.trabajo_telefono1}}"
+          name="trabajo_telefono"
+        ></ion-input>
+
+        <h1>Antigüedad</h1>
+        <ion-input
+          value="{{getdata.trabajo_telefono1}}"
+          name="trabajo_antiguedad"
+        ></ion-input>
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
+  <ion-button type="submit" color="danger" expand="block"
+    >Realizar Gestion
+  </ion-button>
+</form>

@@ -1,0 +1,16 @@
+<div class="card" (click)="clicked.emit()">
+  <ion-img></ion-img>
+  <div class="card-content">
+    <h3 class="title">
+      {{ cliente.cliente_nombres }} {{ cliente.cliente_apellido_paterno }}
+      {{ cliente.cliente_apellido_materno }}
+    </h3>
+    <h2 class="subtitle">{{ cliente.cedula }}</h2>
+
+    <ion-buttons>
+      <ion-button>
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </div>
+</div>

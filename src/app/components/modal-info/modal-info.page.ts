@@ -87,7 +87,6 @@ export class ModalInfoPage implements OnInit {
     await toast.present();
   }
 
-
   submitForm(e) {
     e.preventDefault();
     const {

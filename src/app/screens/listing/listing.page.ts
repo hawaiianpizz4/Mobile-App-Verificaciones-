@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, ModalController, ToastController } from '@ionic/angular';
+import {
+  AlertController,
+  ModalController,
+  ToastController,
+} from '@ionic/angular';
 import { dataService } from 'src/app/services/data.service';
 import { ModalManualPage } from '../modal-manual/modal-manual.page';
 
@@ -19,14 +23,13 @@ export class ListingPage implements OnInit {
     private _services: dataService,
     private alertController: AlertController,
     private toastCtrl: ToastController,
-    private modalCtrl: ModalController,
-  ) {
-  }
- 
+    private modalCtrl: ModalController
+  ) {}
+
   handleRefresh(event) {
     setTimeout(() => {
-      if(this.usuarioInsert=localStorage.getItem("user").length>2){
-        localStorage.setItem('storage',JSON.stringify([]));
+      if ((this.usuarioInsert = localStorage.getItem('user').length > 2)) {
+        localStorage.setItem('storage', JSON.stringify([]));
         this._services
           .getDatos(JSON.parse(localStorage.getItem('user')))
           .subscribe(
@@ -38,13 +41,17 @@ export class ListingPage implements OnInit {
               console.log(error);
             }
           );
-      }else{
+      } else {
         this.presentAlert();
-      }  
+      }
       event.target.complete();
-      this.presentToast("La Informacion ha sido Actualizada correctamente","pulse-outline","success");
+      this.presentToast(
+        'La Informacion ha sido Actualizada correctamente',
+        'pulse-outline',
+        'success'
+      );
     }, 2000);
-  };
+  }
   ngOnInit() {
     if (!localStorage.getItem('storage')) {
       if (localStorage.getItem('user')) {
@@ -54,13 +61,12 @@ export class ListingPage implements OnInit {
             (data) => {
               this.getdata = data;
               localStorage.setItem('storage', JSON.stringify(data));
-              
             },
             (error) => {
               console.log(error);
             }
           );
-      }else{
+      } else {
         this.presentAlert();
       }
     } else {
@@ -68,10 +74,10 @@ export class ListingPage implements OnInit {
     }
     // console.log(this.getdata);
   }
-  
+
   async openModal() {
     const modal = await this.modalCtrl.create({
-      component: ModalManualPage
+      component: ModalManualPage,
     });
     return await modal.present();
   }
@@ -80,7 +86,8 @@ export class ListingPage implements OnInit {
     const alert = await this.alertController.create({
       header: 'Ingresa tu usuario',
       subHeader: 'Este usuario no se podra cambiar!',
-      message:'Mediante el usuario se filtrara la información que se mostrara en la aplicación',
+      message:
+        'Mediante el usuario se filtrara la información que se mostrara en la aplicación',
       inputs: [
         {
           placeholder: 'UsuarioMbcase',
@@ -113,16 +120,16 @@ export class ListingPage implements OnInit {
     v.map((m) => {
       Total.push(m[1]);
     });
-    this.results = Total.filter((e) => e.cedulaCliente.includes(query));
+    this.results = Total.filter((e) => e.numeroCredito.includes(query));
   }
-  async presentToast(mensaje,icon,color){
+  async presentToast(mensaje, icon, color) {
     const toast = await this.toastCtrl.create({
-      message:mensaje,
-      mode:'ios',
-      duration:2000,
-      position:'top',
+      message: mensaje,
+      mode: 'ios',
+      duration: 2000,
+      position: 'top',
       icon: icon,
-      color:color
+      color: color,
     });
     toast.present();
   }

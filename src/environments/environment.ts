@@ -10,6 +10,10 @@ export const environment = {
     // 'http://200.7.249.20/vision360ServicioCliente/Api_rest_movil/controller/',
     'http://171.23.12.43/API_Cobranzas/controller/',
   // 'http://172.16.10.78/API_Cobranzas/controller/',
+  apiUrlTest:
+    // 'http://200.7.249.20/vision360ServicioCliente/Api_rest_movil/controller/',
+    'http://171.23.12.43/API_Cobranzas/controller/',
+  // 'http://172.16.10.78/API_Cobranzas/controller/',
 };
 
 /*

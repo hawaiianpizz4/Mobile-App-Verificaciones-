@@ -249,14 +249,6 @@ export class RefiDetailPage implements OnInit {
   }
 
   async submitForm(e) {
-    let cliente_sexo;
-
-    this.dataForm.controls['cliente_sexo'].valueChanges.subscribe(
-      (selectedValue) => {
-        console.log(selectedValue);
-        cliente_sexo = selectedValue;
-      }
-    );
     const postData = {
       refi_usuario: this.dataForm.controls.refi_usuario.value,
       refi_fecha: this.dataForm.controls.refi_fecha.value,

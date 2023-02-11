@@ -13,7 +13,7 @@ import { Network } from '@capacitor/network';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
-import { PhotoService } from '../../services/photo.service';
+import { PhotoService } from '../../services/photo.serviceTest';
 import { ElementRef, ViewChild } from '@angular/core';
 
 import { dataService } from 'src/app/services/data.service';
@@ -35,10 +35,10 @@ export class VerificacionPage implements OnInit {
       { value: new Date().toUTCString(), disabled: true },
       []
     ),
-    nombre_tienda: new FormControl({ value: '', disabled: true }, []),
-    nombre_cliente: new FormControl({ value: '', disabled: true }, []),
-    numero_cedula: new FormControl({ value: '', disabled: true }, []),
-    direccion_cliente: new FormControl({ value: '', disabled: true }, []),
+    nombre_tienda: new FormControl('', []),
+    nombre_cliente: new FormControl('', []),
+    numero_cedula: new FormControl('', []),
+    direccion_cliente: new FormControl('', []),
     tipo_vivienda: new FormControl('', []),
     persona_verificacion: new FormControl('', []),
     tiempo_residencia: new FormControl('', []),
@@ -215,5 +215,17 @@ export class VerificacionPage implements OnInit {
       animated: true,
       animationDirection: 'forward',
     });
+  }
+
+  async addPhotoEstabilidad() {
+    const photos = await this.photoService.addNewToGallery(
+      this.photoService.photosEsta,
+      this.photoService.photosEsta64
+    );
+
+    this.photoService.photosEsta = photos['photosEsta'];
+    this.photoService.photosEsta64 = photos['photosEsta64'];
+
+    console.log(this.photoService.photosEsta64);
   }
 }

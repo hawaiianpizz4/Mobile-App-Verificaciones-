@@ -276,16 +276,18 @@
             </ion-item>
             <div class="ion-padding" slot="content">
               <ion-item>
-                <ion-label>Estabilidad Laboral Mayor 6 Meses</ion-label>
-
-                <ion-button (click)="addPhotoToGallery()">
+                <ion-label position="floating"
+                  >Estabilidad Laboral Mayor 6 Meses</ion-label
+                >
+                <ion-input value="" type="number"></ion-input>
+                <ion-button (click)="addPhotoEstabilidad()">
                   Estabilidad Laboral
                 </ion-button>
                 <ion-grid>
                   <ion-row>
                     <ion-col
                       size="6"
-                      *ngFor="let photo of photoService.photos; index as position"
+                      *ngFor="let photo of photoService.photosEsta; index as position"
                     >
                       <ion-img [src]="photo.webviewPath"></ion-img>
                     </ion-col>

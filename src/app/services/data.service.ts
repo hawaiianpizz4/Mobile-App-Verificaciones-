@@ -38,4 +38,10 @@ export class dataService {
       `http://200.7.249.21:90/ApiVerificaciones/api/verificaciones?consult=UpdateUser&cedula=${cedula}`
     );
   }
+
+  getUsersVerifi2() {
+    return this._http.get<any>(
+      `http://200.7.249.21:90/ApiVerificaciones/api/verificaciones?consult=VerificationforUser&nombreGestor=MRAMIREZ`
+    )
+  }
 }

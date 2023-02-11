@@ -31,6 +31,11 @@ const routes: Routes = [
     path: 'verificaciones',
     loadChildren: () => import('./screens/verificaciones/verificaciones.module').then( m => m.VerificacionesPageModule)
   },
+  {
+    path: 'verificaciones2',
+    loadChildren: () => import('./screens/verificaciones2/verificaciones2.module').then( m => m.Verificaciones2PageModule)
+  },
+
 ];
 
 @NgModule({

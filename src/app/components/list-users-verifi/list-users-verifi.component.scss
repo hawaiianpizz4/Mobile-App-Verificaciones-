@@ -1,0 +1,43 @@
+.card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem;
+    border: 2px solid #ddd;
+    border-radius: 15px;
+  }
+  
+  .icon-container {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ddd;
+    border-radius: 50%;
+    ion-icon{
+        font-size: 2rem;
+    }
+  }
+  
+  .info-container {
+    width: calc(100% - 60px);
+    padding-left: 1rem;
+    h5{
+        font-weight: 600;
+    }
+    strong{
+        font-size: 0.9rem;
+    }
+    p{
+        font-size: 0.8rem;
+    }
+    ion-button{
+        background-color: #ddd;
+    }
+  }
+  
+  .fa-thumbs-up {
+    font-size: 2rem;
+    color: #333;
+  }

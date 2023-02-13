@@ -13,12 +13,10 @@ export class PhotoService {
   constructor() {}
   public photos: UserPhoto[] = [];
   public photosBase64: string[] = [];
-  public photosBlob: Blob[] = [];
 
   public resetPhotos() {
     this.photos = []; //
     this.photosBase64 = []; //
-    this.photosBlob = []; //
   }
 
   public async addNewToGallery() {
@@ -42,7 +40,6 @@ export class PhotoService {
     const blob = new Blob([await response.arrayBuffer()], {
       type: 'image/png',
     });
-    this.photosBlob.unshift(blob);
   }
 
   private async readAsBase64(webviewPath: string) {

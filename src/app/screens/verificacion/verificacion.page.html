@@ -18,58 +18,48 @@
           <ion-row justify-content-around>
             <ion-col>
               <ion-label position="floating">Nombre Gestor</ion-label>
-              <ion-input
-                value="{{this.nombreUsuario}}"
-                formControlName="nombre_gestor"
-              ></ion-input>
+              <ion-input value="{{this.nombreUsuario}}" formControlName="nombre_gestor"></ion-input>
             </ion-col>
             <ion-col>
               <ion-label position="floating">Fecha actual</ion-label>
-              <ion-input
-                value="{{this.nombreUsuario}}"
-                formControlName="fecha_actual"
-              ></ion-input>
+              <ion-input value="{{this.nombreUsuario}}" formControlName="fecha_actual"></ion-input>
             </ion-col>
           </ion-row>
-        </ion-grid>
 
-        <ion-grid>
           <ion-row justify-content-around>
             <ion-col>
               <ion-label position="floating">Nombre Tienda</ion-label>
-              <ion-input
-                value="{{this.nombreUsuario}}"
-                formControlName="nombre_tienda"
-              ></ion-input>
+              <ion-input value="{{this.nombreUsuario}}" formControlName="nombre_tienda"></ion-input>
             </ion-col>
             <ion-col>
               <ion-label position="floating">Nombre Cliente</ion-label>
-              <ion-input
-                value="{{this.nombreUsuario}}"
-                formControlName="nombre_cliente"
-              ></ion-input>
+              <ion-input value="{{this.nombreUsuario}}" formControlName="nombre_cliente"></ion-input>
+            </ion-col>
+          </ion-row>
+
+          <ion-row justify-content-around>
+            <ion-col>
+              <ion-label position="floating">Numero Cédula</ion-label>
+              <ion-input value="{{this.nombreUsuario}}" formControlName="numero_cedula"></ion-input>
+            </ion-col>
+            <ion-col>
+              <ion-label position="floating">Código</ion-label>
+              <ion-input value="{{this.nombreUsuario}}" formControlName="codigo"></ion-input>
+            </ion-col>
+
+          </ion-row>
+          <ion-row justify-content-around>
+
+            <ion-col>
+              <ion-label position="floating">Direccion Cliente</ion-label>
+              <ion-input value="{{this.nombreUsuario}}" formControlName="direccion_cliente"></ion-input>
             </ion-col>
           </ion-row>
         </ion-grid>
 
-        <ion-grid>
-          <ion-row justify-content-around>
-            <ion-col>
-              <ion-label position="floating">Numero Cédula</ion-label>
-              <ion-input
-                value="{{this.nombreUsuario}}"
-                formControlName="numero_cedula"
-              ></ion-input>
-            </ion-col>
-            <ion-col>
-              <ion-label position="floating">Direccion Cliente</ion-label>
-              <ion-input
-                value="{{this.nombreUsuario}}"
-                formControlName="direccion_cliente"
-              ></ion-input>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+
+
+
 
         <ion-accordion-group>
           <ion-accordion value="datosVivienda">
@@ -80,44 +70,25 @@
             <div class="ion-padding" slot="content">
               <ion-item>
                 <ion-label position="floating">Tipo Vivienda</ion-label>
-                <ion-select
-                  interface="action-sheet"
-                  placeholder="Seleccionar"
-                  formControlName="tipo_vivienda"
-                >
+                <ion-select interface="action-sheet" placeholder="Seleccionar" formControlName="tipo_vivienda">
                   <ion-select-option value="P">PROPIA</ion-select-option>
                   <ion-select-option value="A">ARRENDADA</ion-select-option>
-                  <ion-select-option value="F"
-                    >VIVE CON FAMILIARES</ion-select-option
-                  >
+                  <ion-select-option value="F">VIVE CON FAMILIARES</ion-select-option>
                 </ion-select>
               </ion-item>
 
               <ion-item>
-                <ion-label position="floating"
-                  >Persona Realiza Verificación
+                <ion-label position="floating">Persona Realiza Verificación
                 </ion-label>
-                <ion-select
-                  interface="action-sheet"
-                  placeholder="Seleccionar"
-                  formControlName="persona_verificacion"
-                >
+                <ion-select interface="action-sheet" placeholder="Seleccionar" formControlName="persona_verificacion">
                   <ion-select-option value="TITULAR">TITULAR</ion-select-option>
-                  <ion-select-option value="FAMILIAR"
-                    >FAMILIAR</ion-select-option
-                  >
+                  <ion-select-option value="FAMILIAR">FAMILIAR</ion-select-option>
                 </ion-select>
               </ion-item>
 
               <ion-item>
-                <ion-label position="floating"
-                  >Residencia (Minimo 3 meses)</ion-label
-                >
-                <ion-select
-                  interface="action-sheet"
-                  placeholder="Seleccionar"
-                  formControlName="tiempo_residencia"
-                >
+                <ion-label position="floating">Residencia (Minimo 3 meses)</ion-label>
+                <ion-select interface="action-sheet" placeholder="Seleccionar" formControlName="tiempo_residencia">
                   <ion-select-option value="3">3</ion-select-option>
                   <ion-select-option value="4">4</ion-select-option>
                   <ion-select-option value="5">5</ion-select-option>
@@ -134,11 +105,7 @@
 
               <ion-item>
                 <ion-label position="floating"> Local o Terreno </ion-label>
-                <ion-select
-                  interface="action-sheet"
-                  placeholder="Seleccionar"
-                  formControlName="local_terreno"
-                >
+                <ion-select interface="action-sheet" placeholder="Seleccionar" formControlName="local_terreno">
                   <ion-select-option value="P">PROPIA</ion-select-option>
                   <ion-select-option value="A">ARRENDADA</ion-select-option>
                 </ion-select>
@@ -151,62 +118,51 @@
               <ion-label>Verificación Servicios</ion-label>
             </ion-item>
             <div class="ion-padding" slot="content">
+              <ion-label position="floating">Planilla Servicios Básico</ion-label>
               <ion-item>
-                <ion-label position="floating"
-                  >Planilla Servicios Básico</ion-label
-                >
-                <ion-toggle
-                  color="success"
-                  [checked]="false"
-                  formControlName="planilla_servicios"
-                ></ion-toggle>
+
+                <ion-label>{{ dataForm.value.planilla_servicios ? 'SI' : 'NO' }}</ion-label>
+                <ion-toggle color="success" formControlName="planilla_servicios"
+                  [enableOnOffLabels]="true"></ion-toggle>
               </ion-item>
 
               <ion-item>
-                <ion-label>Imagen </ion-label>
-                <ion-button (click)="addPhotoToGallery()">
+
+                <ion-button (click)="addPhoto('planilla')">
                   Captura Planilla
                 </ion-button>
+
                 <ion-grid>
                   <ion-row>
-                    <ion-col
-                      size="6"
-                      *ngFor="let photo of photoService.photos; index as position"
-                    >
+                    <ion-col size="6" *ngFor="let photo of photoService.photosPlanilla; index as position">
                       <ion-img [src]="photo.webviewPath"></ion-img>
                     </ion-col>
                   </ion-row>
                 </ion-grid>
               </ion-item>
 
+
+              <ion-label position="floating">Seguridad Puertas Ventanas</ion-label>
+
               <ion-item>
-                <ion-label position="floating"
-                  >Seguridad Puertas Ventanas</ion-label
-                >
-                <ion-toggle
-                  color="success"
-                  [checked]="false"
-                  formControlName="seguridad_puertas"
-                ></ion-toggle>
+                <ion-label>{{ dataForm.value.seguridad_puertas ? 'SI' : 'NO' }}</ion-label>
+                <ion-toggle color="success" [checked]="false" formControlName="seguridad_puertas"
+                  [enableOnOffLabels]="true"></ion-toggle>
               </ion-item>
 
-              <ion-item>
-                <ion-label position="floating"> Mueblería Básica </ion-label>
 
-                <ion-toggle
-                  color="success"
-                  [checked]="false"
-                  formControlName="muebleria_basica"
-                ></ion-toggle>
+              <ion-label position="floating"> Mueblería Básica </ion-label>
+
+              <ion-item>
+                <ion-label>{{ dataForm.value.muebleria_basica ? 'SI' : 'NO' }}</ion-label>
+
+                <ion-toggle color="success" [checked]="false" formControlName="muebleria_basica"
+                  [enableOnOffLabels]="true"></ion-toggle>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating"> Material Casa </ion-label>
-                <ion-select
-                  interface="action-sheet"
-                  placeholder="Seleccionar"
-                  formControlName="material_casa"
-                >
+                <ion-select interface="action-sheet" placeholder="Seleccionar" formControlName="material_casa">
                   <ion-select-option value="CEMENTO">CEMENTO</ion-select-option>
                   <ion-select-option value="MADERA">MADERA</ion-select-option>
                   <ion-select-option value="CAÑA">CAÑA</ion-select-option>
@@ -217,19 +173,12 @@
                 <ion-label position="floating">
                   Periocidad Actividades Laborales
                 </ion-label>
-                <ion-select
-                  interface="action-sheet"
-                  placeholder="Seleccionar"
-                  formControlName="periodicidad_actividades"
-                >
+                <ion-select interface="action-sheet" placeholder="Seleccionar"
+                  formControlName="periodicidad_actividades">
                   <ion-select-option value="DIARIO">DIARIO</ion-select-option>
                   <ion-select-option value="SEMANAL">SEMANAL</ion-select-option>
-                  <ion-select-option value="QUINCENAL"
-                    >QUINCENAL</ion-select-option
-                  >
-                  <ion-select-option value="FIN"
-                    >FIN DE SEMANA</ion-select-option
-                  >
+                  <ion-select-option value="QUINCENAL">QUINCENAL</ion-select-option>
+                  <ion-select-option value="FIN">FIN DE SEMANA</ion-select-option>
                 </ion-select>
               </ion-item>
             </div>
@@ -237,34 +186,26 @@
 
           <ion-accordion value="datosVecino">
             <ion-item slot="header" color="light">
-              <ion-label>Verificación Vecinos</ion-label>
+              <ion-label >Verificación Vecinos</ion-label>
             </ion-item>
             <div class="ion-padding" slot="content">
+              <ion-label  position="floating">Confirmación Vecinos</ion-label>
               <ion-item>
-                <ion-label>Confirmación Vecinos</ion-label>
-                <ion-toggle
-                  color="success"
-                  [checked]="false"
-                  formControlName="vecino_confirm"
-                ></ion-toggle>
+
+                <ion-label>{{ dataForm.value.vecino_confirm ? 'SI' : 'NO' }}</ion-label>
+                <ion-toggle color="success" [checked]="false" formControlName="vecino_confirm"
+                  [enableOnOffLabels]="true"></ion-toggle>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Nombre Del Vecino</ion-label>
-                <ion-textarea
-                  formControlName="vecino_nombre"
-                  placeholder="Escribir.."
-                >
+                <ion-textarea formControlName="vecino_nombre" placeholder="Escribir..">
                 </ion-textarea>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Celular Vecino</ion-label>
-                <ion-textarea
-                  formControlName="vecino_celular"
-                  placeholder="Escribir.."
-                  type="number"
-                >
+                <ion-textarea formControlName="vecino_celular" placeholder="Escribir.." type="number">
                 </ion-textarea>
               </ion-item>
             </div>
@@ -274,67 +215,54 @@
             <ion-item slot="header" color="light">
               <ion-label>Verificación De Imágenes</ion-label>
             </ion-item>
+
             <div class="ion-padding" slot="content">
+
+
               <ion-item>
-                <ion-label position="floating"
-                  >Estabilidad Laboral Mayor 6 Meses</ion-label
-                >
-                <ion-input value="" type="number"></ion-input>
-                <ion-button (click)="addPhotoEstabilidad()">
-                  Estabilidad Laboral
+                <ion-label position="floating">Estabilidad Laboral Mayor 6 Meses</ion-label>
+
+                <ion-button (click)='addPhoto("estabilidad")'>
+                  Captura imagen
                 </ion-button>
+
                 <ion-grid>
                   <ion-row>
-                    <ion-col
-                      size="6"
-                      *ngFor="let photo of photoService.photosEsta; index as position"
-                    >
+                    <ion-col size="6" *ngFor="let photo of photoService.photosEstabilidad; index as position">
                       <ion-img [src]="photo.webviewPath"></ion-img>
                     </ion-col>
                   </ion-row>
                 </ion-grid>
               </ion-item>
 
+
               <ion-item>
-                <ion-label position="floating"
-                  >Facturas Proveedores Ultimos 3 Meses</ion-label
-                >
-                <ion-input
-                  name="refi_pago_gastos_admin"
-                  value=""
-                  type="number"
-                ></ion-input>
-                <ion-button (click)="addPhotoToGallery()">
-                  Factura Proveedores
+                <ion-label position="floating">Facturas Proveedores Ultimos 3 Meses</ion-label>
+
+                <ion-button (click)='addPhoto("facturas")'>
+                  Captura imagen
                 </ion-button>
+
                 <ion-grid>
                   <ion-row>
-                    <ion-col
-                      size="6"
-                      *ngFor="let photo of photoService.photos; index as position"
-                    >
+                    <ion-col size="6" *ngFor="let photo of photoService.photosFacturas; index as position">
                       <ion-img [src]="photo.webviewPath"></ion-img>
                     </ion-col>
                   </ion-row>
                 </ion-grid>
               </ion-item>
+
 
               <ion-item>
                 <ion-label position="floating">Foto Exterior Negocio</ion-label>
-                <ion-input
-                  name="refi_pago_gastos_admin"
-                  value=""
-                  type="number"
-                ></ion-input>
-                <ion-button (click)="addPhotoToGallery()">
-                  Capturar Exterior Negocio
+
+                <ion-button (click)='addPhoto("exterior")'>
+                  Captura imagen
                 </ion-button>
+
                 <ion-grid>
                   <ion-row>
-                    <ion-col
-                      size="6"
-                      *ngFor="let photo of photoService.photos; index as position"
-                    >
+                    <ion-col size="6" *ngFor="let photo of photoService.photosExterior; index as position">
                       <ion-img [src]="photo.webviewPath"></ion-img>
                     </ion-col>
                   </ion-row>
@@ -343,20 +271,14 @@
 
               <ion-item>
                 <ion-label position="floating">Foto Interior Negocio</ion-label>
-                <ion-input
-                  name="refi_pago_gastos_admin"
-                  value=""
-                  type="number"
-                ></ion-input>
-                <ion-button (click)="addPhotoToGallery()">
-                  Capturar Interior Negocio
+
+                <ion-button (click)='addPhoto("interior")'>
+                  Captura imagen
                 </ion-button>
+
                 <ion-grid>
                   <ion-row>
-                    <ion-col
-                      size="6"
-                      *ngFor="let photo of photoService.photos; index as position"
-                    >
+                    <ion-col size="6" *ngFor="let photo of photoService.photosInterior; index as position">
                       <ion-img [src]="photo.webviewPath"></ion-img>
                     </ion-col>
                   </ion-row>
@@ -364,71 +286,15 @@
               </ion-item>
 
               <ion-item>
-                <ion-label position="floating"
-                  >Cliente Dentro Negocio</ion-label
-                >
-                <ion-input
-                  name="refi_pago_gastos_admin"
-                  value=""
-                  type="number"
-                ></ion-input>
-                <ion-button (click)="addPhotoToGallery()">
-                  Capturar Cliente Dentro Negocio
-                </ion-button>
-                <ion-grid>
-                  <ion-row>
-                    <ion-col
-                      size="6"
-                      *ngFor="let photo of photoService.photos; index as position"
-                    >
-                      <ion-img [src]="photo.webviewPath"></ion-img>
-                    </ion-col>
-                  </ion-row>
-                </ion-grid>
-              </ion-item>
+                <ion-label position="floating">Titulo Propiedad Garante Codeudor</ion-label>
 
-              <ion-item>
-                <ion-label position="floating"
-                  >Cliente Exterior Negocio
-                </ion-label>
-                <ion-input
-                  name="refi_pago_gastos_admin"
-                  value=""
-                  type="number"
-                ></ion-input>
-                <ion-button (click)="addPhotoToGallery()">
-                  Capturar Exterior Negocio
+                <ion-button (click)='addPhoto("titulo")'>
+                  Captura imagen
                 </ion-button>
-                <ion-grid>
-                  <ion-row>
-                    <ion-col
-                      size="6"
-                      *ngFor="let photo of photoService.photos; index as position"
-                    >
-                      <ion-img [src]="photo.webviewPath"></ion-img>
-                    </ion-col>
-                  </ion-row>
-                </ion-grid>
-              </ion-item>
 
-              <ion-item>
-                <ion-label position="floating"
-                  >Titulo Propiedad Garante Codeudor
-                </ion-label>
-                <ion-input
-                  name="refi_pago_gastos_admin"
-                  value=""
-                  type="number"
-                ></ion-input>
-                <ion-button (click)="addPhotoToGallery()">
-                  Capturar Titulo Propiedad
-                </ion-button>
                 <ion-grid>
                   <ion-row>
-                    <ion-col
-                      size="6"
-                      *ngFor="let photo of photoService.photos; index as position"
-                    >
+                    <ion-col size="6" *ngFor="let photo of photoService.photosTitulo; index as position">
                       <ion-img [src]="photo.webviewPath"></ion-img>
                     </ion-col>
                   </ion-row>
@@ -437,42 +303,31 @@
 
               <ion-item>
                 <ion-label position="floating">Impuesto Predial</ion-label>
-                <ion-input
-                  name="refi_pago_gastos_admin"
-                  value=""
-                  type="number"
-                ></ion-input>
-                <ion-button (click)="addPhotoToGallery()">
-                  Capturar Impuesto Predial
+
+                <ion-button (click)='addPhoto("impuesto")'>
+                  Captura imagen
                 </ion-button>
+
                 <ion-grid>
                   <ion-row>
-                    <ion-col
-                      size="6"
-                      *ngFor="let photo of photoService.photos; index as position"
-                    >
+                    <ion-col size="6" *ngFor="let photo of photoService.photosImpuesto; index as position">
                       <ion-img [src]="photo.webviewPath"></ion-img>
                     </ion-col>
                   </ion-row>
                 </ion-grid>
               </ion-item>
 
+
               <ion-item>
                 <ion-label position="floating">Respaldo Ingresos</ion-label>
-                <ion-input
-                  name="refi_pago_gastos_admin"
-                  value=""
-                  type="number"
-                ></ion-input>
-                <ion-button (click)="addPhotoToGallery()">
-                  Capturar Ingresos
+
+                <ion-button (click)='addPhoto("respaldo")'>
+                  Captura imagen
                 </ion-button>
+
                 <ion-grid>
                   <ion-row>
-                    <ion-col
-                      size="6"
-                      *ngFor="let photo of photoService.photos; index as position"
-                    >
+                    <ion-col size="6" *ngFor="let photo of photoService.photosRespaldo; index as position">
                       <ion-img [src]="photo.webviewPath"></ion-img>
                     </ion-col>
                   </ion-row>
@@ -481,20 +336,14 @@
 
               <ion-item>
                 <ion-label position="floating">Certificado Laboral</ion-label>
-                <ion-input
-                  name="refi_pago_gastos_admin"
-                  value=""
-                  type="number"
-                ></ion-input>
-                <ion-button (click)="addPhotoToGallery()">
-                  Capturar Certificado Laboral
+
+                <ion-button (click)='addPhoto("certificado")'>
+                  Captura imagen
                 </ion-button>
+
                 <ion-grid>
                   <ion-row>
-                    <ion-col
-                      size="6"
-                      *ngFor="let photo of photoService.photos; index as position"
-                    >
+                    <ion-col size="6" *ngFor="let photo of photoService.photosCertificado; index as position">
                       <ion-img [src]="photo.webviewPath"></ion-img>
                     </ion-col>
                   </ion-row>
@@ -502,23 +351,15 @@
               </ion-item>
 
               <ion-item>
-                <ion-label position="floating"
-                  >Foto Interior Domicilio</ion-label
-                >
-                <ion-input
-                  name="refi_pago_gastos_admin"
-                  value=""
-                  type="number"
-                ></ion-input>
-                <ion-button (click)="addPhotoToGallery()">
-                  Capturar Interior Domicilio
+                <ion-label position="floating">Foto Interior Domicilio</ion-label>
+
+                <ion-button (click)='addPhoto("interiorDom")'>
+                  Captura imagen
                 </ion-button>
+
                 <ion-grid>
                   <ion-row>
-                    <ion-col
-                      size="6"
-                      *ngFor="let photo of photoService.photos; index as position"
-                    >
+                    <ion-col size="6" *ngFor="let photo of photoService.photosInteriorDom; index as position">
                       <ion-img [src]="photo.webviewPath"></ion-img>
                     </ion-col>
                   </ion-row>
@@ -529,22 +370,10 @@
         </ion-accordion-group>
 
         <ion-grid>
-          <ion-item>
-            <ion-label position="floating">Código</ion-label>
-            <ion-input
-              value="{{this.nombreUsuario}}"
-              formControlName="codigo"
-            ></ion-input>
-          </ion-item>
-
           <ion-row justify-content-around>
             <ion-col>
               <ion-label position="floating">Latitud</ion-label>
-              <ion-input
-                value="2222"
-                name="latitudVer"
-                formControlName="latitud"
-              ></ion-input>
+              <ion-input value="2222" name="latitudVer" formControlName="latitud"></ion-input>
             </ion-col>
             <ion-col>
               <ion-label position="floating">Longitud</ion-label>
@@ -553,13 +382,10 @@
           </ion-row>
         </ion-grid>
 
+
+
         <!-- BOTON -->
-        <ion-button
-          [disabled]="dataForm.invalid"
-          expand="block"
-          color="primary"
-          type="submit"
-        >
+        <ion-button [disabled]="dataForm.invalid" expand="block" color="primary" type="submit">
           Realizar Verificacion
         </ion-button>
       </form>

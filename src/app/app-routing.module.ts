@@ -59,7 +59,11 @@ const routes: Routes = [
   {
     path: 'verificaciones2',
     loadChildren: () => import('./screens/verificaciones2/verificaciones2.module').then( m => m.Verificaciones2PageModule)
+  },  {
+    path: 'veri-detail',
+    loadChildren: () => import('./screens/veri-detail/veri-detail.module').then( m => m.VeriDetailPageModule)
   },
+
 
 ];
 

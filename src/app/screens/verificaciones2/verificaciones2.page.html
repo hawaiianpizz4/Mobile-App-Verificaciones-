@@ -26,12 +26,16 @@
     <app-list-users-verifi-check
       *ngFor="let user of dataList2 "
       [item]="user"
-    ></app-list-users-verifi-check>
+    >
+   
+  </app-list-users-verifi-check>
+  
   </div>
 
+
+  
   <div class="empty-cart" *ngIf="!(dataList2).length || 0">
     <ion-icon  name="card"></ion-icon>
     <p>0 Registros para verificaciones</p>
   </div>
-
 </ion-content>

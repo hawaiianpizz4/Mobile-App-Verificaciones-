@@ -18,6 +18,9 @@ import { ElementRef, ViewChild } from '@angular/core';
 import { dataService } from 'src/app/services/data.service';
 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
+
 declare var mapboxgl: any;
 
 @Component({
@@ -27,8 +30,8 @@ declare var mapboxgl: any;
 })
 export class VerificacionPage implements OnInit {
   status: boolean;
-
-    dataForm = new FormGroup({
+  dataClienteFromLista: any;
+  dataForm = new FormGroup({
     nombre_gestor: new FormControl('', []),
     fecha_actual: new FormControl(
       { value: new Date().toUTCString(), disabled: true },
@@ -67,14 +70,138 @@ export class VerificacionPage implements OnInit {
     private _http: HttpClient,
     public photoService: PhotoService,
     private _services: dataService,
-
+    private route: ActivatedRoute,
     private modalCtrl: ModalController
   ) {
     // this.changeStatus();
+
+
+
   }
 
   async ngOnInit() {
+
+
+    this.dataForm.controls.nombre_gestor.setValue(this.activatedRoute.snapshot.paramMap.get('vf_nombre_vendedor'));
+    this.dataForm.controls.nombre_tienda.setValue(this.activatedRoute.snapshot.paramMap.get('vf_nombre_tienda'));
+    this.dataForm.controls.nombre_cliente.setValue(this.activatedRoute.snapshot.paramMap.get('vf_nombre_cliente'));
+    this.dataForm.controls.numero_cedula.setValue(this.activatedRoute.snapshot.paramMap.get('vf_cedula_cliente'));
+    this.dataForm.controls.direccion_cliente.setValue(this.activatedRoute.snapshot.paramMap.get('dndlD_direccion_domiciliaria'));
+
   }
+
+
+
+  async submitForm() {
+    const postData = {
+      nombre_tienda: this.dataForm.controls.nombre_tienda.value,
+      nombre_cliente: this.dataForm.controls.nombre_cliente.value,
+      numero_cedula: this.dataForm.controls.numero_cedula.value,
+      direccion_cliente: this.dataForm.controls.direccion_cliente.value,
+
+      tipo_vivienda: this.dataForm.get('tipo_vivienda').value,
+      // persona_verificacion: this.dataForm.controls.persona_verificacion.value,
+      persona_verificacion: this.dataForm.get('persona_verificacion').value,
+      tiempo_residencia: this.dataForm.get('tiempo_residencia').value,
+      local_terreno: this.dataForm.get('local_terreno').value,
+      planilla_servicios: this.dataForm.controls.planilla_servicios.value,
+
+      seguridad_puertas: this.dataForm.controls.seguridad_puertas.value,
+      muebleria_basica: this.dataForm.controls.muebleria_basica.value,
+      // material_casa: this.dataForm.controls.material_casa.value,
+      material_casa: this.dataForm.get('material_casa').value,
+      periodicidad_actividades:
+        this.dataForm.controls.periodicidad_actividades.value,
+      vecino_confirm: this.dataForm.controls.vecino_confirm.value,
+      vecino_nombre: this.dataForm.controls.vecino_nombre.value,
+      vecino_celular: this.dataForm.controls.vecino_celular.value,
+      codigo: this.dataForm.controls.codigo.value,
+      latitud: this.dataForm.controls.latitud.value,
+      longitud: this.dataForm.controls.longitud.value,
+    };
+
+    console.dir(postData);
+
+    // if (postData.numero_cedula && postData.numero_cedula != undefined)
+    {
+      // if (this.status)
+      {
+        const url = `${environment.apiUrlTest}verificacion.php?op=insertVer`;
+
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+          }),
+        };
+
+        // console.log(JSON.stringify(this.photoService.photosBase64.length));
+        await this._http
+          .post(url, JSON.stringify(postData), httpOptions)
+          .subscribe(
+            () => {
+              this.showLoading('Guardando Registro...').then((e) => { });
+              setTimeout(() => {
+                this.presentToast(
+                  'Registro Enviado',
+                  'checkmark-outline',
+                  'success'
+                );
+                this.redirect();
+              }, 3000);
+            },
+            (error) => {
+              setTimeout(() => {
+                this.presentToast('Error', error, 'error');
+                this.redirect();
+              }, 3000);
+              console.log(error);
+            }
+          );
+
+        setTimeout(() => {
+          this.presentToast('Registro Enviado', 'checkmark-outline', 'success');
+          this.redirect();
+        }, 3000);
+      }
+    }
+
+    //   } else {
+    // var dataInLocalStorage = localStorage.getItem('refi-storageWait');
+    // var local = [];
+    // if (dataInLocalStorage) {
+    //   local = Array.from(JSON.parse(dataInLocalStorage));
+    //   local.push(JSON.parse(data));
+    //   localStorage.setItem('refi-storageWait', JSON.stringify(local));
+    //   this.showLoading('Guardando registro para ser enviado');
+    //   setTimeout(() => {
+    //     this.presentToast(
+    //       'Registro Guardado',
+    //       'checkmark-outline',
+    //       'success'
+    //     );
+    //   }, 3000);
+    // }
+    // else {
+    //   var insert = Array.from(JSON.parse(data));
+    //   insert.push(JSON.parse(data));
+    //   localStorage.setItem('refi-storageWait', JSON.stringify(insert));
+    //   this.showLoading('Guardando registro para ser enviado');
+    //   setTimeout(() => {
+    //     this.presentToast(
+    //       'Registro Guardado',
+    //       'checkmark-outline',
+    //       'success'
+    //     );
+    //     this.redirect();
+    //   }, 3000);
+    // }
+    //   }
+    // } else {
+    //   this.presentToast('No debe existir campos vacios', 'alert', 'warning');
+    // }
+  }
+
+
 
 
   async showLoading(msg) {
@@ -99,14 +226,14 @@ export class VerificacionPage implements OnInit {
 
   redirect() {
     // this.navCtrl.navigateForward('home/listing');
-    this.navCtrl.navigateRoot('/home/listing', {
+    this.navCtrl.navigateRoot('/verificaciones2', {
       animated: true,
       animationDirection: 'forward',
     });
   }
 
 
-  
+
   addPhoto(tipo: string) {
     this.photoService.addNewToGallery(tipo);
   }

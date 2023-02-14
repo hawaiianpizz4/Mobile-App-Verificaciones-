@@ -9,7 +9,7 @@
   <div class="header">
     <div class="contenedor">
       <img src="assets/images/IconoIcesa.png" alt="iconoIcesa">
-      <div class="centrado"><h1>Check List Verificaciones</h1></div>                                                     
+      <div class="centrado"><h1>Check List Verificaciones</h1></div>
     </div>
     <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
       <ion-refresher-content
@@ -20,20 +20,18 @@
       </ion-refresher-content>
     </ion-refresher>
   </div>
- 
+
   <h1 class="list-header">Lista</h1>
   <div class="food-list" *ngIf="dataList2.length != 0">
     <app-list-users-verifi-check
       *ngFor="let user of dataList2 "
       [item]="user"
-    >
-   
-  </app-list-users-verifi-check>
-  
+    > </app-list-users-verifi-check>
+
   </div>
 
 
-  
+
   <div class="empty-cart" *ngIf="!(dataList2).length || 0">
     <ion-icon  name="card"></ion-icon>
     <p>0 Registros para verificaciones</p>

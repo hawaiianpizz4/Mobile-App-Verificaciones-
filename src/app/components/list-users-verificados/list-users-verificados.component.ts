@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output} from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-users-verificados',
@@ -6,7 +7,14 @@ import { Component, EventEmitter, Input, Output} from '@angular/core';
   styleUrls: ['./list-users-verificados.component.scss'],
 })
 export class ListUsersVerificadosComponent {
+
   @Input() item;
   @Output() clicked: EventEmitter<any> = new EventEmitter();
+  constructor(private router: Router) {}
 
+
+     // goToVerDeatail(id: string, operacion: string) {
+      goToVeriDetail() {
+        this.router.navigate(['veri-detail',this.item ]);
+      }
 }

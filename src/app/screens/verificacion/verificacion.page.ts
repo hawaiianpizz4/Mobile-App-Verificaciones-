@@ -1,3 +1,6 @@
+import mapboxgl from 'mapbox-gl/';
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -20,22 +23,22 @@ import { dataService } from 'src/app/services/data.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-
-declare var mapboxgl: any;
-
 @Component({
   selector: 'app-verificacion',
   templateUrl: './verificacion.page.html',
   styleUrls: ['./verificacion.page.scss'],
 })
 export class VerificacionPage implements OnInit {
+  map;
+  infoPoss = [];
   status: boolean;
   dataClienteFromLista: any;
   dataForm = new FormGroup({
     nombre_gestor: new FormControl('', []),
     fecha_actual: new FormControl(
       { value: new Date().toUTCString(), disabled: true },
-      []),
+      []
+    ),
     nombre_tienda: new FormControl('', []),
     nombre_cliente: new FormControl('', []),
     numero_cedula: new FormControl('', []),
@@ -74,23 +77,27 @@ export class VerificacionPage implements OnInit {
     private modalCtrl: ModalController
   ) {
     // this.changeStatus();
-
-
-
   }
 
   async ngOnInit() {
+    this.dataForm.controls.nombre_gestor.setValue(
+      this.activatedRoute.snapshot.paramMap.get('vf_nombre_vendedor')
+    );
+    this.dataForm.controls.nombre_tienda.setValue(
+      this.activatedRoute.snapshot.paramMap.get('vf_nombre_tienda')
+    );
+    this.dataForm.controls.nombre_cliente.setValue(
+      this.activatedRoute.snapshot.paramMap.get('vf_nombre_cliente')
+    );
+    this.dataForm.controls.numero_cedula.setValue(
+      this.activatedRoute.snapshot.paramMap.get('vf_cedula_cliente')
+    );
+    this.dataForm.controls.direccion_cliente.setValue(
+      this.activatedRoute.snapshot.paramMap.get('dndlD_direccion_domiciliaria')
+    );
 
-
-    this.dataForm.controls.nombre_gestor.setValue(this.activatedRoute.snapshot.paramMap.get('vf_nombre_vendedor'));
-    this.dataForm.controls.nombre_tienda.setValue(this.activatedRoute.snapshot.paramMap.get('vf_nombre_tienda'));
-    this.dataForm.controls.nombre_cliente.setValue(this.activatedRoute.snapshot.paramMap.get('vf_nombre_cliente'));
-    this.dataForm.controls.numero_cedula.setValue(this.activatedRoute.snapshot.paramMap.get('vf_cedula_cliente'));
-    this.dataForm.controls.direccion_cliente.setValue(this.activatedRoute.snapshot.paramMap.get('dndlD_direccion_domiciliaria'));
-
+    this.initMap();
   }
-
-
 
   async submitForm() {
     const postData = {
@@ -110,7 +117,8 @@ export class VerificacionPage implements OnInit {
       muebleria_basica: this.dataForm.controls.muebleria_basica.value,
       // material_casa: this.dataForm.controls.material_casa.value,
       material_casa: this.dataForm.get('material_casa').value,
-      periodicidad_actividades: this.dataForm.controls.periodicidad_actividades.value,
+      periodicidad_actividades:
+        this.dataForm.controls.periodicidad_actividades.value,
       vecino_confirm: this.dataForm.controls.vecino_confirm.value,
       vecino_nombre: this.dataForm.controls.vecino_nombre.value,
       vecino_celular: this.dataForm.controls.vecino_celular.value,
@@ -137,7 +145,7 @@ export class VerificacionPage implements OnInit {
           .post(url, JSON.stringify(postData), httpOptions)
           .subscribe(
             () => {
-              this.showLoading('Guardando Registro...').then((e) => { });
+              this.showLoading('Guardando Registro...').then((e) => {});
               setTimeout(() => {
                 this.presentToast(
                   'Registro Enviado',
@@ -199,9 +207,6 @@ export class VerificacionPage implements OnInit {
     // }
   }
 
-
-
-
   async showLoading(msg) {
     const loading = await this.loadingCtrl.create({
       message: msg,
@@ -230,15 +235,59 @@ export class VerificacionPage implements OnInit {
     });
   }
 
-
-
   addPhoto(tipo: string) {
     this.photoService.addNewToGallery(tipo);
   }
 
+  initMap() {
+    mapboxgl.accessToken =
+      'pk.eyJ1IjoianF1aWxjaGFtaW4iLCJhIjoiY2xkdzJiaTN4MDM5NjNvbnV4eTI5MmV0MCJ9.xkxeH8IUvBcUTyHOLEORJg';
+    this.map = new mapboxgl.Map({
+      container: 'mapa',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [-79.4698468, -1.0037841],
+      zoom: 18,
+    });
+    // Add the control to the map.
+    this.map.addControl(
+      new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+      })
+    );
 
+    // Create a default Marker and add it to the map.
+    const marker = new mapboxgl.Marker({
+      draggable: true,
+    })
+      .setLngLat([-79.4698468, -1.0037841])
+      .addTo(this.map);
 
+    const coordinates = document.getElementById('coordinates');
 
+    function onDragEnd() {
+      const lngLat = marker.getLngLat();
+      coordinates.style.display = 'block';
+      coordinates.innerHTML = `Longitud: ${lngLat.lng}<br />Latitud: ${lngLat.lat}`;
+    }
 
-
+    marker.on('dragend', () => {
+      //mostrar coordenadas
+      const features = this.map.queryRenderedFeatures(marker._pos);
+      const lngLat = marker.getLngLat();
+      onDragEnd();
+      console.log(features[0].properties.name);
+      this._services
+        .getCurrentPoss(lngLat.lng, lngLat.lat, mapboxgl.accessToken)
+        .subscribe(
+          (data) => {
+            this.infoPoss = data;
+            console.log(this.infoPoss);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    });
+  }
 }

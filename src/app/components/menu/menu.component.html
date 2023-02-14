@@ -19,12 +19,12 @@
       <ion-title>Menu Content</ion-title>
     </ion-toolbar>
   </ion-header>
-  
+
   <ion-content class="ion-padding">
     <ion-list>
       <ion-item *ngFor="let option of menuOptions">
         <ion-icon name="{{ option.icon }}" slot="start"></ion-icon>
-        <ion-label>{{ option.title }}</ion-label>
+        <ion-button routerLink="{{option.route}}">{{ option.title }}</ion-button>
         <ion-list *ngIf="option.subMenu">
           <ion-item *ngFor="let subOption of option.subMenu">
             <ion-icon name="{{ subOption.icon }}" slot="start"></ion-icon>
@@ -34,6 +34,5 @@
       </ion-item>
     </ion-list>
   </ion-content>
-
 
 </ion-menu>

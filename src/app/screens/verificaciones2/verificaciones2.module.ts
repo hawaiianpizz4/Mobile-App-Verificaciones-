@@ -8,6 +8,8 @@ import { Verificaciones2PageRoutingModule } from './verificaciones2-routing.modu
 
 import { Verificaciones2Page } from './verificaciones2.page';
 import { ListUsersVerifiCheckComponentModule } from 'src/app/components/list-users-verifi-check/list-users-verifi-check.module'; 
+
+
 @NgModule({
   imports: [
     CommonModule,

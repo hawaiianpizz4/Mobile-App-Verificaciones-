@@ -63,6 +63,10 @@ const routes: Routes = [
     path: 'veri-detail',
     loadChildren: () => import('./screens/veri-detail/veri-detail.module').then( m => m.VeriDetailPageModule)
   },
+  {
+    path: 'verificados',
+    loadChildren: () => import('./screens/verificados/verificados.module').then( m => m.VerificadosPageModule)
+  },
 
 
 ];

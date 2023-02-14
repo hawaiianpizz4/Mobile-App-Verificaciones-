@@ -17,7 +17,8 @@ export class HomePage {
     { title: 'Gestiones Cobranza', icon: 'flask', route:'/listing' },
     { title: 'Historiales ', icon: 'logo-github' , route:'/historial'},
     { title: '----', icon: 'cube', route:'' },
-    { title: 'formulario-verificacion', icon: 'cube', route:'/verificacion' },
+    { title: 'veri-detalle', icon: 'cube', route:'/veri-detalle' },
+
   ];
 
 

@@ -7,6 +7,10 @@ import { IonicModule } from '@ionic/angular';
 import { VeriDetailPageRoutingModule } from './veri-detail-routing.module';
 
 import { VeriDetailPage } from './veri-detail.page';
+import { ButtonModule } from 'src/app/components/button/button.module';
+
+import { HistCardComponentModule } from 'src/app/components/hist-card/hist-card.module';
+
 
 @NgModule({
   imports: [
@@ -14,6 +18,8 @@ import { VeriDetailPage } from './veri-detail.page';
     FormsModule,
     IonicModule,
     VeriDetailPageRoutingModule,
+    HistCardComponentModule,
+    ButtonModule
     
   ],
   declarations: [VeriDetailPage]

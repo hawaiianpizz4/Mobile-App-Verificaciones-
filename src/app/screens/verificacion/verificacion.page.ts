@@ -110,8 +110,7 @@ export class VerificacionPage implements OnInit {
       muebleria_basica: this.dataForm.controls.muebleria_basica.value,
       // material_casa: this.dataForm.controls.material_casa.value,
       material_casa: this.dataForm.get('material_casa').value,
-      periodicidad_actividades:
-        this.dataForm.controls.periodicidad_actividades.value,
+      periodicidad_actividades: this.dataForm.controls.periodicidad_actividades.value,
       vecino_confirm: this.dataForm.controls.vecino_confirm.value,
       vecino_nombre: this.dataForm.controls.vecino_nombre.value,
       vecino_celular: this.dataForm.controls.vecino_celular.value,
@@ -121,12 +120,11 @@ export class VerificacionPage implements OnInit {
     };
 
     console.dir(postData);
-
     // if (postData.numero_cedula && postData.numero_cedula != undefined)
     {
       // if (this.status)
       {
-        const url = `${environment.apiUrlTest}verificacion.php?op=insertVer`;
+        const url = `${environment.apiUrl}verificacion.php?op=insertVer`;
 
         const httpOptions = {
           headers: new HttpHeaders({

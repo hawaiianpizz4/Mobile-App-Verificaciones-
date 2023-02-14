@@ -18,33 +18,33 @@
           <ion-row justify-content-around>
             <ion-col>
               <ion-label position="floating">Nombre Gestor</ion-label>
-              <ion-input value="{{this.nombreUsuario}}" formControlName="nombre_gestor"></ion-input>
+              <ion-input value="{{this.nombreGestor}}" formControlName="nombre_gestor"></ion-input>
             </ion-col>
             <ion-col>
               <ion-label position="floating">Fecha actual</ion-label>
-              <ion-input value="{{this.nombreUsuario}}" formControlName="fecha_actual"></ion-input>
+              <ion-input value="{{this.fechaActual}}" formControlName="fecha_actual"></ion-input>
             </ion-col>
           </ion-row>
 
           <ion-row justify-content-around>
             <ion-col>
               <ion-label position="floating">Nombre Tienda</ion-label>
-              <ion-input value="{{this.nombreUsuario}}" formControlName="nombre_tienda"></ion-input>
+              <ion-input value="{{this.nombreTienda}}" formControlName="nombre_tienda"></ion-input>
             </ion-col>
             <ion-col>
               <ion-label position="floating">Nombre Cliente</ion-label>
-              <ion-input value="{{this.nombreUsuario}}" formControlName="nombre_cliente"></ion-input>
+              <ion-input value="{{this.nombreCliente}}" formControlName="nombre_cliente"></ion-input>
             </ion-col>
           </ion-row>
 
           <ion-row justify-content-around>
             <ion-col>
               <ion-label position="floating">Numero Cédula</ion-label>
-              <ion-input value="{{this.nombreUsuario}}" formControlName="numero_cedula"></ion-input>
+              <ion-input value="{{this.numeroCedula}}" formControlName="numero_cedula"></ion-input>
             </ion-col>
             <ion-col>
               <ion-label position="floating">Código</ion-label>
-              <ion-input value="{{this.nombreUsuario}}" formControlName="codigo"></ion-input>
+              <ion-input value="{{this.codigoVeri}}" formControlName="codigo"></ion-input>
             </ion-col>
 
           </ion-row>
@@ -52,14 +52,10 @@
 
             <ion-col>
               <ion-label position="floating">Direccion Cliente</ion-label>
-              <ion-input value="{{this.nombreUsuario}}" formControlName="direccion_cliente"></ion-input>
+              <ion-input value="{{this.direccionCliente}}" formControlName="direccion_cliente"></ion-input>
             </ion-col>
           </ion-row>
         </ion-grid>
-
-
-
-
 
         <ion-accordion-group>
           <ion-accordion value="datosVivienda">
@@ -86,21 +82,14 @@
                 </ion-select>
               </ion-item>
 
+
               <ion-item>
                 <ion-label position="floating">Residencia (Minimo 3 meses)</ion-label>
-                <ion-select interface="action-sheet" placeholder="Seleccionar" formControlName="tiempo_residencia">
-                  <ion-select-option value="3">3</ion-select-option>
-                  <ion-select-option value="4">4</ion-select-option>
-                  <ion-select-option value="5">5</ion-select-option>
-                  <ion-select-option value="6">6</ion-select-option>
-                  <ion-select-option value="7">7</ion-select-option>
-                  <ion-select-option value="8">8</ion-select-option>
-                  <ion-select-option value="9">9</ion-select-option>
-                  <ion-select-option value="10">10</ion-select-option>
-                  <ion-select-option value="11">11</ion-select-option>
-                  <ion-select-option value="12">12</ion-select-option>
-                  <ion-select-option value="más">13</ion-select-option>
-                </ion-select>
+                <ion-item>
+                <ion-label>{{ dataForm.value.seguridad_puertas ? 'SI' : 'NO' }}</ion-label>
+                <ion-toggle color="success" [checked]="false" formControlName="seguridad_puertas"
+                  [enableOnOffLabels]="true"></ion-toggle>
+              </ion-item>
               </ion-item>
 
               <ion-item>
@@ -127,7 +116,6 @@
               </ion-item>
 
               <ion-item>
-
                 <ion-button (click)="addPhoto('planilla')">
                   Captura Planilla
                 </ion-button>
@@ -143,7 +131,6 @@
 
 
               <ion-label position="floating">Seguridad Puertas Ventanas</ion-label>
-
               <ion-item>
                 <ion-label>{{ dataForm.value.seguridad_puertas ? 'SI' : 'NO' }}</ion-label>
                 <ion-toggle color="success" [checked]="false" formControlName="seguridad_puertas"

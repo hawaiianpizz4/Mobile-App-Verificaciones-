@@ -20,8 +20,8 @@ const routes: Routes = [
         loadChildren: () => import('../screens/historial/historial.module').then( m => m.HistorialPageModule)
       },
       {
-        path: 'verificacion',
-        loadChildren: () => import('../screens/verificacion/verificacion.module').then( m => m.VerificacionPageModule)
+        path: 'veri-detail',
+        loadChildren: () => import('../screens/veri-detail/veri-detail.module').then( m => m.VeriDetailPageModule)
       },
       {
         path:'',

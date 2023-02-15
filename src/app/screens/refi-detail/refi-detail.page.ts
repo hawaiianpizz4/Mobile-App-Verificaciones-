@@ -437,7 +437,7 @@ export class RefiDetailPage implements OnInit {
       container: 'mapa',
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [-79.4698468, -1.0037841],
-      zoom: 18,
+      zoom: 10,
     });
     // Add the control to the map.
     this.map.addControl(

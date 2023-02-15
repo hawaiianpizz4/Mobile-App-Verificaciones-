@@ -1,0 +1,129 @@
+#mapa {
+  margin-top: 3vh;
+  width: 100%;
+  height: 400px;
+}
+.coordinates {
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  position: absolute;
+  bottom: 40px;
+  left: 10px;
+  padding: 5px 10px;
+  margin: 0;
+  font-size: 11px;
+  line-height: 18px;
+  border-radius: 3px;
+  display: none;
+}
+
+ion-item {
+  --padding-start: 0px;
+  --inner-padding-end: 0px;
+
+  ion-label {
+    color: black;
+  }
+}
+
+.label-floating.sc-ion-label-md-h {
+  margin-bottom: 20px;
+  color: #45bc6e;
+  flex: 10
+}
+
+#map {
+  margin-top: 1vh;
+  width: 100%;
+  height: 400px;
+}
+
+capacitor-google-maps {
+  display: inline-block;
+  width: 100%;
+  height: 90%;
+}
+
+ion-content {
+  --background: #6b45bc;
+  position: relative;
+
+  ion-input {
+    border: solid 1px #6b45bc;
+  }
+
+  .container {
+    width: 200px;
+    height: 600px;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0, 5rem;
+    ion-button {
+      height: 60px;
+      width: 60px;
+      ion-icon {
+        font-size: 2rem;
+      }
+    }
+  }
+  .card {
+    height: 85%;
+    width: 100%;
+    background: #fff;
+    position: absolute;
+    bottom: 0;
+    border-radius: 2rem 2rem 0 0;
+    padding: 1rem;
+    .image {
+      position: absolute;
+      top: -2.5rem;
+      width: 40%;
+      left: 50%;
+      transform: translate(-50%);
+    }
+    .card-title {
+      margin-top: 30%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.2rem;
+      h1 {
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+      p {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #ffb800;
+        sup {
+          font-size: 1.2rem;
+          margin-right: -0.1rem;
+        }
+      }
+    }
+    .rates {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    .span-text {
+      font-weight: 600;
+    }
+
+    .about {
+      margin-bottom: 1rem;
+      h1 {
+        font-weight: 600;
+        font-size: 1rem;
+      }
+      P {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #b9b9b9;
+      }
+    }
+  }
+}

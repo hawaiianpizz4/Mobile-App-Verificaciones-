@@ -9,14 +9,71 @@
 
   <div class="card">
     <div class="card-content">
+
+      <ion-item>
+        <p><strong style="right: auto;">Codigo:</strong>{{this.getdata.codigo}}</p>
+      </ion-item>
+
       <h1 style="color: #ff0000; text-align: center">
         Formulario De Verificación
       </h1>
 
       <ion-item>
-        <h5>Datos Iniciales</h5>
+        <h2 style="color: #1EA9A7">Datos Iniciales</h2>
       </ion-item>
-      <p><strong>Nombre Gestor:</strong>{{this.getdata.refi_usuario}}</p>
+
+      <ion-item>
+        <p><strong>Nombre Gestor:</strong>{{this.getdata.nombre_gestor}}</p>
+      </ion-item>
+
+      <ion-item>
+        <p><strong>Fecha Actual:</strong>{{this.getdata.fecha_actual}}</p>
+      </ion-item>
+
+      <ion-item>
+        <p><strong>Nombre Tienda:</strong>{{this.getdata.nombre_tienda}}</p>
+      </ion-item>
+
+      <ion-item>
+        <p><strong>Nombre Cliente:</strong>{{this.getdata.nombre_cliente}}</p>
+      </ion-item>
+
+      <ion-item>
+        <p><strong>Número Cédula:</strong>{{this.getdata.numero_cedula}}</p>
+      </ion-item>
+
+
+      <ion-item>
+
+          <ion-label>Direccion:</ion-label>{{this.getdata.direccion_cliente}}
+
+          <div id="mapa"></div>
+          <div id="coordinates" class="coordinates"></div>
+
+      </ion-item>
+
+
+      <ion-item>
+        <h2 style="color: #1EA9A7">Verificación Vivienda</h2>
+      </ion-item>
+
+      <ion-item>
+        <p><strong>Tipo Vivienda:</strong>{{this.getdata.tipo_vivienda}}</p>
+      </ion-item>
+
+      <ion-item>
+        <p><strong>Persona Que Verifica:</strong>{{this.getdata.persona_verifica}}</p>
+      </ion-item>
+
+      <ion-item>
+        <p><strong>Residencia Minima:</strong>{{this.getdata.residencia_minima}}</p>
+      </ion-item>
+
+      <ion-item>
+        <p><strong>Local Terreno:</strong>{{this.getdata.local_terreno}}</p>
+      </ion-item>
+
+
     </div>
   </div>
 </ion-content>

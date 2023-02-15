@@ -338,7 +338,7 @@ export class RefiDetailPage implements OnInit {
 
     if (postData.cliente_cedula && postData.cliente_cedula != undefined) {
       if (this.status) {
-        const url = `${environment.apiUrl}refinanciamiento.php?op=insertRefi`;
+        const url = `${environment.apiUrl}refinanciamiento.php?op=postDatosRefi`;
 
         const httpOptions = {
           headers: new HttpHeaders({

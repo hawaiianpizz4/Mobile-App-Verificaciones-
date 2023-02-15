@@ -16,10 +16,10 @@ export class PhotoService {
 
   public photosEstabilidad: UserPhoto[] = [];
   public photosEstabilidad64: string[] = [];
-  
+
   public photosFacturas: UserPhoto[] = [];
   public photosFacturas64: string[] = [];
-  
+
   public photosExteriorNego: UserPhoto[] = [];
   public photosExteriorNego64: string[] = [];
 
@@ -41,45 +41,42 @@ export class PhotoService {
   public photosInteriorDom: UserPhoto[] = [];
   public photosInteriorDom64: string[] = [];
 
-
   public async addNewToGallery(tipo: string) {
-    
-    switch(tipo) {
-      case "planilla":
+    switch (tipo) {
+      case 'planilla':
         this.addPhotos(this.photosPlanilla, this.photosPlanilla64);
-      break;
-      case "estabilidad":
+        break;
+      case 'estabilidad':
         this.addPhotos(this.photosEstabilidad, this.photosEstabilidad64);
-      break;
-      case "facturas":
+        break;
+      case 'facturas':
         this.addPhotos(this.photosFacturas, this.photosFacturas64);
-      break;
-      case "exterior":
+        break;
+      case 'exterior':
         this.addPhotos(this.photosExteriorNego, this.photosExteriorNego64);
-      break;
-      case "interior":
+        break;
+      case 'interior':
         this.addPhotos(this.photosInterior, this.photosInterior64);
-      break;
-      case "titulo":
+        break;
+      case 'titulo':
         this.addPhotos(this.photosTitulo, this.photosTitulo64);
-      break;
-      case "impuesto":
+        break;
+      case 'impuesto':
         this.addPhotos(this.photosImpuesto, this.photosImpuesto64);
-      break;
-      case "respaldo":
+        break;
+      case 'respaldo':
         this.addPhotos(this.photosRespaldo, this.photosRespaldo64);
-      break;
-      case "certificado":
+        break;
+      case 'certificado':
         this.addPhotos(this.photosCertificado, this.photosCertificado64);
-      break;
-      case "interiorDom":
+        break;
+      case 'interiorDom':
         this.addPhotos(this.photosInteriorDom, this.photosInteriorDom64);
-      break;
+        break;
     }
-
   }
 
-  public async addPhotos(photos: UserPhoto[], photosBase64: string[]){
+  public async addPhotos(photos: UserPhoto[], photosBase64: string[]) {
     // Take a photo
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.Uri,
@@ -88,16 +85,16 @@ export class PhotoService {
     });
 
     const filePath = await this.readAsBase64(capturedPhoto.webPath);
-
+    photos.pop();
     photos.unshift({
       filepath: filePath,
       webviewPath: capturedPhoto.webPath,
     });
     // console.log(filePath);
+    photosBase64.pop();
     photosBase64.unshift(filePath.split(',')[1]);
 
     const response = await fetch(capturedPhoto.webPath);
-    
   }
 
   private async readAsBase64(webviewPath: string) {

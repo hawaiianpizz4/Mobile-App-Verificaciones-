@@ -1,0 +1,70 @@
+  <p><strong>Fecha actual:</strong>{{this.fechaActual}}</p>
+        <p><strong>Nombre Tienda:</strong>{{this.nombreTienda}}</p>
+        <p><strong>Nombre Cliente:</strong>{{this.nombreCliente}}</p>
+        <p><strong>Número de Cédula:</strong>{{this.numeroCedula}}</p>
+        <p><strong>Código:</strong>{{this.codigoVeri}}</p>
+        <p><strong>Direccion Cliente:</strong>{{this.direccionCliente}}</p>
+
+        <ion-item>
+          <h5>Vivienda</h5>
+        </ion-item>
+        <p><strong>Tipo Vivienda:</strong>{{this.selectedOption}}</p>
+        <p>
+          <strong>Persona Realiza La Verificación:</strong
+          >{{this.selectedOption}}
+        </p>
+        <p><strong>Tiempo Residencia:</strong>{{this.selectedOption}}</p>
+        <p><strong>Local o terreno:</strong>{{this.selectedOption}}</p>
+
+        <ion-item>
+          <h5>Servicios</h5>
+        </ion-item>
+        <p>
+          <!-- <strong>Planilla Servicio Básico:</strong
+          >{{dataForm.value.planilla_servicios ? 'SI' : 'NO'}} -->
+        </p>
+        <!-- <p><strong>Imagen Planilla:</strong>{{this.photoService.photosPlanilla[0].webviewPath}}</p> -->
+        <p>
+          <!-- <strong>Seguridad Puertas Y Ventanas:</strong
+          >{{dataForm.value.seguridad_puertas ? 'SI' : 'NO' }} -->
+        </p>
+
+        <p>
+          <!-- <strong>Muebleria Básica:</strong>{{dataForm.value.muebleria_basica ?
+          'SI' : 'NO'}} -->
+        </p>
+        <p><strong>Material Casa:</strong>{{this.selectedMaterialCasa}}</p>
+        <p>
+          <strong>Periocidad Actividades Laborales:</strong
+          >{{this.nombreUsuario}}
+        </p>
+
+        <ion-item>
+          <h5>Vecinos</h5>
+        </ion-item>
+        <p><strong>Confirmación Vecino:</strong>{{this.nombreUsuario}}</p>
+        <p><strong>Nombre Del Vecino:</strong>{{this.nombreUsuario}}</p>
+        <p><strong>Celular Vecino:</strong>{{this.nombreUsuario}}</p>
+
+        <ion-item>
+          <h5>Imagenes</h5>
+        </ion-item>
+        <p><strong>Estabilidad Laboral:</strong>{{this.nombreUsuario}}</p>
+        <p><strong>Factura Proveedores:</strong>{{this.nombreUsuario}}</p>
+        <p><strong>Foto Exterior Negocio:</strong>{{this.nombreUsuario}}</p>
+        <p><strong>Foto Interior Negocio:</strong>{{this.nombreUsuario}}</p>
+        <p>
+          <strong>Titulo Propiedad Garante Codeudor</strong
+          >{{this.nombreUsuario}}
+        </p>
+        <p><strong>Impuesto Predial:</strong>{{this.nombreUsuario}}</p>
+        <p><strong>Respaldo Ingresos:</strong>{{this.nombreUsuario}}</p>
+        <p><strong>Certificado Laboral:</strong>{{this.nombreUsuario}}</p>
+        <p><strong>Foto Interior Domicilio:</strong>{{this.nombreUsuario}}</p>
+
+        <ion-item>
+          <h5>Mapa</h5>
+        </ion-item>
+        <p><strong>Latitud:</strong>{{this.nombreUsuario}}</p>
+        <p><strong>Longitud:</strong>{{this.nombreUsuario}}</p>
+      </ion-item-group>

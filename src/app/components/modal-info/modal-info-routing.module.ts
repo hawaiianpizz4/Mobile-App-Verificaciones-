@@ -7,7 +7,7 @@ import { ModalInfoPage } from './modal-info.page';
 const routes: Routes = [
   {
     path: '',
-    component: ModalInfoPage
+    component: ModalInfoPage,
   },
 ];
 

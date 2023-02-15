@@ -101,30 +101,49 @@ export class VerificacionPage implements OnInit {
 
   async submitForm() {
     const postData = {
-      nombre_tienda: this.dataForm.controls.nombre_tienda.value,
-      nombre_cliente: this.dataForm.controls.nombre_cliente.value,
-      numero_cedula: this.dataForm.controls.numero_cedula.value,
-      direccion_cliente: this.dataForm.controls.direccion_cliente.value,
-
-      tipo_vivienda: this.dataForm.get('tipo_vivienda').value,
-      // persona_verificacion: this.dataForm.controls.persona_verificacion.value,
-      persona_verificacion: this.dataForm.get('persona_verificacion').value,
-      tiempo_residencia: this.dataForm.get('tiempo_residencia').value,
-      local_terreno: this.dataForm.get('local_terreno').value,
-      planilla_servicios: this.dataForm.controls.planilla_servicios.value,
-
-      seguridad_puertas: this.dataForm.controls.seguridad_puertas.value,
-      muebleria_basica: this.dataForm.controls.muebleria_basica.value,
-      // material_casa: this.dataForm.controls.material_casa.value,
-      material_casa: this.dataForm.get('material_casa').value,
-      periodicidad_actividades:
+      cedulaCliente: this.dataForm.controls.numero_cedula.value,
+      nombreCliente: this.dataForm.controls.nombre_cliente.value,
+      codigoVerificacion: this.dataForm.controls.codigo.value,
+      direccionDomiciliaria: this.dataForm.controls.direccion_cliente.value,
+      tipoVivienda: this.dataForm.get('tipo_vivienda').value,
+      personaQuienRealizaLaVerificacion: this.dataForm.get(
+        'persona_verificacion'
+      ).value,
+      residenciaMinimaTresMeses: this.dataForm.get('tiempo_residencia').value,
+      localTerrenoPropio: this.dataForm.get('local_terreno').value,
+      localTerrenoArrendado: this.dataForm.get('local_terreno').value,
+      planillaServicioBasico: this.dataForm.controls.planilla_servicios.value,
+      planillaServicioBasicoImagen: this.photoService.photosPlanilla64,
+      seguridadPuertasVentanas: this.dataForm.controls.seguridad_puertas.value,
+      muebleriaBasica: this.dataForm.controls.muebleria_basica.value,
+      materialCasa: this.dataForm.get('material_casa').value,
+      periodicidadActividadesLaborales:
         this.dataForm.controls.periodicidad_actividades.value,
-      vecino_confirm: this.dataForm.controls.vecino_confirm.value,
-      vecino_nombre: this.dataForm.controls.vecino_nombre.value,
-      vecino_celular: this.dataForm.controls.vecino_celular.value,
-      codigo: this.dataForm.controls.codigo.value,
+      confirmacionInfoVecinos: this.dataForm.controls.vecino_confirm.value,
+      nombreInfoVecino: this.dataForm.controls.vecino_nombre.value,
+      celularInfoVecino: this.dataForm.controls.vecino_celular.value,
+      estabilidadLaboraSeisMesesImagen: this.photoService.photosPlanilla64,
+
+      facturasProveedoresUltimosTresMesesImagen:
+        this.photoService.photosPlanilla64,
+
+      fachadaDelNegocioImagen: this.photoService.photosPlanilla64,
+      interiorDelNegocioImagen: this.photoService.photosPlanilla64,
+
+      clienteDentroDelNegocioImagen: this.photoService.photosPlanilla64, //CREAR SECCION
+      clienteFueraDelNegocioImagen: this.photoService.photosPlanilla64, //CREAR SECCION
+
+      tituloPropiedaGaranteOCodeudorImagen: this.photoService.photosPlanilla64,
+      impuestoPredialImagen: this.photoService.photosPlanilla64,
+      respaldoIngresosImagen: this.photoService.photosPlanilla64,
+      certificadoLaboralImagen: this.photoService.photosPlanilla64,
+      interiorDomicilioImagen: this.photoService.photosPlanilla64,
+
       latitud: this.dataForm.controls.latitud.value,
       longitud: this.dataForm.controls.longitud.value,
+
+      vf_nombre_tienda: this.dataForm.controls.nombre_tienda.value,
+      nombreGestor: this.dataForm.controls.nombre_cliente.value,
     };
 
     console.dir(postData);

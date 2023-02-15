@@ -29,16 +29,14 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./veri-detail.page.scss'],
 })
 export class VeriDetailPage implements OnInit {
+  getdata = {};
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor() {
+    this.getdata = {
+      refi_usuario: 'asdfasdfasdf',
+      refi_fecha: 'fecha',
+    };
   }
 
-
-
-
-
-  
-
+  ngOnInit() {}
 }

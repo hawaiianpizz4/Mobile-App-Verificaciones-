@@ -21,27 +21,20 @@
             <div class="ion-padding" slot="content">
               <ion-item>
                 <ion-label position="floating">Fecha Refinanciación</ion-label>
-                <ion-input
-                  value="{{this.currentDate}}"
-                  formControlName="refi_fecha"
-                ></ion-input>
+                <ion-input formControlName="refi_fecha"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating"
                   >Nombre de Refinanciador</ion-label
                 >
-                <ion-input
-                  value="{{this.nombreUsuario}}"
-                  formControlName="refi_usuario"
-                ></ion-input>
+                <ion-input formControlName="refi_usuario"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Número de Operacion</ion-label>
                 <ion-input
                   formControlName="refi_operacion"
-                  value="{{this.operacion}}"
                   type="number"
                 ></ion-input>
               </ion-item>
@@ -52,7 +45,6 @@
                 >
                 <ion-input
                   formControlName="refi_autorizacion"
-                  value=""
                   type="number"
                 ></ion-input>
               </ion-item>
@@ -63,7 +55,6 @@
                 >
                 <ion-input
                   formControlName="refi_autorizacion_original"
-                  value=""
                   type="number"
                 ></ion-input>
               </ion-item>
@@ -91,7 +82,6 @@
                 <ion-label position="floating">Valor Cuota</ion-label>
                 <ion-input
                   formControlName="refi_valor_cuota"
-                  value=""
                   type="number"
                 ></ion-input>
               </ion-item>
@@ -113,7 +103,6 @@
                 >
                 <ion-input
                   formControlName="refi_pago_gastos_admin"
-                  value=""
                   type="number"
                 ></ion-input>
 
@@ -139,7 +128,6 @@
                 >
                 <ion-input
                   formControlName="refi_total_reest"
-                  value=""
                   type="number"
                 ></ion-input>
               </ion-item>
@@ -148,7 +136,6 @@
                 <ion-label position="floating">Total a Pagar</ion-label>
                 <ion-input
                   formControlName="refi_total_pagar"
-                  value=""
                   type="number"
                 ></ion-input>
               </ion-item>
@@ -165,7 +152,6 @@
                 <ion-label position="floating">Cédula/ID</ion-label>
                 <ion-input
                   formControlName="cliente_cedula"
-                  value="{{this.id}}"
                   type="text"
                 ></ion-input>
               </ion-item>
@@ -174,7 +160,7 @@
                 <ion-label position="floating">Nombres Completos</ion-label>
                 <ion-input
                   formControlName="cliente_nombres"
-                  value="{{getdata.nombres}}"
+                  value="{{datosSolicitudCliente.nombres}}"
                   type="text"
                 ></ion-input>
               </ion-item>
@@ -183,7 +169,7 @@
                 <ion-label position="floating">Nacionalidad</ion-label>
                 <ion-input
                   formControlName="cliente_nacionalidad"
-                  value="{{getdata.nacionalidad}}"
+                  value="{{datosSolicitudCliente.nacionalidad}}"
                   type="text"
                 ></ion-input>
               </ion-item>
@@ -193,7 +179,7 @@
                 <ion-input
                   formControlName="cliente_ciudad_nacimiento"
                   type="text"
-                  value="{{getdata.cod_cant_nacim}}"
+                  value="{{datosSolicitudCliente.cod_cant_nacim}}"
                 ></ion-input>
               </ion-item>
 
@@ -201,7 +187,7 @@
                 <ion-label position="floating">Fecha Nacimiento</ion-label>
                 <ion-input
                   formControlName="cliente_fecha_nacimiento"
-                  value="{{getdata.fecha_naci}}"
+                  value="{{datosSolicitudCliente.fecha_naci}}"
                   type="text"
                 ></ion-input>
               </ion-item>
@@ -213,7 +199,7 @@
                   interface="action-sheet"
                   placeholder="Seleccionar"
                   formControlName="cliente_sexo"
-                  value="{{getdata.des_sexo}}"
+                  value="{{datosSolicitudCliente.des_sexo}}"
                 >
                   <ion-select-option value="M">Masculino</ion-select-option>
                   <ion-select-option value="F">Femenino</ion-select-option>
@@ -245,7 +231,7 @@
                 <ion-label position="floating">Profesión</ion-label>
                 <ion-input
                   formControlName="cliente_profesion"
-                  value="{{getdata.des_profes}}"
+                  value="{{datosSolicitudCliente.des_profes}}"
                   type="text"
                 ></ion-input>
               </ion-item>
@@ -253,7 +239,6 @@
               <ion-item>
                 <ion-label position="floating">Estado Civil</ion-label>
                 <ion-select
-                  (ionChange)="handleChange($event)"
                   interface="action-sheet"
                   placeholder="Seleccionar"
                   formControlName="cliente_estado_civil"
@@ -272,7 +257,7 @@
                 <ion-label position="floating">Número Dependientes</ion-label>
                 <ion-input
                   formControlName="cliente_numero_dependientes"
-                  value="{{getdata.num_hijos}}"
+                  value="{{datosSolicitudCliente.num_hijos}}"
                   type="number"
                 ></ion-input>
               </ion-item>
@@ -292,16 +277,13 @@
                   type="text"
                 ></ion-input>
                 <div id="mapa"></div>
-
-                <div id="coordinates" class="coordinates"></div>
-                <!-- <div id="map"></div> -->
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Provincia</ion-label>
                 <ion-input
                   formControlName="dir_provincia"
-                  value="{{getdata.cod_prov_dom}}"
+                  value="{{datosSolicitudCliente.cod_prov_dom}}"
                   type="text"
                 ></ion-input>
               </ion-item>
@@ -310,7 +292,7 @@
                 <ion-label position="floating">Cantón/Ciudad</ion-label>
                 <ion-input
                   formControlName="dir_canton_ciudad"
-                  value="{{getdata.cod_cant_dom}}"
+                  value="{{datosSolicitudCliente.cod_cant_dom}}"
                   type="text"
                 ></ion-input>
               </ion-item>
@@ -319,7 +301,7 @@
                 <ion-label position="floating">Parroquia</ion-label>
                 <ion-input
                   formControlName="dir_parroquia"
-                  value="{{getdata.cod_parr_dom}}"
+                  value="{{datosSolicitudCliente.cod_parr_dom}}"
                   type="text"
                 ></ion-input>
               </ion-item>
@@ -381,7 +363,6 @@
               <ion-item>
                 <ion-label position="floating">Tipo Vivienda</ion-label>
                 <ion-select
-                  (ionChange)="handleChange($event)"
                   interface="action-sheet"
                   placeholder="Seleccionar"
                   formControlName="dir_tipo_vivienda"
@@ -704,7 +685,7 @@
                 <ion-label position="floating">Nombre</ion-label>
                 <ion-input
                   formControlName="trabajo_nombre"
-                  value="{{getdata.nombre_empresa_titular}}"
+                  value="{{datosSolicitudCliente.nombre_empresa_titular}}"
                   type="text"
                 ></ion-input>
               </ion-item>
@@ -713,7 +694,7 @@
                 <ion-label position="floating">Provincia</ion-label>
                 <ion-input
                   formControlName="trabajo_provincia"
-                  value="{{getdata.cod_prov_trabajo_titular}}"
+                  value="{{datosSolicitudCliente.cod_prov_trabajo_titular}}"
                   type="text"
                 ></ion-input>
               </ion-item>
@@ -722,7 +703,7 @@
                 <ion-label position="floating">Cantón/Ciudad</ion-label>
                 <ion-input
                   formControlName="trabajo_canton"
-                  value="{{getdata.cod_cant_trabajo_titular}}"
+                  value="{{datosSolicitudCliente.cod_cant_trabajo_titular}}"
                   type="text"
                 ></ion-input>
               </ion-item>
@@ -731,7 +712,7 @@
                 <ion-label position="floating">Parroquia</ion-label>
                 <ion-input
                   formControlName="trabajo_parroquia"
-                  value="{{getdata.cod_parr_trabajo_titular}}"
+                  value="{{datosSolicitudCliente.cod_parr_trabajo_titular}}"
                   type="text"
                 ></ion-input>
               </ion-item>
@@ -792,7 +773,7 @@
                 <ion-label position="floating">Antigüedad</ion-label>
                 <ion-input
                   formControlName="trabajo_antiguedad"
-                  value="{{getdata.antiguedad_lab}}"
+                  value="{{datosSolicitudCliente.antiguedad_lab}}"
                   type="number"
                 ></ion-input>
               </ion-item>

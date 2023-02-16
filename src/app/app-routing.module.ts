@@ -67,6 +67,10 @@ const routes: Routes = [
     path: 'verificados',
     loadChildren: () => import('./screens/verificados/verificados.module').then( m => m.VerificadosPageModule)
   },
+  {
+    path: 'refi-historial',
+    loadChildren: () => import('./screens/refi-historial/refi-historial.module').then( m => m.RefiHistorialPageModule)
+  },
 
 
 ];

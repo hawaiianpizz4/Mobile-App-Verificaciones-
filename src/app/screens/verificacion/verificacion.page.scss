@@ -30,7 +30,8 @@ ion-item {
 .label-floating.sc-ion-label-md-h {
   margin-bottom: 20px;
   color: #45bc6e;
-  flex: 10
+  flex: 10;
+  font-size: 18px
 }
 
 #map {
@@ -48,7 +49,7 @@ capacitor-google-maps {
 ion-content {
   --background: #6b45bc;
   position: relative;
-
+  font-size: 16px;
   ion-input {
     border: solid 1px #6b45bc;
   }
@@ -93,11 +94,11 @@ ion-content {
       margin-bottom: 1.2rem;
       h1 {
         font-weight: 700;
-        font-size: 1.1rem;
+        font-size: 1.5rem;
       }
       p {
         font-size: 2.2rem;
-        font-weight: 700;
+        font-weight: 800;
         color: #ffb800;
         sup {
           font-size: 1.2rem;

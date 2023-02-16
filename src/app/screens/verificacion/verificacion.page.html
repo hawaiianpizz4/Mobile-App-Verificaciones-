@@ -92,8 +92,7 @@
                 >
                   <ion-select-option value="P">PROPIA</ion-select-option>
                   <ion-select-option value="A">ARRENDADA</ion-select-option>
-                  <ion-select-option value="F"
-                    >VIVE CON FAMILIARES</ion-select-option
+                  <ion-select-option value="F">VIVE CON FAMILIARES</ion-select-option
                   >
                 </ion-select>
               </ion-item>
@@ -120,7 +119,7 @@
                 >
                 <ion-item>
                   <ion-label
-                    >{{ dataForm.value.seguridad_puertas ? 'SI' : 'NO'
+                    >{{ dataForm.value.recidencia_minima ? 'SI' : 'NO'
                     }}</ion-label
                   >
                   <ion-toggle
@@ -133,32 +132,55 @@
               </ion-item>
 
               <ion-item>
-                <ion-label position="floating"> Local o Terreno </ion-label>
-                <ion-select
-                  interface="action-sheet"
-                  placeholder="Seleccionar"
-                  formControlName="local_terreno"
+                <ion-label position="floating"
+                  >Local Terreno Propio</ion-label
                 >
-                  <ion-select-option value="P">PROPIA</ion-select-option>
-                  <ion-select-option value="A">ARRENDADA</ion-select-option>
-                </ion-select>
+                <ion-item>
+                  <ion-label
+                    >{{ dataForm.value.localTerreno_propio ? 'SI' : 'NO'
+                    }}</ion-label
+                  >
+                  <ion-toggle
+                    color="success"
+                    [checked]="false"
+                    formControlName="seguridad_puertas"
+                    [enableOnOffLabels]="true"
+                  ></ion-toggle>
+                </ion-item>
               </ion-item>
-            </div>
-          </ion-accordion>
+
+              <ion-item>
+                <ion-label position="floating"
+                  >Local Terreno Arrendado</ion-label
+                >
+                <ion-item>
+                  <ion-label
+                    >{{ dataForm.value.localTerreno_arrendado ? 'SI' : 'NO'
+                    }}</ion-label
+                  >
+                  <ion-toggle
+                    color="success"
+                    [checked]="false"
+                    formControlName="seguridad_puertas"
+                    [enableOnOffLabels]="true"
+                  ></ion-toggle>
+                </ion-item>
+              </ion-item>
+
+        </div>
+      </ion-accordion>
 
           <ion-accordion value="datosServicios">
             <ion-item slot="header" color="light">
-              <ion-label>Verificación Servicios</ion-label>
+              <ion-label> Servicios</ion-label>
             </ion-item>
+
             <div class="ion-padding" slot="content">
-              <ion-label position="floating"
-                >Planilla Servicios Básico</ion-label
-              >
+              <ion-label position="floating">Planilla Servicios Básico</ion-label>
               <ion-item>
                 <ion-label
                   >{{ dataForm.value.planilla_servicios ? 'SI' : 'NO'
-                  }}</ion-label
-                >
+                  }}</ion-label  >
                 <ion-toggle
                   color="success"
                   formControlName="planilla_servicios"
@@ -168,15 +190,13 @@
 
               <ion-item>
                 <ion-button (click)="addPhoto('planilla')">
-                  Captura Planilla
+                  Imágen Planilla
                 </ion-button>
-
                 <ion-grid>
                   <ion-row>
                     <ion-col
                       size="6"
-                      *ngFor="let photo of photoService.photosPlanilla; index as position"
-                    >
+                      *ngFor="let photo of photoService.photosPlanilla; index as position">
                       <ion-img [src]="photo.webviewPath"></ion-img>
                     </ion-col>
                   </ion-row>
@@ -239,12 +259,8 @@
                 >
                   <ion-select-option value="DIARIO">DIARIO</ion-select-option>
                   <ion-select-option value="SEMANAL">SEMANAL</ion-select-option>
-                  <ion-select-option value="QUINCENAL"
-                    >QUINCENAL</ion-select-option
-                  >
-                  <ion-select-option value="FIN"
-                    >FIN DE SEMANA</ion-select-option
-                  >
+                  <ion-select-option value="QUINCENAL">QUINCENAL</ion-select-option>
+                  <ion-select-option value="FIN">FIN DE SEMANA</ion-select-option>
                 </ion-select>
               </ion-item>
             </div>
@@ -252,7 +268,7 @@
 
           <ion-accordion value="datosVecino">
             <ion-item slot="header" color="light">
-              <ion-label>Verificación Vecinos</ion-label>
+              <ion-label> Vecinos</ion-label>
             </ion-item>
             <div class="ion-padding" slot="content">
               <ion-label position="floating">Confirmación Vecinos</ion-label>
@@ -291,7 +307,7 @@
 
           <ion-accordion value="datosImagenes">
             <ion-item slot="header" color="light">
-              <ion-label>Verificación De Imágenes</ion-label>
+              <ion-label>Imágenes</ion-label>
             </ion-item>
 
             <div class="ion-padding" slot="content">
@@ -417,7 +433,6 @@
 
               <ion-item>
                 <ion-label position="floating">Respaldo Ingresos</ion-label>
-
                 <ion-button (click)='addPhoto("respaldo")'>
                   Captura imagen
                 </ion-button>

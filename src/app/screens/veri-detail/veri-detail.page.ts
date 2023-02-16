@@ -4,11 +4,13 @@ import { Component, OnInit, NgZone } from '@angular/core';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { forwardGeocode } from '@mapbox/mapbox-sdk/services/geocoding';
 import {
   ModalController,
   NavController,
   ToastController,
   LoadingController,
+
 } from '@ionic/angular';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -28,12 +30,14 @@ import { Router } from '@angular/router';
   selector: 'app-veri-detail',
   templateUrl: './veri-detail.page.html',
   styleUrls: ['./veri-detail.page.scss'],
+
 })
 export class VeriDetailPage implements OnInit {
   getdata = {};
   map;
   infoPoss = [];
   status: boolean;
+  address: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -49,77 +53,99 @@ export class VeriDetailPage implements OnInit {
     private modalCtrl: ModalController
   ) {
     this.getdata = {
+      codigo: ' IDCMS',
       nombre_gestor: ' Juan Perez',
       fecha_actual: ' 15/02/2023',
       nombre_tienda: ' Orve Condado',
       nombre_cliente: ' Maria Sanchez',
       numero_cedula: ' 1717830705',
-      codigo: ' IDCMS',
-
+      direccion_cliente:'Quicentro Sur',
       tipo_vivienda: 'Propia',
-      persona_verifica: 'Danilo Carrera',
+      persona_verifica: 'Maria Sanchez',
       residencia_minima: 'Si',
-      local_terreno: 'Propia',
+      localTerreno_propio:'Si',
+      localTerreno_arrendado:'Si',
+
+
+      planilla_servicios: 'Si',
+      imagen_planilla: '',
+      seguridad_puertas: 'si',
+      muebleria_basica: 'si',
+      material_casa: 'Bloque',
+      periodicidad_actividades: 'DIARIO',
+      vecino_confirm: 'Si',
+      vecino_nombre: 'Danilo Carrera',
+      vecino_celular: '0969838598',
+
+
+
+
 
     };
   }
 
   ngOnInit() {
-
     this.initMap();
-
   }
 
+  initMap() {
+    mapboxgl.accessToken = 'pk.eyJ1IjoianF1aWxjaGFtaW4iLCJhIjoiY2xkdzJiaTN4MDM5NjNvbnV4eTI5MmV0MCJ9.xkxeH8IUvBcUTyHOLEORJg';
 
-initMap() {
-  mapboxgl.accessToken =
-    'pk.eyJ1IjoianF1aWxjaGFtaW4iLCJhIjoiY2xkdzJiaTN4MDM5NjNvbnV4eTI5MmV0MCJ9.xkxeH8IUvBcUTyHOLEORJg';
-  this.map = new mapboxgl.Map({
-    container: 'mapa',
-    style: 'mapbox://styles/mapbox/streets-v11',
-    center: [-79.4698468, -1.0037841],
-    zoom: 18,
-  });
-  // Add the control to the map.
-  this.map.addControl(
-    new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
-      mapboxgl: mapboxgl,
-    })
-  );
+    this.map = new mapboxgl.Map({
+      container: 'mapa',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [-79.4698468, -1.0037841],
+      zoom: 18,
+      scrollZoom: true, // Impedir el zoom con la rueda del ratón
+      dragPan: false // Impedir que el usuario mueva el mapa
+    });
 
-  // Create a default Marker and add it to the map.
-  const marker = new mapboxgl.Marker({
-    draggable: true,
-  })
-    .setLngLat([-79.4698468, -1.0037841])
-    .addTo(this.map);
+    const marker = new mapboxgl.Marker({
+      draggable: false, // Eliminar la capacidad de arrastrar el marcador
+    }).setLngLat([-79.4698468, -1.0037841]).addTo(this.map);
 
-  const coordinates = document.getElementById('coordinates');
+    // Obtener la dirección del cliente desde getdata
+    const address = this.getdata['direccion_cliente'];
 
-  function onDragEnd() {
-    const lngLat = marker.getLngLat();
-    coordinates.style.display = 'block';
-    coordinates.innerHTML = `Longitud: ${lngLat.lng}<br />Latitud: ${lngLat.lat}`;
+    // Enviar la dirección a la API de geocodificación de Mapbox
+    fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?access_token=${mapboxgl.accessToken}`)
+      .then(response => response.json())
+      .then(data => {
+        // Obtener las coordenadas del primer resultado
+        const [lng, lat] = data.features[0].center;
+
+        // Mover el marcador al resultado de la geocodificación
+        marker.setLngLat([lng, lat]);
+
+        // Centrar el mapa en las coordenadas de la geocodificación
+        this.map.setCenter([lng, lat]);
+
+        // Establecer el valor de la dirección del cliente en el cuadro de búsqueda
+        this.map.on('load', () => {
+          const geocoder = new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken,
+            mapboxgl: mapboxgl
+          });
+          geocoder.query(address);
+          this.map.addControl(geocoder);
+          geocoder.on('loading', (event) => {
+            if (event && event.target && event.target._inputEl && event.target._inputEl.style) {
+              event.target._inputEl.style.cursor = 'wait';
+            }
+          });
+          geocoder.on('result', (event) => {
+            if (event && event.result && event.result.bbox && event.result.bbox.length > 0) {
+              const bbox = event.result.bbox;
+              const ne = [bbox[2], bbox[3]];
+              const sw = [bbox[0], bbox[1]];
+              this.map.fitBounds([ne, sw], {padding: 50});
+            }
+            if (event && event.target && event.target._inputEl && event.target._inputEl.style) {
+              event.target._inputEl.style.cursor = 'default';
+            }
+          });
+        });
+      })
+      .catch(error => console.error(error));
   }
-
-  marker.on('dragend', () => {
-    //mostrar coordenadas
-    const features = this.map.queryRenderedFeatures(marker._pos);
-    const lngLat = marker.getLngLat();
-    onDragEnd();
-    console.log(features[0].properties.name);
-    this._services
-      .getCurrentPoss(lngLat.lng, lngLat.lat, mapboxgl.accessToken)
-      .subscribe(
-        (data) => {
-          this.infoPoss = data;
-          console.log(this.infoPoss);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  });
-}
 }

@@ -15,7 +15,7 @@
       </ion-item>
 
       <h1 style="color: #ff0000; text-align: center">
-        Formulario De Verificación
+        Detalle De Formulario Verificación
       </h1>
 
       <ion-item>
@@ -42,19 +42,16 @@
         <p><strong>Número Cédula:</strong>{{this.getdata.numero_cedula}}</p>
       </ion-item>
 
-
       <ion-item>
-
-          <ion-label>Direccion:</ion-label>{{this.getdata.direccion_cliente}}
-
+        <strong>Direccion:</strong>{{this.getdata.direccion_cliente}}
+      </ion-item>
+      <ion-item>
           <div id="mapa"></div>
           <div id="coordinates" class="coordinates"></div>
-
       </ion-item>
 
-
       <ion-item>
-        <h2 style="color: #1EA9A7">Verificación Vivienda</h2>
+        <h2 style="color: #1EA9A7">VIVIENDA</h2>
       </ion-item>
 
       <ion-item>
@@ -70,9 +67,67 @@
       </ion-item>
 
       <ion-item>
-        <p><strong>Local Terreno:</strong>{{this.getdata.local_terreno}}</p>
+        <p><strong>Local o Tereno Propio:</strong>{{this.getdata.localTerreno_propio}}</p>
       </ion-item>
 
+      <ion-item>
+        <p><strong>Local o Terreno Arrendado:</strong>{{this.getdata.localTerreno_arrendado}}</p>
+      </ion-item>
+
+      <ion-item>
+        <h2 style="color: #1EA9A7">SERVICIOS </h2>
+      </ion-item>
+
+      <ion-item>
+        <p><strong>Planilla Servicio Básico:</strong>{{this.getdata.planilla_servicios}}</p>
+      </ion-item>
+
+      <ion-item>
+        <p><strong>Captura Planilla:</strong></p>
+      </ion-item>
+
+      <ion-item>
+        <p><strong>Seguridad Puertas Ventanas:</strong>{{this.getdata.seguridad_puertas}}</p>
+      </ion-item>
+
+      <ion-item>
+        <p><strong>Mueblerías Básica:</strong>{{this.getdata.muebleria_basica}}</p>
+      </ion-item>
+
+      <ion-item>
+        <p><strong>Material Casa:</strong>{{this.getdata.material_casa}}</p>
+      </ion-item>
+
+      <ion-item>
+        <p><strong>Actividades Laborales:</strong>{{this.getdata.periodicidad_actividades}}</p>
+      </ion-item>
+
+      <ion-item>
+        <h2 style="color: #1EA9A7">VECINOS </h2>
+      </ion-item>
+
+      <ion-item>
+        <p><strong>Confirmación Vecinos:</strong>{{this.getdata.vecino_confirm}}</p>
+      </ion-item>
+
+      <ion-item>
+        <p><strong>Nombre Del Vecino:</strong>{{this.getdata.vecino_nombre}}</p>
+      </ion-item>
+
+      <ion-item>
+        <p><strong>Celular Vecino:</strong>{{this.getdata.vecino_celular}}</p>
+      </ion-item>
+
+      <ion-item>
+        <h2 style="color: #1EA9A7">IMAGENES </h2>
+      </ion-item>
+
+
+      <ion-item>
+      </ion-item>
+
+      <ion-item>
+      </ion-item>
 
     </div>
   </div>

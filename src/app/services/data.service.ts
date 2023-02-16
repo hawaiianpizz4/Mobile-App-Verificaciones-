@@ -68,4 +68,10 @@ export class dataService {
       `http://200.7.249.21:90/ApiVerificaciones/api/verificaciones?consult=VerificationforUser&nombreGestor=MRAMIREZ`
     )
   }
+
+  getdireccion_clienteDetalleVer() {
+    return this._http.get<any>(
+      `http://200.7.249.21:90/ApiVerificaciones/api/verificaciones?consult=direccion_cliente`
+    )
+  }
 }

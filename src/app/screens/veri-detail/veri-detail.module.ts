@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule,ReactiveFormsModule} from '@angular/forms';
 
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+
 import { IonicModule } from '@ionic/angular';
 
 import { VeriDetailPageRoutingModule } from './veri-detail-routing.module';
@@ -23,8 +25,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     VeriDetailPageRoutingModule,
     HistCardComponentModule,
     ButtonModule,
-    ReactiveFormsModule
-
+    ReactiveFormsModule,
+    BadgeModule
   ],
   declarations: [VeriDetailPage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

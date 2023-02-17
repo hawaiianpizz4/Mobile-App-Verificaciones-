@@ -14,6 +14,7 @@ import {
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { Network } from '@capacitor/network';
 
 import { PhotoService } from '../../services/photoVerificacion.service';
 import { ElementRef, ViewChild } from '@angular/core';
@@ -33,12 +34,18 @@ export class VerificacionPage implements OnInit {
   infoPoss = [];
   status: boolean;
   dataClienteFromLista: any;
+
+  postInfoCliente: Observable<any>;
+  latitude: number;
+  longitude: number;
+
+  isServiceCallInProgress: any;
+  networkStatus: boolean;
+
   dataForm = new FormGroup({
     nombre_gestor: new FormControl('', []),
     fecha_actual: new FormControl(
-      { value: new Date().toUTCString(), disabled: true },
-      []
-    ),
+      { value: new Date().toUTCString(), disabled: true },[]),
     nombre_tienda: new FormControl('', []),
     nombre_cliente: new FormControl('', []),
     numero_cedula: new FormControl('', []),
@@ -49,12 +56,12 @@ export class VerificacionPage implements OnInit {
     local_terreno: new FormControl('', []),
 
     planilla_servicios: new FormControl(false, []),
-    seguridad_puertas: new FormControl(false, []),
+    puertas_ventanas: new FormControl(false, []),
     muebleria_basica: new FormControl(false, []),
     material_casa: new FormControl('', []),
     periodicidad_actividades: new FormControl('', []),
 
-    vecino_confirm: new FormControl(false, []),
+    vecino_confirma: new FormControl(false, []),
     vecino_nombre: new FormControl('', []),
     vecino_celular: new FormControl('', []),
 
@@ -80,6 +87,9 @@ export class VerificacionPage implements OnInit {
   }
 
   async ngOnInit() {
+    this.getCurrentCoordinates();
+    //this.photoService.resetPhotos();
+
     this.dataForm.controls.nombre_gestor.setValue(
       this.activatedRoute.snapshot.paramMap.get('vf_nombre_vendedor')
     );
@@ -95,57 +105,70 @@ export class VerificacionPage implements OnInit {
     this.dataForm.controls.direccion_cliente.setValue(
       this.activatedRoute.snapshot.paramMap.get('dndlD_direccion_domiciliaria')
     );
+    this.dataForm.controls.codigo.setValue(
+      this.activatedRoute.snapshot.paramMap.get('dndlD_codigo')
+    );
 
+    Network.addListener('networkStatusChange', (status) => {
+      this.ngZone.run(() => {
+        this.changeStatus();
+      });
+    });
 
+    this.changeStatus();
   }
 
   async submitForm() {
     const postData = {
-      cedulaCliente: this.dataForm.controls.numero_cedula.value,
+
+      nombreGestor: this.dataForm.controls.nombre_gestor.value,
+      //fechaverificacion: this.dataForm.controls.fecha_actual.value,
+      vf_nombre_tienda: this.dataForm.controls.nombre_tienda.value,
       nombreCliente: this.dataForm.controls.nombre_cliente.value,
+      cedulaCliente: this.dataForm.controls.numero_cedula.value,
       codigoVerificacion: this.dataForm.controls.codigo.value,
       direccionDomiciliaria: this.dataForm.controls.direccion_cliente.value,
+      //vivienda
       tipoVivienda: this.dataForm.get('tipo_vivienda').value,
-      personaQuienRealizaLaVerificacion: this.dataForm.get(
-        'persona_verificacion'
-      ).value,
-      residenciaMinimaTresMeses: this.dataForm.get('tiempo_residencia').value,
-      localTerrenoPropio: this.dataForm.get('local_terreno').value,
-      localTerrenoArrendado: this.dataForm.get('local_terreno').value,
+      personaQuienRealizaLaVerificacion: this.dataForm.get('persona_verificacion').value,
+      residenciaMinimaTresMeses: this.dataForm.get('residencia_minima').value,
+      localTerrenoPropio: this.dataForm.get('localTerreno_propio').value,
+      localTerrenoArrendado: this.dataForm.get('localTerreno_arrendado').value,
+      //servicios
       planillaServicioBasico: this.dataForm.controls.planilla_servicios.value,
       planillaServicioBasicoImagen: this.photoService.photosPlanilla64,
-      seguridadPuertasVentanas: this.dataForm.controls.seguridad_puertas.value,
+      seguridadPuertasVentanas: this.dataForm.controls.puertas_ventanas.value,
       muebleriaBasica: this.dataForm.controls.muebleria_basica.value,
       materialCasa: this.dataForm.get('material_casa').value,
-      periodicidadActividadesLaborales:
-        this.dataForm.controls.periodicidad_actividades.value,
-      confirmacionInfoVecinos: this.dataForm.controls.vecino_confirm.value,
+      periodicidadActividadesLaborales:this.dataForm.controls.periodicidad_actividades.value,
+      //acordeon confimacion vecino
+      confirmacionInfoVecinos: this.dataForm.controls.vecino_confirma.value,
       nombreInfoVecino: this.dataForm.controls.vecino_nombre.value,
       celularInfoVecino: this.dataForm.controls.vecino_celular.value,
-      estabilidadLaboraSeisMesesImagen: this.photoService.photosPlanilla64,
 
-      facturasProveedoresUltimosTresMesesImagen:
-        this.photoService.photosPlanilla64,
+      //imagenes
 
-      fachadaDelNegocioImagen: this.photoService.photosPlanilla64,
-      interiorDelNegocioImagen: this.photoService.photosPlanilla64,
 
-      clienteDentroDelNegocioImagen: this.photoService.photosPlanilla64, //CREAR SECCION
-      clienteFueraDelNegocioImagen: this.photoService.photosPlanilla64, //CREAR SECCION
 
-      tituloPropiedaGaranteOCodeudorImagen: this.photoService.photosPlanilla64,
-      impuestoPredialImagen: this.photoService.photosPlanilla64,
-      respaldoIngresosImagen: this.photoService.photosPlanilla64,
-      certificadoLaboralImagen: this.photoService.photosPlanilla64,
-      interiorDomicilioImagen: this.photoService.photosPlanilla64,
+      estabilidadLaboraSeisMesesImagen: this.photoService.photosEstabilidad,
+      facturasProveedoresUltimosTresMesesImagen:this.photoService.photosFacturas,
+      clienteFueraDelNegocioImagen: this.photoService.photosExterior,
+      clienteDentroDelNegocioImagen: this.photoService.photosInterior,
+      tituloPropiedaGaranteOCodeudorImagen: this.photoService.photosTitulo,
+      impuestoPredialImagen: this.photoService.photosImpuesto,
+      respaldoIngresosImagen: this.photoService.photosRespaldo,
+      certificadoLaboralImagen: this.photoService.photosCertificado,
+      interiorDomicilioImagen: this.photoService.photosInteriorDom,
 
+      //latitud
       latitud: this.dataForm.controls.latitud.value,
       longitud: this.dataForm.controls.longitud.value,
 
-      vf_nombre_tienda: this.dataForm.controls.nombre_tienda.value,
-      nombreGestor: this.dataForm.controls.nombre_cliente.value,
+
+
     };
 
+    console.dir(this.photoService.photosPlanilla64);
     console.dir(postData);
     // if (postData.numero_cedula && postData.numero_cedula != undefined)
     {
@@ -225,6 +248,30 @@ export class VerificacionPage implements OnInit {
     //   this.presentToast('No debe existir campos vacios', 'alert', 'warning');
     // }
   }
+
+
+  async changeStatus() {
+    const status = await Network.getStatus();
+    this.networkStatus = status?.connected;
+    this.networkStatus
+      ? this.presentToast('Conectado', 'wifi-outline', 'success')
+      : this.presentToast('Sin conexion', 'globe-outline', 'warning');
+  }
+
+  getCurrentCoordinates() {
+    this.geolocation
+      .getCurrentPosition()
+      .then((resp) => {
+        this.latitude = resp.coords.latitude;
+        this.longitude = resp.coords.longitude;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+
+
 
   async showLoading(msg) {
     const loading = await this.loadingCtrl.create({

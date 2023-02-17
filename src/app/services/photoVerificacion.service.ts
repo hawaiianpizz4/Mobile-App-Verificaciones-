@@ -20,8 +20,8 @@ export class PhotoService {
   public photosFacturas: UserPhoto[] = [];
   public photosFacturas64: string[] = [];
 
-  public photosExteriorNego: UserPhoto[] = [];
-  public photosExteriorNego64: string[] = [];
+  public photosExterior: UserPhoto[] = [];
+  public photosExterior64: string[] = [];
 
   public photosInterior: UserPhoto[] = [];
   public photosInterior64: string[] = [];
@@ -41,6 +41,8 @@ export class PhotoService {
   public photosInteriorDom: UserPhoto[] = [];
   public photosInteriorDom64: string[] = [];
 
+
+
   public async addNewToGallery(tipo: string) {
     switch (tipo) {
       case 'planilla':
@@ -53,7 +55,7 @@ export class PhotoService {
         this.addPhotos(this.photosFacturas, this.photosFacturas64);
         break;
       case 'exterior':
-        this.addPhotos(this.photosExteriorNego, this.photosExteriorNego64);
+        this.addPhotos(this.photosExterior, this.photosExterior64);
         break;
       case 'interior':
         this.addPhotos(this.photosInterior, this.photosInterior64);
@@ -90,7 +92,7 @@ export class PhotoService {
       filepath: filePath,
       webviewPath: capturedPhoto.webPath,
     });
-    // console.log(filePath);
+          console.log(filePath);
     photosBase64.pop();
     photosBase64.unshift(filePath.split(',')[1]);
 

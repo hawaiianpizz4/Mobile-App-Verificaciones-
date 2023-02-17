@@ -77,10 +77,6 @@ export class VeriDetailPage implements OnInit {
       vecino_nombre: 'Danilo Carrera',
       vecino_celular: '0969838598',
 
-
-
-
-
     };
   }
 
@@ -147,5 +143,12 @@ export class VeriDetailPage implements OnInit {
         });
       })
       .catch(error => console.error(error));
+  }
+
+  async showLoading(msg) {
+    const loading = await this.loadingCtrl.create({
+      message: msg,
+    });
+    return loading;
   }
 }

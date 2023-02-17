@@ -18,7 +18,7 @@ export class Verificaciones2Page implements OnInit {
 
   ngOnInit() {
 
-    let dummyData = [
+    let Data = [
       {
         vf_nombre_tienda: "ORVE CONDADO",//
         vf_nombre_vendedor: "CALULEMA",//
@@ -73,12 +73,12 @@ export class Verificaciones2Page implements OnInit {
     ];
 
 
-    this.dataList2 = dummyData;
+    this.dataList2 = Data;
 
 
     // this._service.getUsersVerifi2().subscribe((data) => {
     //   this.dataList2=data;
-    //   console.log(this.dataList2);          
+    //   console.log(this.dataList2);
     // });
   }
 

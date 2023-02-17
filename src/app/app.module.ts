@@ -13,6 +13,8 @@ import { Network } from '@ionic-native/network/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { menuModule } from './components/menu/menu.module';
 
+import { MenuController } from '@ionic/angular';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [

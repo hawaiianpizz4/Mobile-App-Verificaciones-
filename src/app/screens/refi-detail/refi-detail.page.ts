@@ -89,7 +89,7 @@ export class RefiDetailPage implements OnInit {
     this.isServiceCallInProgress = await this.loadingCtrl.create({
       message: 'Cargando Datos de Cliente...',
       spinner: 'bubbles',
-      duration: 5000, // set a timeout of 5 seconds (5000 milliseconds)
+      duration: 10000, // set a timeout of 5 seconds (5000 milliseconds)
     });
     // present the loading controller
     await this.isServiceCallInProgress.present();
@@ -100,13 +100,10 @@ export class RefiDetailPage implements OnInit {
           console.log(data[0]);
           this.datosSolicitudCliente = data[0];
           this.cargarDatosGetEnForm();
-          // dismiss the loading controller
           this.isServiceCallInProgress.dismiss();
         },
         (error) => {
           console.log(error);
-
-          // handle the error by showing a toast and dismissing the loading controller
           this.presentToast(
             'Error al obtener datos del cliente.',
             'checkmark-outline',
@@ -116,9 +113,6 @@ export class RefiDetailPage implements OnInit {
         }
       );
     } catch (error) {
-      // handle any other errors by dismissing the loading controller
-      console.log('Here!!');
-
       this.presentToast('Error al enviar datos', 'checkmark-outline', 'danger');
       this.isServiceCallInProgress.dismiss();
     }

@@ -3,12 +3,7 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  ModalController,
-  NavController,
-  ToastController,
-  LoadingController,
-} from '@ionic/angular';
+import { ModalController, NavController, ToastController, LoadingController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Network } from '@capacitor/network';
 import { Observable } from 'rxjs';
@@ -18,6 +13,9 @@ import { RefiModalMapPage } from 'src/app/components/refi-modal-map/refi-modal-m
 import { dataService } from 'src/app/services/data.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
+import { getCurrentCoordinates, presentToast } from 'src/app/utils/utils';
+import { iCurrentLocation } from 'src/interfaces/currentLocation.interface';
+
 @Component({
   selector: 'app-refi-detail',
   templateUrl: './refi-detail.page.html',
@@ -25,7 +23,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class RefiDetailPage implements OnInit {
   map: mapboxgl;
-  infoPoss = [];
+
+  currentLocation: iCurrentLocation;
 
   datosSolicitudCliente = [];
 
@@ -36,10 +35,7 @@ export class RefiDetailPage implements OnInit {
   currentDate: string = new Date().toISOString();
 
   dataForm: FormGroup;
-
   postInfoCliente: Observable<any>;
-  latitude = 111.111;
-  longitude = 1111.111;
 
   isServiceCallInProgress: any;
   networkStatus: boolean;
@@ -61,27 +57,29 @@ export class RefiDetailPage implements OnInit {
   }
 
   async ngOnInit() {
+    this.currentLocation = await getCurrentCoordinates();
+
+    console.dir(this.currentLocation);
     this.initMap();
-    this.getCurrentCoordinates();
     this.photoService.resetPhotos();
-    this.datosPrecargados();
+    this.cargarDatosDesdeLista();
+
+    // await this.getDatosCliente();
+    this.checkDatosCargados();
 
     console.log(`${this.idCliente} - ${this.operacion} - ${this.currentDate}`);
-
-    await this.getDatosCliente();
-
-    if (!this.datosSolicitudCliente) {
-      this.presentToast('El usuario no se pudo encontrar', 'Error', 'warning');
-      this.redirect();
-    }
-
     Network.addListener('networkStatusChange', (status) => {
       this.ngZone.run(() => {
         this.changeStatus();
       });
     });
+  }
 
-    this.changeStatus();
+  checkDatosCargados() {
+    if (!this.datosSolicitudCliente) {
+      presentToast('El usuario no se pudo encontrar', 'Error', 'warning');
+      this.redirect();
+    }
   }
 
   async getDatosCliente() {
@@ -99,21 +97,17 @@ export class RefiDetailPage implements OnInit {
         (data) => {
           console.log(data[0]);
           this.datosSolicitudCliente = data[0];
-          this.cargarDatosGetEnForm();
+          this.loadMineDataInForm();
           this.isServiceCallInProgress.dismiss();
         },
         (error) => {
           console.log(error);
-          this.presentToast(
-            'Error al obtener datos del cliente.',
-            'checkmark-outline',
-            'danger'
-          );
+          presentToast('Error al obtener datos del cliente.', 'checkmark-outline', 'danger');
           this.isServiceCallInProgress.dismiss();
         }
       );
     } catch (error) {
-      this.presentToast('Error al enviar datos', 'checkmark-outline', 'danger');
+      presentToast('Error al enviar datos', 'checkmark-outline', 'danger');
       this.isServiceCallInProgress.dismiss();
     }
   }
@@ -132,29 +126,23 @@ export class RefiDetailPage implements OnInit {
       refi_fecha: this.dataForm.controls.refi_fecha.value,
       refi_operacion: this.dataForm.controls.refi_operacion.value,
       refi_autorizacion: this.dataForm.controls.refi_autorizacion.value,
-      refi_autorizacion_original:
-        this.dataForm.controls.refi_autorizacion_original.value,
+      refi_autorizacion_original: this.dataForm.controls.refi_autorizacion_original.value,
       refi_plazo: this.dataForm.controls.refi_plazo.value,
       refi_valor_cuota: this.dataForm.get('refi_valor_cuota').value,
-      refi_pago_gastos_admin:
-        this.dataForm.controls.refi_pago_gastos_admin.value,
+      refi_pago_gastos_admin: this.dataForm.controls.refi_pago_gastos_admin.value,
       refi_total_reest: this.dataForm.controls.refi_total_reest.value,
       refi_total_pagar: this.dataForm.controls.refi_total_pagar.value,
       cliente_cedula: this.dataForm.controls.cliente_cedula.value,
       cliente_nombres: this.dataForm.controls.cliente_nombres.value,
       cliente_nacionalidad: this.dataForm.controls.cliente_nacionalidad.value,
-      cliente_ciudad_nacimiento:
-        this.dataForm.controls.cliente_ciudad_nacimiento.value,
-      cliente_fecha_nacimiento:
-        this.dataForm.controls.cliente_fecha_nacimiento.value,
+      cliente_ciudad_nacimiento: this.dataForm.controls.cliente_ciudad_nacimiento.value,
+      cliente_fecha_nacimiento: this.dataForm.controls.cliente_fecha_nacimiento.value,
       // cliente_sexo: this.dataForm.controls.cliente_sexo.value,
       cliente_sexo: this.dataForm.get('cliente_sexo').value,
-      cliente_nivel_educativo: this.dataForm.get('cliente_nivel_educativo')
-        .value,
+      cliente_nivel_educativo: this.dataForm.get('cliente_nivel_educativo').value,
       cliente_profesion: this.dataForm.controls.cliente_profesion.value,
       cliente_estado_civil: this.dataForm.get('cliente_estado_civil').value,
-      cliente_numero_dependientes:
-        this.dataForm.controls.cliente_numero_dependientes.value,
+      cliente_numero_dependientes: this.dataForm.controls.cliente_numero_dependientes.value,
       dir_direccion_exacta: this.dataForm.controls.dir_direccion_exacta.value,
       dir_provincia: this.dataForm.controls.dir_provincia.value,
       dir_canton_ciudad: this.dataForm.controls.dir_canton_ciudad.value,
@@ -178,15 +166,11 @@ export class RefiDetailPage implements OnInit {
       conyuge_telf_1: this.dataForm.controls.conyuge_telf_1.value,
       conyuge_telf_2: this.dataForm.controls.conyuge_telf_2.value,
       conyuge_tipo_actividad: this.dataForm.get('conyuge_tipo_actividad').value,
-      conyuge_nombre_empresa:
-        this.dataForm.controls.conyuge_nombre_empresa.value,
-      conyuge_actividad_empresa:
-        this.dataForm.controls.conyuge_actividad_empresa.value,
+      conyuge_nombre_empresa: this.dataForm.controls.conyuge_nombre_empresa.value,
+      conyuge_actividad_empresa: this.dataForm.controls.conyuge_actividad_empresa.value,
       conyuge_cargo: this.dataForm.controls.conyuge_cargo.value,
-      conyuge_telefono_empresa:
-        this.dataForm.controls.conyuge_telefono_empresa.value,
-      conyuge_ingresos_mensuales:
-        this.dataForm.controls.conyuge_ingresos_mensuales.value,
+      conyuge_telefono_empresa: this.dataForm.controls.conyuge_telefono_empresa.value,
+      conyuge_ingresos_mensuales: this.dataForm.controls.conyuge_ingresos_mensuales.value,
       ref1_nombres: this.dataForm.controls.ref1_nombres.value,
       ref1_parentesco: this.dataForm.controls.ref1_parentesco.value,
       ref1_telf_1: this.dataForm.controls.ref1_telf_1.value,
@@ -204,8 +188,7 @@ export class RefiDetailPage implements OnInit {
       trabajo_barrio: this.dataForm.controls.trabajo_barrio.value,
       trabajo_direccion: this.dataForm.controls.trabajo_direccion.value,
       trabajo_numero: this.dataForm.controls.trabajo_numero.value,
-      trabajo_calle_transversal:
-        this.dataForm.controls.trabajo_calle_transversal.value,
+      trabajo_calle_transversal: this.dataForm.controls.trabajo_calle_transversal.value,
       trabajo_ref_ubicacion: this.dataForm.controls.trabajo_ref_ubicacion.value,
       trabajo_telefono: this.dataForm.controls.trabajo_telefono.value,
       trabajo_antiguedad: this.dataForm.controls.trabajo_antiguedad.value,
@@ -225,34 +208,24 @@ export class RefiDetailPage implements OnInit {
         };
 
         try {
-          await this._http
-            .post(url, JSON.stringify(postData), httpOptions)
-            .toPromise();
+          await this._http.post(url, JSON.stringify(postData), httpOptions).toPromise();
           this.isServiceCallInProgress.dismiss();
           this.redirect();
           setTimeout(() => {
-            this.presentToast(
-              'Registro Enviado',
-              'checkmark-outline',
-              'success'
-            );
+            presentToast('Registro Enviado', 'checkmark-outline', 'success');
             this.redirect();
           }, 1000);
         } catch (error) {
           this.isServiceCallInProgress.dismiss();
           setTimeout(() => {
-            this.presentToast(
-              'Error al enviar registro',
-              'checkmark-outline',
-              'success'
-            );
+            presentToast('Error al enviar registro', 'checkmark-outline', 'success');
             this.redirect();
           }, 3000);
           console.log(error);
         }
 
         setTimeout(() => {
-          this.presentToast('Registro Enviado', 'checkmark-outline', 'success');
+          presentToast('Registro Enviado', 'checkmark-outline', 'success');
           this.redirect();
         }, 3000);
       } else {
@@ -264,11 +237,7 @@ export class RefiDetailPage implements OnInit {
           localStorage.setItem('refi-storageWait', JSON.stringify(local));
           this.showLoading('Guardando registro para ser enviado');
           setTimeout(() => {
-            this.presentToast(
-              'Registro Guardado',
-              'checkmark-outline',
-              'success'
-            );
+            presentToast('Registro Guardado', 'checkmark-outline', 'success');
           }, 3000);
         } else {
           var insert = Array.from(JSON.stringify(postData));
@@ -277,44 +246,24 @@ export class RefiDetailPage implements OnInit {
           localStorage.setItem('refi-storageWait', JSON.stringify(insert));
           this.showLoading('Guardando registro para ser enviado');
           setTimeout(() => {
-            this.presentToast(
-              'Registro Guardado',
-              'checkmark-outline',
-              'success'
-            );
+            presentToast('Registro Guardado', 'checkmark-outline', 'success');
             this.redirect();
           }, 3000);
         }
       }
     } else {
-      this.presentToast('No debe existir campos vacios', 'alert', 'warning');
+      presentToast('No debe existir campos vacios', 'alert', 'warning');
     }
   }
 
-  redirect() {
-    // this.navCtrl.navigateForward('home/listing');
-    this.navCtrl.navigateRoot('home/listing', {
-      animated: true,
-      animationDirection: 'forward',
-    });
-
-    // this.navCtrl.navigateForward('home/listing');
-  }
-
-  async openModal() {
-    const modal = await this.modalCtrl.create({
-      component: RefiModalMapPage,
-    });
-    await modal.present();
-  }
-
   initMap() {
-    mapboxgl.accessToken =
-      'pk.eyJ1IjoianF1aWxjaGFtaW4iLCJhIjoiY2xkdzJiaTN4MDM5NjNvbnV4eTI5MmV0MCJ9.xkxeH8IUvBcUTyHOLEORJg';
+    mapboxgl.accessToken = 'pk.eyJ1IjoianF1aWxjaGFtaW4iLCJhIjoiY2xkdzJiaTN4MDM5NjNvbnV4eTI5MmV0MCJ9.xkxeH8IUvBcUTyHOLEORJg';
     this.map = new mapboxgl.Map({
       container: 'mapa',
       style: 'mapbox://styles/mapbox/streets-v11',
+      // center: [this.currentLocation.longitude, this.currentLocation.latitude],
       center: [-78.47748161030977, -0.12763545952685718],
+
       zoom: 20,
     });
     // Add the control to the map.
@@ -324,72 +273,55 @@ export class RefiDetailPage implements OnInit {
         mapboxgl: mapboxgl,
       })
     );
+
     this.map.on('idle', function () {
       this.resize();
     });
+
     // Create a default Marker and add it to the map.
-    const marker = new mapboxgl.Marker({
-      draggable: true,
-    })
+    const marker = new mapboxgl.Marker({ draggable: true })
+      // .setLngLat([this.currentLocation.longitude, this.currentLocation.latitude])
       .setLngLat([-78.47748161030977, -0.12763545952685718])
       .addTo(this.map);
 
-    const coordinates = document.getElementById('coordinates');
-
-    function onDragEnd() {
-      // const lngLat = marker.getLngLat();
-      // coordinates.style.display = 'block';
-      // coordinates.innerHTML = `Longitud: ${lngLat.lng}<br />Latitud: ${lngLat.lat}`;
-    }
-
     marker.on('dragend', () => {
       //mostrar coordenadas
-      const features = this.map.queryRenderedFeatures(marker._pos);
-      const lngLat = marker.getLngLat();
-      onDragEnd();
-      //console.log(features[0].properties.name);
-      this._services
-        .getCurrentPoss(lngLat.lng, lngLat.lat, mapboxgl.accessToken)
-        .subscribe(
-          (data) => {
-            this.infoPoss = data;
-            this.dataForm.controls.dir_latitud.setValue(lngLat.lat);
-            this.dataForm.controls.dir_longitud.setValue(lngLat.lng);
-
-            this.dataForm.controls.dir_direccion.setValue(
-              data.features[0].placeName
-            );
-            // console.log(this.infoPoss);
-            console.log(data.features[0]);
-          },
-          (error) => {
-            console.dir(error);
-          }
-        );
+      // const features = this.map.queryRenderedFeatures(marker._pos);
+      this.crearMarker(marker);
     });
   }
 
-  dateChangedPrimerPago(event) {
-    console.dir(event.detail);
-    this.selectedDatePrimerPago = event.detail.value;
+  crearMarker(marker: mapboxgl.Marker) {
+    const lngLat = marker.getLngLat();
+
+    this._services.getCurrentPoss(lngLat.lng, lngLat.lat, mapboxgl.accessToken).subscribe(
+      (data) => {
+        console.dir(data);
+        console.dir(data.features[0].context[1].text);
+
+        this.dataForm.controls.dir_latitud.setValue(lngLat.lat);
+        this.dataForm.controls.dir_longitud.setValue(lngLat.lng);
+        this.dataForm.controls.dir_longitud.setValue(lngLat.lng);
+        this.dataForm.controls.dir_longitud.setValue(lngLat.lng);
+
+        this.dataForm.controls.dir_direccion.setValue(data.features[0].place_name);
+        this.dataForm.controls.dir_canton_ciudad.setValue(data.features[0].context[1].text);
+        this.dataForm.controls.dir_provincia.setValue(data.features[0].context[2].text);
+      },
+      (error) => {
+        presentToast('Error al crear marcador!', '', 'error');
+        console.dir(error);
+      }
+    );
   }
 
   handleChange(event) {}
 
   createDataForm() {
     this.dataForm = new FormGroup({
-      refi_fecha: new FormControl(
-        { value: this.currentDate, disabled: true },
-        []
-      ),
-      refi_usuario: new FormControl(
-        { value: this.nombreUsuario, disabled: true },
-        []
-      ),
-      refi_operacion: new FormControl(
-        { value: this.operacion, disabled: true },
-        []
-      ),
+      refi_fecha: new FormControl({ value: this.currentDate, disabled: true }, []),
+      refi_usuario: new FormControl({ value: this.nombreUsuario, disabled: true }, []),
+      refi_operacion: new FormControl({ value: this.operacion, disabled: true }, []),
       refi_autorizacion: new FormControl('', []),
       refi_autorizacion_original: new FormControl('', []),
       refi_plazo: new FormControl('', []),
@@ -398,7 +330,6 @@ export class RefiDetailPage implements OnInit {
       refi_total_reest: new FormControl('', []),
       refi_total_pagar: new FormControl('', []),
       cliente_cedula: new FormControl(this.idCliente, []),
-
       cliente_nombres: new FormControl('', []),
       cliente_nacionalidad: new FormControl('', []),
       cliente_ciudad_nacimiento: new FormControl('', []),
@@ -460,7 +391,7 @@ export class RefiDetailPage implements OnInit {
     });
   }
 
-  datosPrecargados() {
+  cargarDatosDesdeLista() {
     this.nombreUsuario = JSON.parse(localStorage.getItem('user'));
     this.idCliente = this.activatedRoute.snapshot.paramMap.get('id');
     this.operacion = this.activatedRoute.snapshot.paramMap.get('operacion');
@@ -471,43 +402,31 @@ export class RefiDetailPage implements OnInit {
     this.dataForm.controls.cliente_cedula.setValue(this.idCliente);
   }
 
-  cargarDatosGetEnForm() {
-    this.dataForm.controls.cliente_sexo.setValue(
-      this.datosSolicitudCliente['des_sexo']
-    );
-    this.dataForm.controls.cliente_nivel_educativo.setValue(
-      this.datosSolicitudCliente['nivel_instruccion']
-    );
-    this.dataForm.controls.cliente_estado_civil.setValue(
-      this.datosSolicitudCliente['estado_civ']
-    );
-    this.dataForm.controls.dir_tipo_vivienda.setValue(
-      this.datosSolicitudCliente['tipo_vivienda']
-    );
-    this.dataForm.controls.trabajo_tipo_actividad.setValue(
-      this.datosSolicitudCliente['relacion_dependencia']
-    );
+  loadMineDataInForm() {
+    this.dataForm.controls.cliente_sexo.setValue(this.datosSolicitudCliente['des_sexo']);
+    this.dataForm.controls.cliente_nivel_educativo.setValue(this.datosSolicitudCliente['nivel_instruccion']);
+    this.dataForm.controls.cliente_estado_civil.setValue(this.datosSolicitudCliente['estado_civ']);
+    this.dataForm.controls.dir_tipo_vivienda.setValue(this.datosSolicitudCliente['tipo_vivienda']);
+    this.dataForm.controls.trabajo_tipo_actividad.setValue(this.datosSolicitudCliente['relacion_dependencia']);
   }
 
   async changeStatus() {
     const status = await Network.getStatus();
     this.networkStatus = status?.connected;
-    this.networkStatus
-      ? this.presentToast('Conectado', 'wifi-outline', 'success')
-      : this.presentToast('Sin conexion', 'globe-outline', 'warning');
+    this.networkStatus ? presentToast('Conectado', 'wifi-outline', 'success') : presentToast('Sin conexion', 'globe-outline', 'warning');
   }
 
-  getCurrentCoordinates() {
-    this.geolocation
-      .getCurrentPosition()
-      .then((resp) => {
-        this.latitude = resp.coords.latitude;
-        this.longitude = resp.coords.longitude;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  // getCurrentCoordinates() {
+  //   this.geolocation
+  //     .getCurrentPosition()
+  //     .then((resp) => {
+  //       this.latitude = resp.coords.latitude;
+  //       this.longitude = resp.coords.longitude;
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
 
   async showLoading(msg) {
     const loading = await this.loadingCtrl.create({
@@ -515,19 +434,21 @@ export class RefiDetailPage implements OnInit {
     });
     return loading;
   }
-  async presentToast(message, iconInsert, color) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration: 2500,
-      position: 'top',
-      icon: iconInsert,
-      color: color,
-    });
-
-    await toast.present();
-  }
 
   addPhotoToGallery() {
     this.photoService.addNewToGallery();
+  }
+
+  redirect() {
+    // this.navCtrl.navigateForward('home/listing');
+    this.navCtrl.navigateRoot('home/listing', {
+      animated: true,
+      animationDirection: 'forward',
+    });
+  }
+
+  dateChangedPrimerPago(event) {
+    console.dir(event.detail);
+    this.selectedDatePrimerPago = event.detail.value;
   }
 }

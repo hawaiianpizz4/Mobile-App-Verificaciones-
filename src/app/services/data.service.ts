@@ -14,9 +14,7 @@ export class dataService {
     );
   }
   getFood(id: number) {
-    return this.getDatos(localStorage.getItem('user')).pipe(
-      map((user) => user.find((e: any) => e.cedulaCliente == id.toString()))
-    );
+    return this.getDatos(localStorage.getItem('user')).pipe(map((user) => user.find((e: any) => e.cedulaCliente == id.toString())));
   }
   getHist(user: string) {
     return this._http.get<any>(
@@ -25,9 +23,7 @@ export class dataService {
   }
 
   getDatosOrigenRefi(id: string) {
-    return this.getDatos(localStorage.getItem('user')).pipe(
-      map((user) => user.find((e: any) => e.cedula == id.toString()))
-    );
+    return this.getDatos(localStorage.getItem('user')).pipe(map((user) => user.find((e: any) => e.cedula == id.toString())));
   }
 
   getListaClientesRefi() {
@@ -48,25 +44,22 @@ export class dataService {
 
   getCurrentPoss(lat: number, long: number, apiKey: string) {
     return this._http.get<any>(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${lat},${long}.json?access_token=${apiKey}`
-    );
-  }
-  getUserVerification() {
-    return this._http.get<any>(
-      'http://200.7.249.21:90/ApiVerificaciones/api/verificaciones?consult=UsuariosVerificaciones'
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${lat},${long}.json?types=address&access_token=${apiKey}`
     );
   }
 
-  sendRequestVerifi(cedula:number) {
-    return this._http.get<any>(
-      `http://200.7.249.21:90/ApiVerificaciones/api/verificaciones?consult=UpdateUser&cedula=${cedula}`
-    );
+  getUserVerification() {
+    return this._http.get<any>('http://200.7.249.21:90/ApiVerificaciones/api/verificaciones?consult=UsuariosVerificaciones');
+  }
+
+  sendRequestVerifi(cedula: number) {
+    return this._http.get<any>(`http://200.7.249.21:90/ApiVerificaciones/api/verificaciones?consult=UpdateUser&cedula=${cedula}`);
   }
 
   getUsersVerifi2() {
     return this._http.get<any>(
       `http://200.7.249.21:90/ApiVerificaciones/api/verificaciones?consult=VerificationforUser&nombreGestor=MRAMIREZ`
-    )
+    );
   }
 
   getdireccion_clienteDetalleVer() {

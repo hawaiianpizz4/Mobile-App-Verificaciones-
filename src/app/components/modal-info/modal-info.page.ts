@@ -100,10 +100,13 @@ export class ModalInfoPage implements OnInit {
       valorRe,
     } = e.target;
     if (
-      gestion.value && gestion.value != undefined &&
+      gestion.value &&
+      gestion.value != undefined &&
       cobranza != undefined &&
-      observacion.value && observacion.value != undefined&&
-      contacto.value && contacto.value != undefined
+      observacion.value &&
+      observacion.value != undefined &&
+      contacto.value &&
+      contacto.value != undefined
     ) {
       if (this.status) {
         var plazoInsert, valorInsert;
@@ -165,8 +168,8 @@ export class ModalInfoPage implements OnInit {
           }, 3000);
         }
       }
-    }else{
-      this.presentToast("No debe existir campos vacios","alert","warning");
+    } else {
+      this.presentToast('No debe existir campos vacios', 'alert', 'warning');
     }
   }
   handleChange(e) {

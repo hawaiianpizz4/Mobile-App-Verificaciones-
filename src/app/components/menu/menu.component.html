@@ -8,12 +8,14 @@
     <ion-list>
       <ion-item *ngFor="let option of menuOptions">
         <ion-icon name="{{ option.icon }}" slot="start"></ion-icon>
-        <ion-button routerLink="{{option.route}}">{{ option.title }}</ion-button>
+        <ion-button routerLink="{{ option.route }}">{{
+          option.title
+        }}</ion-button>
       </ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
-<ion-menu side="start" menuId="first" contentId="main-content">
+<ion-menu side="start" menuId="second" contentId="main-content">
   <ion-header>
     <ion-toolbar>
       <ion-title>Menu Content</ion-title>
@@ -24,15 +26,18 @@
     <ion-list>
       <ion-item *ngFor="let option of menuOptions">
         <ion-icon name="{{ option.icon }}" slot="start"></ion-icon>
-        <ion-button routerLink="{{option.route}}">{{ option.title }}</ion-button>
+        <ion-button routerLink="{{ option.route }}" (click)="closeMenu()">{{
+          option.title
+        }}</ion-button>
         <ion-list *ngIf="option.subMenu">
           <ion-item *ngFor="let subOption of option.subMenu">
             <ion-icon name="{{ subOption.icon }}" slot="start"></ion-icon>
-            <ion-button [routerLink]="subOption.route">{{ subOption.title }}</ion-button>
+            <ion-button [routerLink]="subOption.route" (click)="closeMenu()">{{
+              subOption.title
+            }}</ion-button>
           </ion-item>
         </ion-list>
       </ion-item>
     </ion-list>
   </ion-content>
-
 </ion-menu>

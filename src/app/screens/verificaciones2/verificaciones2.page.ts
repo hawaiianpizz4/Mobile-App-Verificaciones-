@@ -10,6 +10,8 @@ import { dataService } from 'src/app/services/data.service';
 })
 export class Verificaciones2Page implements OnInit {
   dataList2 = [];
+  dndlN_telefonocelular;
+  codigo: string = "1234";
 
   constructor(private _service: dataService,
     private loadingCtrl: LoadingController,
@@ -33,7 +35,7 @@ export class Verificaciones2Page implements OnInit {
         dndlN_actividad_laboral: null,
         dndlN_direccion_trabajo: null,
         dndlN_telefonofijo: null,
-        dndlN_telefonocelular: "2131231231",
+        dndlN_telefonocelular: "0969838598",
         vf_gestor: "MRAMIREZ"
       },
       {

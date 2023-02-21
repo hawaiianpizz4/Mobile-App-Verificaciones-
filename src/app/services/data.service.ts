@@ -67,4 +67,10 @@ export class dataService {
       `http://200.7.249.21:90/ApiVerificaciones/api/verificaciones?consult=direccion_cliente`
     )
   }
+
+  sendTextMessage(dndlN_telefonocelular: string, codigo: string) {
+    const apiUrl = `http://200.7.249.21:90/ApiTextMessageMovil/api/enviomensaje?send=${codigo}&number=${dndlN_telefonocelular}&apikey=API_KEY`;
+    return this._http.get(apiUrl);
+  }
+
 }

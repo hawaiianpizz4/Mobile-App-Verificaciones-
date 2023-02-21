@@ -52,8 +52,9 @@ export class VerificacionPage implements OnInit {
     direccion_cliente: new FormControl('', []),
     tipo_vivienda: new FormControl('', []),
     persona_verificacion: new FormControl('', []),
-    tiempo_residencia: new FormControl('', []),
-    local_terreno: new FormControl('', []),
+    residencia_minima: new FormControl('', []),
+    localTerreno_propio: new FormControl('', []),
+    localTerreno_arrendado: new FormControl('', []),
 
     planilla_servicios: new FormControl(false, []),
     puertas_ventanas: new FormControl(false, []),

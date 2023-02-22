@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import {
+  Camera,
+  CameraResultType,
+  CameraSource,
+  Photo,
+} from '@capacitor/camera';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +25,12 @@ export class PhotoService {
 
   public photosInterior: UserPhoto[] = [];
   public photosInterior64: string[] = [];
+
+  public photosClienteExterior: UserPhoto[] = [];
+  public photosClienteExterior64: string[] = [];
+
+  public photosClienteInterior: UserPhoto[] = [];
+  public photosClienteInterior64: string[] = [];
 
   public photosTitulo: UserPhoto[] = [];
   public photosTitulo64: string[] = [];
@@ -54,6 +65,12 @@ export class PhotoService {
         break;
       case 'interior':
         this.addPhotos(this.photosInterior, this.photosInterior64);
+        break;
+      case 'clienteExterior':
+        this.addPhotos(this.photosClienteExterior, this.photosClienteExterior64);
+        break;
+      case 'clienteInterior':
+        this.addPhotos(this.photosClienteInterior, this.photosClienteInterior64);
         break;
       case 'titulo':
         this.addPhotos(this.photosTitulo, this.photosTitulo64);

@@ -343,6 +343,38 @@
               </ion-item>
 
               <ion-item>
+                <ion-label position="floating">Foto Cliente Exterior Negocio</ion-label>
+
+                <ion-button (click)='addPhoto("clienteExterior")'>
+                  Captura imagen
+                </ion-button>
+
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="6" *ngFor="let photo of photoService.photosClienteExterior; index as position">
+                      <ion-img [src]="photo.webviewPath"></ion-img>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Foto Cliente Interior Negocio</ion-label>
+
+                <ion-button (click)='addPhoto("clienteInterior")'>
+                  Captura imagen
+                </ion-button>
+
+                <ion-grid>
+                  <ion-row>
+                    <ion-col size="6" *ngFor="let photo of photoService.photosClienteInterior; index as position">
+                      <ion-img [src]="photo.webviewPath"></ion-img>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-item>
+
+              <ion-item>
                 <ion-label position="floating">Titulo Propiedad Garante Codeudor</ion-label>
 
                 <ion-button (click)='addPhoto("titulo")'>

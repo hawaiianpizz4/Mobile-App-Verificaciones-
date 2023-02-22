@@ -18,7 +18,7 @@ import { Network } from '@capacitor/network';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
-import { PhotoService } from '../../services/photo.service';
+import { PhotoService ,UserPhoto} from '../../services/photo.service';
 import { ElementRef, ViewChild } from '@angular/core';
 
 import { dataService } from 'src/app/services/data.service';
@@ -38,6 +38,7 @@ export class VeriDetailPage implements OnInit {
   infoPoss = [];
   status: boolean;
   address: string;
+  public photosPlanilla: UserPhoto[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -68,7 +69,7 @@ export class VeriDetailPage implements OnInit {
 
 
       planilla_servicios: 'Si',
-      imagen_planilla: '',
+      imagen_planilla: 'http://200.7.249.21:90/VerificacionesFisicas/APP_Cobranzas_Fotos/Verificacion/JUAN PEREZ/PLANILLA - 3123123131 - 08944780-6882-94EA-46B9-56107F90B6A5 - 1.png',
       seguridad_puertas: 'si',
       muebleria_basica: 'si',
       material_casa: 'Bloque',
@@ -81,8 +82,14 @@ export class VeriDetailPage implements OnInit {
   }
 
   ngOnInit() {
+
+
     this.initMap();
+
+
   }
+
+
 
   initMap() {
     mapboxgl.accessToken = 'pk.eyJ1IjoianF1aWxjaGFtaW4iLCJhIjoiY2xkdzJiaTN4MDM5NjNvbnV4eTI5MmV0MCJ9.xkxeH8IUvBcUTyHOLEORJg';

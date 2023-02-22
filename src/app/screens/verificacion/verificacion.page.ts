@@ -2,7 +2,7 @@
 //import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   ModalController,
@@ -31,6 +31,9 @@ import { Router } from '@angular/router';
 })
 export class VerificacionPage implements OnInit {
  // map;
+
+ @Input() item;
+
   infoPoss = [];
   status: boolean;
   dataClienteFromLista: any;
@@ -87,9 +90,32 @@ export class VerificacionPage implements OnInit {
     // this.changeStatus();
   }
 
+  async getCodigoSMS(){
+    const telefono = this.item.dndlN_telefonocelular;
+      console.log(telefono);
+      const codigo = this._services.sendTextMessage(telefono); // Reemplaza "TU_CODIGO" con el código que quieras enviar
+      console.log(codigo);
+      return codigo;
+
+      // this.dataService.sendTextMessage(telefono, codigo).subscribe((data) => {
+      //   console.log("Mensaje enviado:", data);
+      // }, (error) => {
+      //   console.error("Error al enviar el mensaje:", error);
+      // });
+  }
+
+
+
   async ngOnInit() {
     this.getCurrentCoordinates();
     //this.photoService.resetPhotos();
+
+
+    // const codigoSMS = this.getCodigoSMS();
+
+    this.dataForm.controls.codigo.setValue(
+      'X12345'
+    );
 
     this.dataForm.controls.nombre_gestor.setValue(
       this.activatedRoute.snapshot.paramMap.get('vf_nombre_vendedor')
@@ -106,9 +132,9 @@ export class VerificacionPage implements OnInit {
     this.dataForm.controls.direccion_cliente.setValue(
       this.activatedRoute.snapshot.paramMap.get('dndlD_direccion_domiciliaria')
     );
-    this.dataForm.controls.codigo.setValue(
-      this.activatedRoute.snapshot.paramMap.get('dndlD_codigo')
-    );
+    // this.dataForm.controls.codigo.setValue(
+    //   this.activatedRoute.snapshot.paramMap.get('dndlD_codigo')
+    // );
 
     Network.addListener('networkStatusChange', (status) => {
       this.ngZone.run(() => {
@@ -151,15 +177,17 @@ export class VerificacionPage implements OnInit {
 
 
 
-      estabilidadLaboraSeisMesesImagen: this.photoService.photosEstabilidad,
-      facturasProveedoresUltimosTresMesesImagen:this.photoService.photosFacturas,
-      clienteFueraDelNegocioImagen: this.photoService.photosExterior,
-      clienteDentroDelNegocioImagen: this.photoService.photosInterior,
-      tituloPropiedaGaranteOCodeudorImagen: this.photoService.photosTitulo,
-      impuestoPredialImagen: this.photoService.photosImpuesto,
-      respaldoIngresosImagen: this.photoService.photosRespaldo,
-      certificadoLaboralImagen: this.photoService.photosCertificado,
-      interiorDomicilioImagen: this.photoService.photosInteriorDom,
+      estabilidadLaboraSeisMesesImagen: this.photoService.photosEstabilidad64,
+      facturasProveedoresUltimosTresMesesImagen:this.photoService.photosFacturas64,
+      fachadaDelNegocioImagen:this.photoService.photosExterior64,
+      interiorDelNegocioImagen:this.photoService.photosInterior64,
+      clienteFueraDelNegocioImagen: this.photoService.photosClienteExterior64,
+      clienteDentroDelNegocioImagen: this.photoService.photosClienteInterior64,
+      tituloPropiedaGaranteOCodeudorImagen: this.photoService.photosTitulo64,
+      impuestoPredialImagen: this.photoService.photosImpuesto64,
+      respaldoIngresosImagen: this.photoService.photosRespaldo64,
+      certificadoLaboralImagen: this.photoService.photosCertificado64,
+      interiorDomicilioImagen: this.photoService.photosInteriorDom64,
 
       //latitud
       latitud: this.dataForm.controls.latitud.value,

@@ -22,14 +22,9 @@ export class ListUsersVerifiCheckComponent {
     ) {}
 
     goToVerificacion() {
-      const telefono = this.Verificaciones2Page.dndlN_telefonocelular;
-      const codigo = "3333"; // Reemplaza "TU_CODIGO" con el código que quieras enviar
 
-      this.dataService.sendTextMessage(telefono, codigo).subscribe((data) => {
-        console.log("Mensaje enviado:", data);
-      }, (error) => {
-        console.error("Error al enviar el mensaje:", error);
-      });
+
+
 
       this.router.navigate(['verificacion', this.item]);
     }

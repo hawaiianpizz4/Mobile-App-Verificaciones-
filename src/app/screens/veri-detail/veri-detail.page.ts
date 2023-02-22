@@ -70,6 +70,7 @@ export class VeriDetailPage implements OnInit {
 
       planilla_servicios: 'Si',
       imagen_planilla: 'http://200.7.249.21:90/VerificacionesFisicas/APP_Cobranzas_Fotos/Verificacion/JUAN PEREZ/PLANILLA - 3123123131 - 08944780-6882-94EA-46B9-56107F90B6A5 - 1.png',
+      imagen_estabilidad: 'http://200.7.249.21:90/VerificacionesFisicas/APP_Cobranzas_Fotos/Verificacion/JUAN PEREZ/PLANILLA - 3123123131 - 08944780-6882-94EA-46B9-56107F90B6A5 - 1.png',
       seguridad_puertas: 'si',
       muebleria_basica: 'si',
       material_casa: 'Bloque',

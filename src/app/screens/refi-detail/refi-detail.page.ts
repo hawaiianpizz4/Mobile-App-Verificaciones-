@@ -315,7 +315,7 @@ export class RefiDetailPage implements OnInit {
     );
   }
 
-  handleChange(event) {}
+  handleChange(event) { }
 
   createDataForm() {
     this.dataForm = new FormGroup({

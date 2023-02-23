@@ -21,7 +21,7 @@ import { ElementRef, ViewChild } from '@angular/core';
 
 import { dataService } from 'src/app/services/data.service';
 
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder,Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -33,6 +33,8 @@ export class VerificacionPage implements OnInit {
  // map;
 
  @Input() item;
+
+  isPlanillaDisabled: boolean = true;
 
   infoPoss = [];
   status: boolean;
@@ -59,7 +61,7 @@ export class VerificacionPage implements OnInit {
     localTerreno_propio: new FormControl('', []),
     localTerreno_arrendado: new FormControl('', []),
 
-    planilla_servicios: new FormControl(false, []),
+    planilla_servicios: new FormControl(true, []),
     puertas_ventanas: new FormControl(false, []),
     muebleria_basica: new FormControl(false, []),
     material_casa: new FormControl('', []),
@@ -72,6 +74,9 @@ export class VerificacionPage implements OnInit {
     codigo: new FormControl({ value: '', disabled: true }, []),
     latitud: new FormControl({ value: '', disabled: true }, []),
     longitud: new FormControl({ value: '', disabled: true }, []),
+
+
+
   });
 
   constructor(
@@ -84,8 +89,9 @@ export class VerificacionPage implements OnInit {
     private _http: HttpClient,
     public photoService: PhotoService,
     private _services: dataService,
-    private route: ActivatedRoute,
-    private modalCtrl: ModalController
+
+
+
   ) {
     // this.changeStatus();
   }
@@ -103,7 +109,6 @@ export class VerificacionPage implements OnInit {
       //   console.error("Error al enviar el mensaje:", error);
       // });
   }
-
 
 
   async ngOnInit() {
@@ -242,42 +247,7 @@ export class VerificacionPage implements OnInit {
       }
     }
 
-    //   } else {
-    // var dataInLocalStorage = localStorage.getItem('refi-storageWait');
-    // var local = [];
-    // if (dataInLocalStorage) {
-    //   local = Array.from(JSON.parse(dataInLocalStorage));
-    //   local.push(JSON.parse(data));
-    //   localStorage.setItem('refi-storageWait', JSON.stringify(local));
-    //   this.showLoading('Guardando registro para ser enviado');
-    //   setTimeout(() => {
-    //     this.presentToast(
-    //       'Registro Guardado',
-    //       'checkmark-outline',
-    //       'success'
-    //     );
-    //   }, 3000);
-    // }
-    // else {
-    //   var insert = Array.from(JSON.parse(data));
-    //   insert.push(JSON.parse(data));
-    //   localStorage.setItem('refi-storageWait', JSON.stringify(insert));
-    //   this.showLoading('Guardando registro para ser enviado');
-    //   setTimeout(() => {
-    //     this.presentToast(
-    //       'Registro Guardado',
-    //       'checkmark-outline',
-    //       'success'
-    //     );
-    //     this.redirect();
-    //   }, 3000);
-    // }
-    //   }
-    // } else {
-    //   this.presentToast('No debe existir campos vacios', 'alert', 'warning');
-    // }
   }
-
 
   async changeStatus() {
     const status = await Network.getStatus();
@@ -321,6 +291,17 @@ export class VerificacionPage implements OnInit {
 
     await toast.present();
   }
+
+  onPlanillaSelected() {
+    let valorPlanilla = String(this.dataForm.get('planilla_servicios').value);
+
+    this.isPlanillaDisabled = true;
+
+    if (valorPlanilla == 'si')
+      this.isPlanillaDisabled = false;
+
+  }
+
 
   redirect() {
     // this.navCtrl.navigateForward('home/listing');

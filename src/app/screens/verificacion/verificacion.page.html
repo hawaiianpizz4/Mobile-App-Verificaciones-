@@ -145,33 +145,32 @@
 
               <ion-item>
                 <ion-label position="floating">Planilla Servicios Básicos</ion-label>
-              </ion-item>
-              <ion-item>
-                <ion-radio-group FormControl="planilla_servicios" class="ion-horizontal">
-                  <ion-item slot="start">
-                    <ion-label>Si</ion-label>
-                    <ion-radio value="si"></ion-radio>
-                  </ion-item>
-                  <ion-item slot="start">
-                    <ion-label>No</ion-label>
-                    <ion-radio value="no"></ion-radio>
-                  </ion-item>
+            </ion-item>
+            <ion-item>
+                <ion-radio-group formControlName="planilla_servicios" class="ion-horizontal"  (ionChange)="onPlanillaSelected()">
+                    <ion-item>
+                        <ion-label>Si</ion-label>
+                        <ion-radio value="si"></ion-radio>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>No</ion-label>
+                        <ion-radio value="no"></ion-radio>
+                    </ion-item>
                 </ion-radio-group>
-              </ion-item>
+            </ion-item>
 
-
-              <ion-item>
-                <ion-button (click)="addPhoto('planilla')">
-                  Imágen Planilla
+            <ion-item>
+                <ion-button (click)='addPhoto("planilla")' [disabled]="isPlanillaDisabled">
+                    Imágen Planilla
                 </ion-button>
                 <ion-grid>
-                  <ion-row>
-                    <ion-col size="6" *ngFor="let photo of photoService.photosPlanilla; index as position">
-                      <ion-img [src]="photo.webviewPath"></ion-img>
-                    </ion-col>
-                  </ion-row>
+                    <ion-row>
+                        <ion-col size="6" *ngFor="let photo of photoService.photosPlanilla; index as position">
+                            <ion-img [src]="photo.webviewPath"></ion-img>
+                        </ion-col>
+                    </ion-row>
                 </ion-grid>
-              </ion-item>
+            </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Seguridad Puertas y Ventanas</ion-label>

@@ -245,12 +245,12 @@
                 <ion-label position="floating">Confirmacion Vecinos</ion-label>
               </ion-item>
               <ion-item>
-                <ion-radio-group FormControl="vecino_confirma" class="ion-horizontal">
-                  <ion-item slot="start">
+                <ion-radio-group formControlName="vecino_confirma" class="ion-horizontal"  (ionChange)="onVecinoConfirmaChange($event)">
+                  <ion-item>
                     <ion-label>Si</ion-label>
                     <ion-radio value="si"></ion-radio>
                   </ion-item>
-                  <ion-item slot="start">
+                  <ion-item>
                     <ion-label>No</ion-label>
                     <ion-radio value="no"></ion-radio>
                   </ion-item>
@@ -259,15 +259,21 @@
 
               <ion-item>
                 <ion-label position="floating">Nombre Del Vecino</ion-label>
-                <ion-textarea formControlName="vecino_nombre" placeholder="Escribir..">
+                <ion-textarea formControlName="vecino_nombre" placeholder="Escribir.." [disabled]="isVecinoDisabled">
                 </ion-textarea>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Celular Vecino</ion-label>
-                <ion-textarea formControlName="vecino_celular" placeholder="Escribir.." type="number">
-                </ion-textarea>
+                <ion-input
+                  formControlName="vecino_celular"
+                  placeholder="Escribir.."
+                  type="tel"
+                  [disabled]="isVecinoDisabled"
+                  (ionInput)="validatePhoneNumber($event)">
+                </ion-input>
               </ion-item>
+
             </div>
           </ion-accordion>
 

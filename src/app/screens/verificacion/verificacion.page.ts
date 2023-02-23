@@ -30,11 +30,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./verificacion.page.scss'],
 })
 export class VerificacionPage implements OnInit {
- // map;
+
 
  @Input() item;
 
   isPlanillaDisabled: boolean = true;
+  isVecinoDisabled: boolean = true;
 
   infoPoss = [];
   status: boolean;
@@ -61,15 +62,15 @@ export class VerificacionPage implements OnInit {
     localTerreno_propio: new FormControl('', []),
     localTerreno_arrendado: new FormControl('', []),
 
-    planilla_servicios: new FormControl(true, []),
+    planilla_servicios: new FormControl('', []),
     puertas_ventanas: new FormControl(false, []),
     muebleria_basica: new FormControl(false, []),
     material_casa: new FormControl('', []),
     periodicidad_actividades: new FormControl('', []),
 
-    vecino_confirma: new FormControl(false, []),
-    vecino_nombre: new FormControl('', []),
-    vecino_celular: new FormControl('', []),
+    vecino_confirma: new FormControl('', []),
+    vecino_nombre: new FormControl('', [Validators.required]),
+    vecino_celular: new FormControl('', [Validators.required]),
 
     codigo: new FormControl({ value: '', disabled: true }, []),
     latitud: new FormControl({ value: '', disabled: true }, []),
@@ -80,6 +81,7 @@ export class VerificacionPage implements OnInit {
   });
 
   constructor(
+    private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private navCtrl: NavController,
     private loadingCtrl: LoadingController,
@@ -299,8 +301,30 @@ export class VerificacionPage implements OnInit {
 
     if (valorPlanilla == 'si')
       this.isPlanillaDisabled = false;
-
   }
+
+  onVecinoConfirmaChange() {
+    let valorVecino = String(this.dataForm.get('vecino_confirma').value);
+    console.log(valorVecino);
+    this.isVecinoDisabled = true;
+
+    if(valorVecino =='si')
+    this.isVecinoDisabled = false;
+  }
+
+  validatePhoneNumber(event: any) {
+    const input = event.target as HTMLInputElement;
+    let phoneNumber = input.value.replace(/\D/g,''); // Remueve los caracteres no numéricos
+    if (phoneNumber.length > 10) {
+      phoneNumber = phoneNumber.substr(0, 10); // Limita el número de caracteres a 10
+    }
+    this.dataForm.get('vecino_celular').setValue(phoneNumber);
+  }
+
+
+
+
+
 
 
   redirect() {

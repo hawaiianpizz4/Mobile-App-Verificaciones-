@@ -33,9 +33,9 @@ import { Router } from '@angular/router';
 
 })
 export class VeriDetailPage implements OnInit {
-  // @Input() getdata;
+  @Input() getdata;
 
-  getdata = {};
+  // getdata = {};
   map;
   infoPoss = [];
   status: boolean;
@@ -61,52 +61,85 @@ dataForm: FormGroup;
   ) {
 
 
-  this.getdata =   {
-      "nombreGestor": "mario Cardenas",
-      "fechaverificacion": "2023-02-24 10:37:18",
-      "vf_nombre_tienda": "vf_nombre_tienda",
-      "nombreCliente": "nombreCliente",
-      "cedulaCliente": "cedulaCliente",
-      //
-      "tipoVivienda": "tipoVivienda",
-      "personaQuienRealizaLaVerificación": "personaQuienRealizaLaVerificación",
-      "residenciaMinimaTresMeses": "residenciaMinimaTresMeses",
-      "localTerrenoPropio": "localTerrenoPropio",
-      "localTerrenoArrendado": "localTerrenoArrendado",
-      "planillaServicioBasico": "planillaServicioBasico",
-      "planillaServicioBasicoImagen": "planillaServicioBasicoImagen",
-      "seguridadPuertasVentanas": "seguridadPuertasVentanas",
-      "muebleriaBasica": "muebleriaBasica",
-      "materialCasa": "materialCasa",
-      "periodicidadActividadesLaborales": "periodicidadActividadesLaborales",
-      "confirmacionInfoVecinos": "confirmacionInfoVecinos",
-      "nombreInfoVecino": "nombreInfoVecino",
-      "celularInfoVecino": "celularInfoVecino",
 
+    this.getdata = {
 
-  };
+        "id": 70,
+        "cedulaCliente": "3123123131",
+        "nombreCliente": "JUAN PEREZ",
+        "codigoVerificacion": "",
+        "direccionDomiciliaria": "07300 Inca, Islas Baleares, España",
+        "tipoVivienda": "",
+        "personaQuienRealizaLaVerificacion": "",
+        "residenciaMinimaTresMeses": "",
+        "localTerrenoPropio": "",
+        "localTerrenoArrendado": "",
+        "planillaServicioBasico": "",
+        "planillaServicioBasicoImagen": "http://200.7.249.21:90/VerificacionesFisicas/APP_Cobranzas_Fotos/Verificacion/JUAN PEREZ/PLANILLA - 3123123131 - 3D285104-620A-6D22-3164-00261DAC3714",
+        "seguridadPuertasVentanas": "",
+        "muebleriaBasica": "",
+        "materialCasa": "",
+        "periodicidadActividadesLaborales": "",
+        "confirmacionInfoVecinos": "",
+        "nombreInfoVecino": "",
+        "celularInfoVecino": "",
+        "estabilidadLaboraSeisMesesImagen": "http://200.7.249.21:90/VerificacionesFisicas/APP_Cobranzas_Fotos/Verificacion/JUAN PEREZ/ESTABILIDAD - 3123123131 - 56E6AD8D-2BAD-3563-24F9-62476D4D9585 - 1.png",
+        "facturasProveedoresUltimosTresMesesImagen": "http://200.7.249.21:90/VerificacionesFisicas/APP_Cobranzas_Fotos/Verificacion/JUAN PEREZ/FACTURAS_PROV - 3123123131 - D10ACE84-0DD8-B88F-D418-82473AC5F404 - 1.png",
+        "fachadaDelNegocioImagen": "http://200.7.249.21:90/VerificacionesFisicas/APP_Cobranzas_Fotos/Verificacion/JUAN PEREZ/NEGO_EXTERIOR - 3123123131 - 7BE67B60-A124-BE98-4C17-B9A1C420F774 - 1.png",
+        "interiorDelNegocioImagen": "http://200.7.249.21:90/VerificacionesFisicas/APP_Cobranzas_Fotos/Verificacion/JUAN PEREZ/NEGO_INTERIOR - 3123123131 - FD4D9380-1B2C-42A1-7E7C-0C705C1E59C8 - 1.png",
+        "clienteDentroDelNegocioImagen": "http://200.7.249.21:90/VerificacionesFisicas/APP_Cobranzas_Fotos/Verificacion/JUAN PEREZ/CLIENTE_NEGO_INTERIOR - 3123123131 - DB32A099-7F05-9104-84BD-25E0433B58EC - 1.png",
+    }
+
+  console.log(this.getdata);
+
 
   this.dataForm = new FormGroup
   ({
-    nombre_gestor: new FormControl(this.getdata["nombreGestor"], []),
-    fechaverificacion: new FormControl(this.getdata["fechaverificacion"]),
-    vf_nombre_tienda: new FormControl(this.getdata["vf_nombre_tienda"]),
-    nombreCliente: new FormControl(this.getdata["nombreCliente"]),
-    cedulaCliente: new FormControl(this.getdata["cedulaCliente"]),
-    tipoVivienda: new FormControl(this.getdata["tipoVivienda"]),
-    personaQuienRealizaLaVerificación: new FormControl(this.getdata["personaQuienRealizaLaVerificación"]),
-    residenciaMinimaTresMeses: new FormControl(this.getdata["residenciaMinimaTresMeses"]),
-    localTerrenoPropio: new FormControl(this.getdata["localTerrenoPropio"]),
-    localTerrenoArrendado: new FormControl(this.getdata["localTerrenoArrendado"]),
-    planillaServicioBasico: new FormControl(this.getdata["planillaServicioBasico"]),
-    planillaServicioBasicoImagen: new FormControl(this.getdata["planillaServicioBasicoImagen"]),
-    seguridadPuertasVentanas: new FormControl(this.getdata["seguridadPuertasVentanas"]),
-    muebleriaBasica: new FormControl(this.getdata["muebleriaBasica"]),
-    materialCasa: new FormControl(this.getdata["materialCasa"]),
-    periodicidadActividadesLaborales: new FormControl(this.getdata["periodicidadActividadesLaborales"]),
-    confirmacionInfoVecinos: new FormControl(this.getdata["confirmacionInfoVecinos"]),
-    nombreInfoVecino: new FormControl(this.getdata["nombreInfoVecino"]),
-    celularInfoVecino: new FormControl(this.getdata["celularInfoVecino"]),
+    nombre_gestor: new FormControl(this.getdata?.nombreGestor ?? ''),
+
+    fechaverificacion: new FormControl(''),
+    vf_nombre_tienda: new FormControl(''),
+    nombreCliente: new FormControl(''),
+    cedulaCliente: new FormControl(''),
+    tipoVivienda: new FormControl(''),
+    personaQuienRealizaLaVerificación: new FormControl(''),
+    residenciaMinimaTresMeses: new FormControl(''),
+    localTerrenoPropio: new FormControl(''),
+    localTerrenoArrendado: new FormControl(''),
+    planillaServicioBasico: new FormControl(''),
+    planillaServicioBasicoImagen: new FormControl(''),
+    seguridadPuertasVentanas: new FormControl(''),
+    muebleriaBasica: new FormControl(''),
+    materialCasa: new FormControl(''),
+    periodicidadActividadesLaborales: new FormControl(''),
+    confirmacionInfoVecinos: new FormControl(''),
+    nombreInfoVecino: new FormControl(''),
+    celularInfoVecino: new FormControl(''),
+    estabilidadLaboraSeisMesesImagen: new FormControl(''),
+
+
+
+   // nombre_gestor: new FormControl(this.getdata["nombreGestor"], []),
+    // fechaverificacion: new FormControl(this.getdata["fechaverificacion"]),
+    // vf_nombre_tienda: new FormControl(this.getdata["vf_nombre_tienda"]),
+    // nombreCliente: new FormControl(this.getdata["nombreCliente"]),
+    // cedulaCliente: new FormControl(this.getdata["cedulaCliente"]),
+    // tipoVivienda: new FormControl(this.getdata["tipoVivienda"]),
+    // personaQuienRealizaLaVerificación: new FormControl(this.getdata["personaQuienRealizaLaVerificación"]),
+    // residenciaMinimaTresMeses: new FormControl(this.getdata["residenciaMinimaTresMeses"]),
+    // localTerrenoPropio: new FormControl(this.getdata["localTerrenoPropio"]),
+    // localTerrenoArrendado: new FormControl(this.getdata["localTerrenoArrendado"]),
+    // planillaServicioBasico: new FormControl(this.getdata["planillaServicioBasico"]),
+    // planillaServicioBasicoImagen: new FormControl(this.getdata["planillaServicioBasicoImagen"]),
+    // seguridadPuertasVentanas: new FormControl(this.getdata["seguridadPuertasVentanas"]),
+    // muebleriaBasica: new FormControl(this.getdata["muebleriaBasica"]),
+    // materialCasa: new FormControl(this.getdata["materialCasa"]),
+    // periodicidadActividadesLaborales: new FormControl(this.getdata["periodicidadActividadesLaborales"]),
+    // confirmacionInfoVecinos: new FormControl(this.getdata["confirmacionInfoVecinos"]),
+    // nombreInfoVecino: new FormControl(this.getdata["nombreInfoVecino"]),
+    // celularInfoVecino: new FormControl(this.getdata["celularInfoVecino"]),
+    // estabilidadLaboraSeisMesesImagen: new FormControl(this.getdata["estabilidadLaboraSeisMesesImagen"]),
+
 
 
   })
@@ -125,46 +158,6 @@ dataForm: FormGroup;
 
 
   }
-
-cargaDatosBase(){
-
-
-};
-
-/*
-console.dir(postData);
-
-if (postData.cliente_cedula && postData.cliente_cedula != undefined) {
-  if (this.networkStatus) {
-    const url = `${environment.apiUrl}refinanciamiento.php?opcion=postDatosRefi`;
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-
-    try {
-      await this._http.post(url, JSON.stringify(postData), httpOptions).toPromise();
-      this.isServiceCallInProgress.dismiss();
-      this.redirect();
-      setTimeout(() => {
-        presentToast('Registro Enviado', 'checkmark-outline', 'success');
-        this.redirect();
-      }, 1000);
-    } catch (error) {
-      this.isServiceCallInProgress.dismiss();
-      setTimeout(() => {
-        presentToast('Error al enviar registro', 'checkmark-outline', 'success');
-        this.redirect();
-      }, 3000);
-      console.log(error);
-    }
-
-
-
-*/
-
 
   initMap() {
     mapboxgl.accessToken = 'pk.eyJ1IjoianF1aWxjaGFtaW4iLCJhIjoiY2xkdzJiaTN4MDM5NjNvbnV4eTI5MmV0MCJ9.xkxeH8IUvBcUTyHOLEORJg';

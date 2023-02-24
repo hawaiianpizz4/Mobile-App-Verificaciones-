@@ -9,12 +9,22 @@ import { Router } from '@angular/router';
 export class ListUsersVerificadosComponent {
 
   @Input() item;
+
+  getdata;
   @Output() clicked: EventEmitter<any> = new EventEmitter();
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+
+  }
 
 
      // goToVerDeatail(id: string, operacion: string) {
       goToVeriDetail() {
-        this.router.navigate(['veri-detail',this.item ]);
+        this.getdata=this.item;
+        this.router.navigate(['veri-detail',this.getdata]);
       }
+
+      ngOnInit(){
+
+      }
+
 }

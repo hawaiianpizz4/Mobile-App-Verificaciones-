@@ -65,7 +65,7 @@ export class dataService {
   }
 
   getUsersVerifi2(nombreGestor) {
-    const url = `${environment.apiUrl}verificacion.php?opcion=getUsersParaVerificar&nombreGestor=${nombreGestor}`;
+    const url = `${environment.apiUrl}verificacion.php?opcion=getUsersVerificados&nombreGestor=${nombreGestor}`;
     console.log(url);
 
     return this._http.get<any>(url);

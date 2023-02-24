@@ -10,9 +10,7 @@
   <div class="card">
     <div class="card-content">
       <form [formGroup]="dataForm" (ngSubmit)="submitForm()">
-        <h1 style="color: #ff0000; text-align: center">
-          Formulario De Verificación
-        </h1>
+        <h1 style="color: #ff0000; text-align: center">Formulario De Verificación</h1>
 
         <ion-grid>
           <ion-row justify-content-around>
@@ -74,8 +72,7 @@
               </ion-item>
 
               <ion-item>
-                <ion-label position="floating">Persona Realiza Verificación
-                </ion-label>
+                <ion-label position="floating">Persona Realiza Verificación </ion-label>
               </ion-item>
               <ion-item>
                 <ion-select interface="action-sheet" placeholder="Seleccionar" formControlName="persona_verificacion">
@@ -100,7 +97,6 @@
                 </ion-radio-group>
               </ion-item>
 
-
               <ion-item>
                 <ion-label position="floating">Local Terreno Propio</ion-label>
               </ion-item>
@@ -117,7 +113,6 @@
                 </ion-radio-group>
               </ion-item>
 
-
               <ion-item>
                 <ion-label position="floating">Local Terreno Arrendado</ion-label>
               </ion-item>
@@ -133,7 +128,6 @@
                   </ion-item>
                 </ion-radio-group>
               </ion-item>
-
             </div>
           </ion-accordion>
           <ion-accordion value="datosServicios">
@@ -141,36 +135,32 @@
               <ion-label> Servicios</ion-label>
             </ion-item>
             <div class="ion-padding" slot="content">
-
-
               <ion-item>
                 <ion-label position="floating">Planilla Servicios Básicos</ion-label>
-            </ion-item>
-            <ion-item>
-                <ion-radio-group formControlName="planilla_servicios" class="ion-horizontal"  (ionChange)="onPlanillaSelected()">
-                    <ion-item>
-                        <ion-label>Si</ion-label>
-                        <ion-radio value="si"></ion-radio>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label>No</ion-label>
-                        <ion-radio value="no"></ion-radio>
-                    </ion-item>
+              </ion-item>
+              <ion-item>
+                <ion-radio-group formControlName="planilla_servicios" class="ion-horizontal" (ionChange)="onPlanillaSelected()">
+                  <ion-item>
+                    <ion-label>Si</ion-label>
+                    <ion-radio value="si"></ion-radio>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>No</ion-label>
+                    <ion-radio value="no"></ion-radio>
+                  </ion-item>
                 </ion-radio-group>
-            </ion-item>
+              </ion-item>
 
-            <ion-item>
-                <ion-button (click)='addPhoto("planilla")' [disabled]="isPlanillaDisabled">
-                    Imágen Planilla
-                </ion-button>
+              <ion-item>
+                <ion-button (click)='addPhoto("planilla")' [disabled]="isPlanillaDisabled"> Imágen Planilla </ion-button>
                 <ion-grid>
-                    <ion-row>
-                        <ion-col size="6" *ngFor="let photo of photoService.photosPlanilla; index as position">
-                            <ion-img [src]="photo.webviewPath"></ion-img>
-                        </ion-col>
-                    </ion-row>
+                  <ion-row>
+                    <ion-col size="6" *ngFor="let photo of photoService.photosPlanilla; index as position">
+                      <ion-img [src]="photo.webviewPath"></ion-img>
+                    </ion-col>
+                  </ion-row>
                 </ion-grid>
-            </ion-item>
+              </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Seguridad Puertas y Ventanas</ion-label>
@@ -188,7 +178,6 @@
                 </ion-radio-group>
               </ion-item>
 
-
               <ion-item>
                 <ion-label position="floating">Muebleria Básica</ion-label>
               </ion-item>
@@ -205,7 +194,6 @@
                 </ion-radio-group>
               </ion-item>
 
-
               <ion-item>
                 <ion-label position="floating"> Material Casa </ion-label>
               </ion-item>
@@ -218,13 +206,10 @@
               </ion-item>
 
               <ion-item>
-                <ion-label position="floating">
-                  Periocidad Actividades Laborales
-                </ion-label>
+                <ion-label position="floating"> Periocidad Actividades Laborales </ion-label>
               </ion-item>
               <ion-item>
-                <ion-select interface="action-sheet" placeholder="Seleccionar"
-                  formControlName="periodicidad_actividades">
+                <ion-select interface="action-sheet" placeholder="Seleccionar" formControlName="periodicidad_actividades">
                   <ion-select-option value="DIARIO">DIARIO</ion-select-option>
                   <ion-select-option value="SEMANAL">SEMANAL</ion-select-option>
                   <ion-select-option value="QUINCENAL">QUINCENAL</ion-select-option>
@@ -239,13 +224,11 @@
               <ion-label> Vecinos</ion-label>
             </ion-item>
             <div class="ion-padding" slot="content">
-
-
               <ion-item>
                 <ion-label position="floating">Confirmacion Vecinos</ion-label>
               </ion-item>
               <ion-item>
-                <ion-radio-group formControlName="vecino_confirma" class="ion-horizontal"  (ionChange)="onVecinoConfirmaChange($event)">
+                <ion-radio-group formControlName="vecino_confirma" class="ion-horizontal" (ionChange)="onVecinoConfirmaChange($event)">
                   <ion-item>
                     <ion-label>Si</ion-label>
                     <ion-radio value="si"></ion-radio>
@@ -259,8 +242,7 @@
 
               <ion-item>
                 <ion-label position="floating">Nombre Del Vecino</ion-label>
-                <ion-textarea formControlName="vecino_nombre" placeholder="Escribir.." [disabled]="isVecinoDisabled">
-                </ion-textarea>
+                <ion-textarea formControlName="vecino_nombre" placeholder="Escribir.." [disabled]="isVecinoDisabled"> </ion-textarea>
               </ion-item>
 
               <ion-item>
@@ -273,7 +255,6 @@
                   (ionInput)="validatePhoneNumber($event)">
                 </ion-input>
               </ion-item>
-
             </div>
           </ion-accordion>
 
@@ -286,9 +267,7 @@
               <ion-item>
                 <ion-label position="floating">Estabilidad Laboral Mayor 6 Meses</ion-label>
 
-                <ion-button (click)='addPhoto("estabilidad")'>
-                  Captura imagen
-                </ion-button>
+                <ion-button (click)='addPhoto("estabilidad")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>
@@ -302,9 +281,7 @@
               <ion-item>
                 <ion-label position="floating">Facturas Proveedores Ultimos 3 Meses</ion-label>
 
-                <ion-button (click)='addPhoto("facturas")'>
-                  Captura imagen
-                </ion-button>
+                <ion-button (click)='addPhoto("facturas")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>
@@ -318,9 +295,7 @@
               <ion-item>
                 <ion-label position="floating">Foto Exterior Negocio</ion-label>
 
-                <ion-button (click)='addPhoto("exterior")'>
-                  Captura imagen
-                </ion-button>
+                <ion-button (click)='addPhoto("exterior")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>
@@ -334,9 +309,7 @@
               <ion-item>
                 <ion-label position="floating">Foto Interior Negocio</ion-label>
 
-                <ion-button (click)='addPhoto("interior")'>
-                  Captura imagen
-                </ion-button>
+                <ion-button (click)='addPhoto("interior")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>
@@ -350,9 +323,7 @@
               <ion-item>
                 <ion-label position="floating">Foto Cliente Exterior Negocio</ion-label>
 
-                <ion-button (click)='addPhoto("clienteExterior")'>
-                  Captura imagen
-                </ion-button>
+                <ion-button (click)='addPhoto("clienteExterior")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>
@@ -366,9 +337,7 @@
               <ion-item>
                 <ion-label position="floating">Foto Cliente Interior Negocio</ion-label>
 
-                <ion-button (click)='addPhoto("clienteInterior")'>
-                  Captura imagen
-                </ion-button>
+                <ion-button (click)='addPhoto("clienteInterior")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>
@@ -382,9 +351,7 @@
               <ion-item>
                 <ion-label position="floating">Titulo Propiedad Garante Codeudor</ion-label>
 
-                <ion-button (click)='addPhoto("titulo")'>
-                  Captura imagen
-                </ion-button>
+                <ion-button (click)='addPhoto("titulo")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>
@@ -398,9 +365,7 @@
               <ion-item>
                 <ion-label position="floating">Impuesto Predial</ion-label>
 
-                <ion-button (click)='addPhoto("impuesto")'>
-                  Captura imagen
-                </ion-button>
+                <ion-button (click)='addPhoto("impuesto")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>
@@ -413,9 +378,7 @@
 
               <ion-item>
                 <ion-label position="floating">Respaldo Ingresos</ion-label>
-                <ion-button (click)='addPhoto("respaldo")'>
-                  Captura imagen
-                </ion-button>
+                <ion-button (click)='addPhoto("respaldo")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>
@@ -429,9 +392,7 @@
               <ion-item>
                 <ion-label position="floating">Certificado Laboral</ion-label>
 
-                <ion-button (click)='addPhoto("certificado")'>
-                  Captura imagen
-                </ion-button>
+                <ion-button (click)='addPhoto("certificado")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>
@@ -445,9 +406,7 @@
               <ion-item>
                 <ion-label position="floating">Foto Interior Domicilio</ion-label>
 
-                <ion-button (click)='addPhoto("interiorDom")'>
-                  Captura imagen
-                </ion-button>
+                <ion-button (click)='addPhoto("interiorDom")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>
@@ -457,13 +416,10 @@
                   </ion-row>
                 </ion-grid>
               </ion-item>
-
-
             </div>
           </ion-accordion>
           <ion-grid>
             <ion-row justify-content-around>
-
               <ion-col>
                 <ion-label position="floating">Latitud</ion-label>
                 <ion-input name="latitud" formControlName="latitud" [(ngModel)]="latitude"></ion-input>
@@ -472,17 +428,13 @@
                 <ion-label position="floating">Longitud</ion-label>
                 <ion-input name="longitud" formControlName="longitud" [(ngModel)]="longitude"></ion-input>
               </ion-col>
-
-
             </ion-row>
           </ion-grid>
         </ion-accordion-group>
 
-
         <!-- BOTON -->
-        <ion-button [disabled]="dataForm.invalid" expand="block" color="primary" type="submit">
-          Realizar Verificacion
-        </ion-button>
+        <!-- <ion-button [disabled]="dataForm.invalid" expand="block" color="primary" type="submit"> -->
+        <ion-button expand="block" color="primary" type="submit"> Realizar Verificacion </ion-button>
       </form>
     </div>
   </div>

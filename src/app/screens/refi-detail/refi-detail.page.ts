@@ -64,7 +64,7 @@ export class RefiDetailPage implements OnInit {
     this.photoService.resetPhotos();
     this.cargarDatosDesdeLista();
 
-    // await this.getDatosCliente();
+    await this.getDatosCliente();
     this.checkDatosCargados();
 
     console.log(`${this.idCliente} - ${this.operacion} - ${this.currentDate}`);
@@ -199,7 +199,7 @@ export class RefiDetailPage implements OnInit {
 
     if (postData.cliente_cedula && postData.cliente_cedula != undefined) {
       if (this.networkStatus) {
-        const url = `${environment.apiUrl}refinanciamiento.php?op=postDatosRefi`;
+        const url = `${environment.apiUrl}refinanciamiento.php?opcion=postDatosRefi`;
 
         const httpOptions = {
           headers: new HttpHeaders({
@@ -315,7 +315,7 @@ export class RefiDetailPage implements OnInit {
     );
   }
 
-  handleChange(event) { }
+  handleChange(event) {}
 
   createDataForm() {
     this.dataForm = new FormGroup({

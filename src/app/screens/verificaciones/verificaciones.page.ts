@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { dataService } from 'src/app/services/data.service';
 
-
 @Component({
   selector: 'app-verificaciones',
   templateUrl: './verificaciones.page.html',
@@ -10,30 +9,27 @@ import { dataService } from 'src/app/services/data.service';
 })
 export class VerificacionesPage implements OnInit {
   dataList = [];
-  constructor(
-    private _service: dataService,
-    private loadingCtrl: LoadingController,
-    private toastController: ToastController,
-    ) {}
+  constructor(private _service: dataService, private loadingCtrl: LoadingController, private toastController: ToastController) {}
 
   ngOnInit() {
-    this._service.getUserVerification().subscribe((data) => {
+    this._service.getUsersParaReservar().subscribe((data) => {
       this.dataList = data;
     });
   }
   handleRefresh(event) {
     setTimeout(() => {
-      this._service.getUserVerification().subscribe((data) => {
+      this._service.getUsersParaReservar().subscribe((data) => {
         this.dataList = data;
       });
       event.target.complete();
-      this.presentToast("La Informacion ha sido Actualizada correctamente","pulse-outline","success");
+      this.presentToast('La Informacion ha sido Actualizada correctamente', 'pulse-outline', 'success');
     }, 2000);
-  };
+  }
 
-  sendRequestVerifi(user){
+  sendRequestVerifi(user) {
     console.log(user.vf_cedula_cliente);
-    this._service.sendRequestVerifi(user.vf_cedula_cliente).subscribe((data)=>{
+    console.log(JSON.parse(localStorage.getItem('user')));
+    this._service.reservarVerificacionUser(user.vf_cedula_cliente, JSON.parse(localStorage.getItem('user'))).subscribe((data) => {
       console.log(data);
     });
     this.showLoading('Reservando verificacion...').then((e) => {});

@@ -9,30 +9,21 @@ import { dataService } from 'src/app/services/data.service';
 })
 export class HistorialPage implements OnInit {
   getHist = [];
-  constructor(
-    private _services: dataService,
-    private toastController: ToastController
-  ) {}
+  constructor(private _services: dataService, private toastController: ToastController) {}
 
   handleRefresh(event) {
     setTimeout(() => {
-      this._services
-        .getHist(JSON.parse(localStorage.getItem('user')))
-        .subscribe(
-          (data) => {
-            this.getHist = data;
-            localStorage.setItem('historial', JSON.stringify(data));
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-      event.target.complete();
-      this.presentToast(
-        'La Informacion ha sido Actualizada correctamente',
-        'pulse-outline',
-        'success'
+      this._services.getHist(JSON.parse(localStorage.getItem('user'))).subscribe(
+        (data) => {
+          this.getHist = data;
+          localStorage.setItem('historial', JSON.stringify(data));
+        },
+        (error) => {
+          console.log(error);
+        }
       );
+      event.target.complete();
+      this.presentToast('La Informacion ha sido Actualizada correctamente', 'pulse-outline', 'success');
     }, 2000);
   }
 

@@ -22,6 +22,12 @@ export class dataService {
     );
   }
 
+  getHistorialRefi(user: string) {
+    const url = `http://200.7.249.21:90/VerificacionesFisicas/Api_Cobranzas/controller/refinanciamiento.php?opcion=getHistorial&nombre=${user}`;
+    console.log(url);
+    return this._http.get<any>(url);
+  }
+
   getDatosOrigenRefi(id: string) {
     return this.getDatos(localStorage.getItem('user')).pipe(map((user) => user.find((e: any) => e.cedula == id.toString())));
   }
@@ -36,7 +42,7 @@ export class dataService {
 
   getDatosCliente(id: string) {
     return this._http.get<any>(
-      `${environment.apiUrl}refinanciamiento.php?op=getClientesId&id=${id}`
+      `${environment.apiUrl}refinanciamiento.php?opcion=getClientesId&id=${id}`
       // `http://200.7.249.20/vision360ServicioCliente/Api_rest_movil/controller/refinanciamiento.php?op=getClientesId&id=${id}`
       // `http://172.16.10.49/API_Cobranzas/controller/refinanciamiento.php?op=getClientesId&id=${id}`
     );
@@ -48,34 +54,34 @@ export class dataService {
     );
   }
 
-  getUserVerification() {
-    return this._http.get<any>('http://200.7.249.21:90/ApiVerificaciones/api/verificaciones?consult=UsuariosVerificaciones');
+  getUsersParaReservar() {
+    return this._http.get<any>(`${environment.apiUrl}verificacion.php?opcion=getUsersParaReservar`);
   }
 
-  sendRequestVerifi(cedula: number) {
-    return this._http.get<any>(`http://200.7.249.21:90/ApiVerificaciones/api/verificaciones?consult=UpdateUser&cedula=${cedula}`);
-  }
-
-  getUsersVerifi2() {
+  reservarVerificacionUser(cedula, nombreGestor) {
     return this._http.get<any>(
-      `http://200.7.249.21:90/ApiVerificaciones/api/verificaciones?consult=VerificationforUser&nombreGestor=MRAMIREZ`
+      `${environment.apiUrl}verificacion.php?opcion=reservarVerificacionUser&cedula=${cedula}&nombreGestor=${nombreGestor}`
     );
   }
 
+  getUsersVerifi2(nombreGestor) {
+    const url = `${environment.apiUrl}verificacion.php?opcion=getUsersParaVerificar&nombreGestor=${nombreGestor}`;
+    console.log(url);
+
+    return this._http.get<any>(url);
+  }
+
   getdireccion_clienteDetalleVer() {
-    return this._http.get<any>(
-      `http://200.7.249.21:90/ApiVerificaciones/api/verificaciones?consult=direccion_cliente`
-    )
+    return this._http.get<any>(`http://200.7.249.21:90/ApiVerificaciones/api/verificaciones?consult=direccion_cliente`);
   }
 
   sendTextMessage(numero: string) {
     // const apiUrl = `http://200.7.249.21:90/ApiTextMessageMovil/api/enviomensaje?send=${codigo}&number=${dndlN_telefonocelular}&apikey=API_KEY`;
     // const apiUrl = `http://200.7.249.21:90/ApiTextMessageMovil/api/enviomensaje?send=message&number=${numero}&message=X12345`;
     const data = {
-      codigo: 'X12345'
-    }
+      codigo: 'X12345',
+    };
     // return this._http.get(apiUrl);
     return data;
   }
-
 }

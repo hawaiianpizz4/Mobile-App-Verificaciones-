@@ -6,22 +6,30 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <h3 class="title" *ngIf="(getHist).length || 0">
-    {{(getHist).length}} Registros
-  </h3>
+  <h3 class="title" *ngIf="(getHist).length || 0">{{(getHist).length}} Registros</h3>
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content
       pullingIcon="chevron-down-circle-outline"
       pullingText="Arrastra para refrescar"
       refreshingSpinner="circles"
-      refreshingText="Actualizando..."
-    >
+      refreshingText="Actualizando...">
     </ion-refresher-content>
   </ion-refresher>
   <ion-list lines="none">
     <ion-item-sliding *ngFor="let item  of getHist">
       <ion-item>
-        <app-hist-card [item]="item"></app-hist-card>
+        <div class="hist-item">
+          <div class="image">
+            <ion-img src="assets/images/historial.png"></ion-img>
+          </div>
+          <div class="description">
+            <h3>{{item.refi_operacion}}</h3>
+            <h2>{{item.cliente_nombres}}</h2>
+            <p><sup>!</sup>{{item.refi_fecha}}</p>
+          </div>
+        </div>
+
+        <!-- <app-hist-card [item]="item"></app-hist-card> -->
       </ion-item>
     </ion-item-sliding>
   </ion-list>

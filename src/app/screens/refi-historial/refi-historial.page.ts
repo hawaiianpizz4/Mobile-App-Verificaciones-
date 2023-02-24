@@ -9,30 +9,23 @@ import { dataService } from 'src/app/services/data.service';
 })
 export class RefiHistorialPage implements OnInit {
   getHist = [];
-  constructor(
-    private _services: dataService,
-    private toastController: ToastController
-  ) {}
+  constructor(private _services: dataService, private toastController: ToastController) {}
 
   handleRefresh(event) {
     setTimeout(() => {
-      this._services
-        .getHist(JSON.parse(localStorage.getItem('user')))
-        .subscribe(
-          (data) => {
-            this.getHist = data;
-            localStorage.setItem('historial', JSON.stringify(data));
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-      event.target.complete();
-      this.presentToast(
-        'La Informacion ha sido Actualizada correctamente',
-        'pulse-outline',
-        'success'
+      this._services.getHistorialRefi(JSON.parse(localStorage.getItem('user'))).subscribe(
+        (data) => {
+          console.log(data);
+          this.getHist = data;
+          localStorage.setItem('historial-refi', JSON.stringify(data));
+        },
+        (error) => {
+          console.log('asfasdf');
+          console.log(error);
+        }
       );
+      event.target.complete();
+      this.presentToast('La Informacion ha sido Actualizada correctamente', 'pulse-outline', 'success');
     }, 2000);
   }
 
@@ -47,15 +40,16 @@ export class RefiHistorialPage implements OnInit {
     await toast.present();
   }
   ngOnInit() {
-    this._services.getHist(JSON.parse(localStorage.getItem('user'))).subscribe(
+    this._services.getHistorialRefi(JSON.parse(localStorage.getItem('user'))).subscribe(
       (data) => {
+        console.log(data);
         this.getHist = data;
-        localStorage.setItem('historial', JSON.stringify(data));
+        localStorage.setItem('historial-refi', JSON.stringify(data));
       },
       (error) => {
         console.log(error);
       }
     );
-    this.getHist = JSON.parse(localStorage.getItem('historial'));
+    this.getHist = JSON.parse(localStorage.getItem('historial-refi'));
   }
 }

@@ -18,198 +18,220 @@
         Detalle De Formulario Verificación
       </h1>
 
-      <ion-item>
-        <h2 style="color: #1EA9A7">Datos Iniciales</h2>
-      </ion-item>
+      <form [formGroup]="dataForm">
 
-      <ion-item>
-        <p><strong>Nombre Gestor:</strong>{{this.getdata.nombre_gestor}}</p>
-      </ion-item>
+        <ion-item>
+          <h2 style="color: #1EA9A7">Datos Iniciales</h2>
+        </ion-item>
 
-      <ion-item>
-        <p><strong>Fecha Actual:</strong>{{this.getdata.fecha_actual}}</p>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">Nombre Gestor</ion-label>
+          <ion-input formControlName="nombre_gestor"></ion-input>
+        </ion-item>
 
-      <ion-item>
-        <p><strong>Nombre Tienda:</strong>{{this.getdata.nombre_tienda}}</p>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">Fecha Verificación</ion-label>
+          <ion-input formControlName="fechaverificacion"></ion-input>
+        </ion-item>
 
-      <ion-item>
-        <p><strong>Nombre Cliente:</strong>{{this.getdata.nombre_cliente}}</p>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">Nombre Tienda</ion-label>
+          <ion-input formControlName="vf_nombre_tienda"></ion-input>
+        </ion-item>
 
-      <ion-item>
-        <p><strong>Número Cédula:</strong>{{this.getdata.numero_cedula}}</p>
-      </ion-item>
 
-      <ion-item>
-        <strong>Direccion:</strong>{{this.getdata.direccion_cliente}}
-      </ion-item>
 
-      <ion-item>
+        <ion-item>
+          <ion-label position="floating">Nombre Cliente</ion-label>
+          <ion-input formControlName="nombreCliente">Datos xxx</ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Número Cédula</ion-label>
+          <ion-input formControlName="cedulaCliente">Datos xxx</ion-input>
+        </ion-item>
+
+        <ion-item>
           <div id="mapa"></div>
           <div id="coordinates" class="coordinates"></div>
-      </ion-item>
+        </ion-item>
 
 
-      <ion-accordion-group>
-        <ion-accordion value="datosVivienda">
-          <ion-item slot="header" color="light">
-            <ion-label> Vivienda</ion-label>
-          </ion-item>
+        <ion-accordion-group>
+          <ion-accordion value="datosVivienda">
+            <ion-item slot="header" color="light">
+              <ion-label> Vivienda</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
 
-          <div class="ion-padding" slot="content">
-            <ion-item>
-              <p><strong>Tipo Vivienda:</strong>{{this.getdata.tipo_vivienda}}</p>
+              <ion-item>
+                <ion-label position="floating">Tipo Vivienda</ion-label>
+                <ion-input formControlName="tipoVivienda"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Persona Quien Realiza Verificación</ion-label>
+                <ion-input formControlName="personaQuienRealizaLaVerificación"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Residencia Minima</ion-label>
+                <ion-input formControlName="residenciaMinimaTresMeses"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Local Terreno Propio</ion-label>
+                <ion-input formControlName="localTerrenoPropio"></ion-input>
+              </ion-item>
+
+
+              <ion-item>
+                <ion-label position="floating">Local Terreno Arrendado</ion-label>
+                <ion-input formControlName="localTerrenoArrendado"></ion-input>
+              </ion-item>
+
+            </div>
+          </ion-accordion>
+
+          <ion-accordion value="datosServicios">
+            <ion-item slot="header" color="light">
+              <ion-label> Servicios</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+
+              <ion-item>
+                <ion-label position="floating">Planilla Servicio Básico</ion-label>
+                <ion-input formControlName="planillaServicioBasico"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Captura Planilla</ion-label>
+                <ion-input formControlName="planillaServicioBasicoImagen"></ion-input>
+              </ion-item>
+
+
+              <ion-item>
+                <ion-label position="floating">Seguridad Puertas Ventanas</ion-label>
+                <ion-input formControlName="seguridadPuertasVentanas"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Mueblería Básica</ion-label>
+                <ion-input formControlName="muebleriaBasica"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Material Casa</ion-label>
+                <ion-input formControlName="materialCasa"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Actividades Laborales</ion-label>
+                <ion-input formControlName="periodicidadActividadesLaborales"></ion-input>
+              </ion-item>
+            </div>
+          </ion-accordion>
+
+          <ion-accordion value="datosVecino">
+            <ion-item slot="header" color="light">
+              <ion-label> Vecinos</ion-label>
             </ion-item>
 
-            <ion-item>
-              <p><strong>Persona Que Verifica:</strong>{{this.getdata.persona_verifica}}</p>
+            <div class="ion-padding" slot="content">
+
+              <ion-item>
+                <ion-label position="floating">Confirmación Vecinos</ion-label>
+                <ion-input formControlName="confirmacionInfoVecinos"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Confirmación Vecinos</ion-label>
+                <ion-input formControlName="confirmacionInfoVecinos"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Nombre Vecinos</ion-label>
+                <ion-input formControlName="nombreInfoVecino"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Celular Vecino</ion-label>
+                <ion-input formControlName="celularInfoVecino"></ion-input>
+              </ion-item>
+
+            </div>
+          </ion-accordion>
+ <!--
+          <ion-accordion value="datosImagenes">
+            <ion-item slot="header" color="light">
+              <ion-label>Imágenes</ion-label>
             </ion-item>
+            <div class="ion-padding" slot="content">
 
-            <ion-item>
-              <p><strong>Residencia Minima:</strong>{{this.getdata.residencia_minima}}</p>
-            </ion-item>
-
-            <ion-item>
-              <p><strong>Local o Tereno Propio:</strong>{{this.getdata.localTerreno_propio}}</p>
-            </ion-item>
-
-            <ion-item>
-              <p><strong>Local o Terreno Arrendado:</strong>{{this.getdata.localTerreno_arrendado}}</p>
-            </ion-item>
-          </div>
-        </ion-accordion>
-
-        <ion-accordion value="datosServicios">
-          <ion-item slot="header" color="light">
-            <ion-label> Servicios</ion-label>
-          </ion-item>
-          <div class="ion-padding" slot="content">
+              <ion-item>
+                <ion-label position="floating">Estabilidad Laboral Mayor 6 Meses</ion-label>
+                <img src={{this.getdata.imagen_estabilidad}}>
+              </ion-item>
 
 
-            <ion-item>
-              <p><strong>Planilla Servicio Básico:</strong>{{this.getdata.planilla_servicios}}</p>
-            </ion-item>
 
-            <ion-item>
-              <p><strong>Captura Planilla:</strong></p>
-            </ion-item>
+              <ion-item>
+                <ion-label position="floating">Facturas Proveedores Ultimos 3 Meses</ion-label>
+                <img src={{this.getdata.imagen_proveedores}}>
+              </ion-item>
 
-            <ion-item>
-              <img src= {{this.getdata.imagen_planilla}}>
-            </ion-item>
+              <ion-item>
+                <ion-label position="floating">Foto Exterior Negocio</ion-label>
+                <img src={{this.getdata.imagen_exteriorNegocio}}>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Foto Interior Negocio</ion-label>
+                <img src={{this.getdata.imagen_interiorNegocio}}>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Foto Cliente Exterior Negocio</ion-label>
+                <img src={{this.getdata.imagen_clienteExteriorNegocio}}>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Foto Cliente Interior Negocio</ion-label>
+                <img src={{this.getdata.imagen_clienteInteriorNegocio}}>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Titulo Propiedad Garante Codeudor</ion-label>
+                <img src={{this.getdata.imagen_tituloPropiedad}}>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Impuesto Predial</ion-label>
+                <img src={{this.getdata.imagen_impuestoPredial}}>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Respaldo Ingresos</ion-label>
+                <img src={{this.getdata.imagen_respaldoIngresos}}>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Certificado Laboral</ion-label>
+                <img src={{this.getdata.imagen_certificadoLaboral}}>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Foto Interior Domicilio</ion-label>
+                <img src={{this.getdata.imagen_interiorDomicilio}}>
+              </ion-item>
+
+            </div>
+          </ion-accordion>
+        </ion-accordion-group> -->
 
 
-            <ion-item>
-              <p><strong>Seguridad Puertas Ventanas:</strong>{{this.getdata.seguridad_puertas}}</p>
-            </ion-item>
-
-            <ion-item>
-              <p><strong>Mueblerías Básica:</strong>{{this.getdata.muebleria_basica}}</p>
-            </ion-item>
-
-            <ion-item>
-              <p><strong>Material Casa:</strong>{{this.getdata.material_casa}}</p>
-            </ion-item>
-
-            <ion-item>
-              <p><strong>Actividades Laborales:</strong>{{this.getdata.periodicidad_actividades}}</p>
-            </ion-item>
-
-          </div>
-        </ion-accordion>
-
-        <ion-accordion value="datosVecino">
-          <ion-item slot="header" color="light">
-            <ion-label> Vecinos</ion-label>
-          </ion-item>
-          <div class="ion-padding" slot="content">
-
-            <ion-item>
-              <p><strong>Confirmación Vecinos:</strong>{{this.getdata.vecino_confirm}}</p>
-            </ion-item>
-
-            <ion-item>
-              <p><strong>Nombre Del Vecino:</strong>{{this.getdata.vecino_nombre}}</p>
-            </ion-item>
-
-            <ion-item>
-              <p><strong>Celular Vecino:</strong>{{this.getdata.vecino_celular}}</p>
-            </ion-item>
-
-
-          </div>
-        </ion-accordion>
-
-        <ion-accordion value="datosImagenes">
-          <ion-item slot="header" color="light">
-            <ion-label>Imágenes</ion-label>
-          </ion-item>
-          <div class="ion-padding" slot="content">
-
-            <ion-item>
-              <ion-label position="floating">Estabilidad Laboral Mayor 6 Meses</ion-label>
-              <img src= {{this.getdata.imagen_estabilidad}}>
-            </ion-item>
-
-            <ion-item>
-              <ion-label position="floating">Facturas Proveedores Ultimos 3 Meses</ion-label>
-              <img src= {{this.getdata.imagen_proveedores}}>
-            </ion-item>
-
-            <ion-item>
-              <ion-label position="floating">Foto Exterior Negocio</ion-label>
-              <img src= {{this.getdata.imagen_exteriorNegocio}}>
-            </ion-item>
-
-            <ion-item>
-              <ion-label position="floating">Foto Interior Negocio</ion-label>
-              <img src= {{this.getdata.imagen_interiorNegocio}}>
-            </ion-item>
-
-            <ion-item>
-              <ion-label position="floating">Foto Cliente Exterior Negocio</ion-label>
-              <img src= {{this.getdata.imagen_clienteExteriorNegocio}}>
-            </ion-item>
-
-            <ion-item>
-              <ion-label position="floating">Foto Cliente Interior Negocio</ion-label>
-              <img src= {{this.getdata.imagen_clienteInteriorNegocio}}>
-            </ion-item>
-
-            <ion-item>
-              <ion-label position="floating">Titulo Propiedad Garante Codeudor</ion-label>
-              <img src= {{this.getdata.imagen_tituloPropiedad}}>
-            </ion-item>
-
-            <ion-item>
-              <ion-label position="floating">Impuesto Predial</ion-label>
-              <img src= {{this.getdata.imagen_impuestoPredial}}>
-            </ion-item>
-
-            <ion-item>
-              <ion-label position="floating">Respaldo Ingresos</ion-label>
-              <img src= {{this.getdata.imagen_respaldoIngresos}}>
-            </ion-item>
-
-            <ion-item>
-              <ion-label position="floating">Certificado Laboral</ion-label>
-              <img src= {{this.getdata.imagen_certificadoLaboral}}>
-           </ion-item>
-
-            <ion-item>
-              <ion-label position="floating">Foto Interior Domicilio</ion-label>
-              <img src= {{this.getdata.imagen_interiorDomicilio}}>
-            </ion-item>
-
-          </div>
-        </ion-accordion>
-      </ion-accordion-group>
-
-      <ion-item>
-      </ion-item>
-
+        </ion-item>
+      </form>
 
     </div>
   </div>

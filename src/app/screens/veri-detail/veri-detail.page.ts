@@ -57,6 +57,43 @@ dataForm: FormGroup;
 
   ngOnInit() {
     this.initMap();
+
+    this.dataForm = new FormGroup({
+      nombreGestor: new FormControl(this.getdata.nombreGestor, []),
+      fechaverificacion: new FormControl(this.getdata.fechaverificacion, []),
+      vf_nombre_tienda: new FormControl(this.getdata.vf_nombre_tienda, []),
+      nombreCliente: new FormControl(this.getdata.nombreCliente, []),
+      cedulaCliente: new FormControl(this.getdata.cedulaCliente, []),
+      tipoVivienda: new FormControl(this.getdata.tipoVivienda, []),
+      personaQuienRealizaLaVerificación: new FormControl(this.getdata.personaQuienRealizaLaVerificación, []),
+      residenciaMinimaTresMeses: new FormControl(this.getdata.residenciaMinimaTresMeses, []),
+      localTerrenoPropio: new FormControl(this.getdata.localTerrenoPropio, []),
+      localTerrenoArrendado: new FormControl(this.getdata.localTerrenoArrendado, []),
+      planillaServicioBasico: new FormControl(this.getdata.planillaServicioBasico, []),
+      planillaServicioBasicoImagen: new FormControl(this.getdata.planillaServicioBasicoImagen, []),
+      seguridadPuertasVentanas: new FormControl(this.getdata.seguridadPuertasVentanas, []),
+      muebleriaBasica: new FormControl(this.getdata.muebleriaBasica, []),
+      materialCasa: new FormControl(this.getdata.materialCasa, []),
+      periodicidadActividadesLaborales: new FormControl(this.getdata.periodicidadActividadesLaborales, []),
+      confirmacionInfoVecinos: new FormControl(this.getdata.confirmacionInfoVecinos, []),
+      nombreInfoVecino: new FormControl(this.getdata.nombreInfoVecino, []),
+      celularInfoVecino: new FormControl(this.getdata.celularInfoVecino, []),
+      estabilidadLaboraSeisMesesImagen: new FormControl(this.getdata.estabilidadLaboraSeisMesesImagen, []),
+      facturasProveedoresUltimosTresMesesImagen: new FormControl(this.getdata.facturasProveedoresUltimosTresMesesImagen, []),
+      fachadaDelNegocioImagen: new FormControl(this.getdata.fachadaDelNegocioImagen, []),
+      interiorDelNegocioImagen: new FormControl(this.getdata.interiorDelNegocioImagen, []),
+      clienteDentroDelNegocioImagen: new FormControl(this.getdata.clienteDentroDelNegocioImagen, []),
+      clienteFueraDelNegocioImagen: new FormControl(this.getdata.clienteFueraDelNegocioImagen, []),
+      imagen_tituloPropiedad: new FormControl(this.getdata.imagen_tituloPropiedad, []),
+      impuestoPredialImagen: new FormControl(this.getdata.impuestoPredialImagen, []),
+      respaldoIngresosImagen: new FormControl(this.getdata.respaldoIngresosImagen, []),
+      certificadoLaboralImagen: new FormControl(this.getdata.certificadoLaboralImagen, []),
+
+
+    });
+
+
+
   }
 
   initMap() {

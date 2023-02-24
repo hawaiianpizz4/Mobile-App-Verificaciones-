@@ -6,8 +6,8 @@ import { VeriDetailPage } from './veri-detail.page';
 const routes: Routes = [
   {
     path: '',
-    component: VeriDetailPage
-  }
+    component: VeriDetailPage,
+  },
 ];
 
 @NgModule({

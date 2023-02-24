@@ -8,7 +8,7 @@
 <ion-content class="ion-padding">
   <div class="header">
     <div class="contenedor">
-      <img src="assets/images/IconoIcesa.png" alt="iconoIcesa">
+      <img src="assets/images/IconoIcesa.png" alt="iconoIcesa" />
       <div class="centrado"><h1>Check List Verificados</h1></div>
     </div>
     <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
@@ -23,14 +23,11 @@
 
   <h1 class="list-header">Lista x</h1>
   <div class="food-list" *ngIf="dataList.length != 0">
-    <app-list-users-verificados
-      *ngFor="let user of dataList "
-      [item]="user"
-    ></app-list-users-verificados>
+    <app-list-users-verificados *ngFor="let user of dataList " [item]="user"></app-list-users-verificados>
   </div>
 
   <div class="empty-cart" *ngIf="!(dataList).length || 0">
-    <ion-icon  name="card"></ion-icon>
+    <ion-icon name="card"></ion-icon>
     <p>0 Registros Verificados</p>
   </div>
 </ion-content>

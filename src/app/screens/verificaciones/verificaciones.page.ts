@@ -27,7 +27,6 @@ export class VerificacionesPage implements OnInit {
   }
 
   sendRequestVerifi(user) {
-    console.log(user.vf_cedula_cliente);
     console.log(JSON.parse(localStorage.getItem('user')));
     this._service.reservarVerificacionUser(user.vf_cedula_cliente, JSON.parse(localStorage.getItem('user'))).subscribe((data) => {
       console.log(data);

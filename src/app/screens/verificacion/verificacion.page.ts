@@ -4,12 +4,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, NgZone, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  ModalController,
-  NavController,
-  ToastController,
-  LoadingController,
-} from '@ionic/angular';
+import { ModalController, NavController, ToastController, LoadingController } from '@ionic/angular';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Observable } from 'rxjs';
@@ -21,8 +16,10 @@ import { ElementRef, ViewChild } from '@angular/core';
 
 import { dataService } from 'src/app/services/data.service';
 
-import { FormGroup, FormControl, FormBuilder,Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+
+import { getCurrentCoordinates, presentToast } from 'src/app/utils/utils';
 
 @Component({
   selector: 'app-verificacion',
@@ -30,9 +27,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./verificacion.page.scss'],
 })
 export class VerificacionPage implements OnInit {
-
-
- @Input() item;
+  @Input() item;
 
   isPlanillaDisabled: boolean = true;
   isVecinoDisabled: boolean = true;
@@ -50,8 +45,7 @@ export class VerificacionPage implements OnInit {
 
   dataForm = new FormGroup({
     nombre_gestor: new FormControl('', []),
-    fecha_actual: new FormControl(
-      { value: new Date().toUTCString(), disabled: true },[]),
+    fecha_actual: new FormControl({ value: new Date().toUTCString(), disabled: true }, []),
     nombre_tienda: new FormControl('', []),
     nombre_cliente: new FormControl('', []),
     numero_cedula: new FormControl('', []),
@@ -75,9 +69,6 @@ export class VerificacionPage implements OnInit {
     codigo: new FormControl({ value: '', disabled: true }, []),
     latitud: new FormControl({ value: '', disabled: true }, []),
     longitud: new FormControl({ value: '', disabled: true }, []),
-
-
-
   });
 
   constructor(
@@ -90,55 +81,57 @@ export class VerificacionPage implements OnInit {
     private ngZone: NgZone,
     private _http: HttpClient,
     public photoService: PhotoService,
-    private _services: dataService,
-
-
-
+    private _services: dataService
   ) {
     // this.changeStatus();
   }
 
-  async getCodigoSMS(){
-    const telefono = this.item.dndlN_telefonocelular;
-      console.log(telefono);
-      const codigo = this._services.sendTextMessage(telefono); // Reemplaza "TU_CODIGO" con el código que quieras enviar
-      console.log(codigo);
-      return codigo;
+  async getCodigoSMS(numeroTelf) {
+    console.log(numeroTelf);
+    const codigo = this._services.sendTextMessage(numeroTelf);
 
-      // this.dataService.sendTextMessage(telefono, codigo).subscribe((data) => {
-      //   console.log("Mensaje enviado:", data);
-      // }, (error) => {
-      //   console.error("Error al enviar el mensaje:", error);
-      // });
+    // create a new loading controller instance
+    this.isServiceCallInProgress = await this.loadingCtrl.create({
+      message: 'Cargando Datos de Cliente...',
+      spinner: 'bubbles',
+      duration: 10000, // set a timeout of 5 seconds (5000 milliseconds)
+    });
+    // present the loading controller
+    await this.isServiceCallInProgress.present();
+
+    try {
+      this._services.sendTextMessage(numeroTelf).subscribe(
+        (data) => {
+          console.log(data);
+          this.isServiceCallInProgress.dismiss();
+        },
+        (error) => {
+          console.log(error);
+          presentToast('Error al obtener datos del cliente.', 'checkmark-outline', 'danger');
+          this.isServiceCallInProgress.dismiss();
+        }
+      );
+    } catch (error) {
+      presentToast('Error al enviar datos', 'checkmark-outline', 'danger');
+      this.isServiceCallInProgress.dismiss();
+    }
+
+    console.log(codigo);
+    return codigo;
   }
-
 
   async ngOnInit() {
     this.getCurrentCoordinates();
-    //this.photoService.resetPhotos();
 
+    const codigoSMS = this.getCodigoSMS('123123');
 
-    // const codigoSMS = this.getCodigoSMS();
+    this.dataForm.controls.codigo.setValue(codigoSMS['code']);
 
-    this.dataForm.controls.codigo.setValue(
-      'X12345'
-    );
-
-    this.dataForm.controls.nombre_gestor.setValue(
-      this.activatedRoute.snapshot.paramMap.get('vf_nombre_vendedor')
-    );
-    this.dataForm.controls.nombre_tienda.setValue(
-      this.activatedRoute.snapshot.paramMap.get('vf_nombre_tienda')
-    );
-    this.dataForm.controls.nombre_cliente.setValue(
-      this.activatedRoute.snapshot.paramMap.get('vf_nombre_cliente')
-    );
-    this.dataForm.controls.numero_cedula.setValue(
-      this.activatedRoute.snapshot.paramMap.get('vf_cedula_cliente')
-    );
-    this.dataForm.controls.direccion_cliente.setValue(
-      this.activatedRoute.snapshot.paramMap.get('dndlD_direccion_domiciliaria')
-    );
+    this.dataForm.controls.nombre_gestor.setValue(this.activatedRoute.snapshot.paramMap.get('vf_nombre_vendedor'));
+    this.dataForm.controls.nombre_tienda.setValue(this.activatedRoute.snapshot.paramMap.get('vf_nombre_tienda'));
+    this.dataForm.controls.nombre_cliente.setValue(this.activatedRoute.snapshot.paramMap.get('vf_nombre_cliente'));
+    this.dataForm.controls.numero_cedula.setValue(this.activatedRoute.snapshot.paramMap.get('vf_cedula_cliente'));
+    this.dataForm.controls.direccion_cliente.setValue(this.activatedRoute.snapshot.paramMap.get('dndlD_direccion_domiciliaria'));
     // this.dataForm.controls.codigo.setValue(
     //   this.activatedRoute.snapshot.paramMap.get('dndlD_codigo')
     // );
@@ -154,7 +147,6 @@ export class VerificacionPage implements OnInit {
 
   async submitForm() {
     const postData = {
-
       nombreGestor: this.dataForm.controls.nombre_gestor.value,
       //fechaverificacion: this.dataForm.controls.fecha_actual.value,
       vf_nombre_tienda: this.dataForm.controls.nombre_tienda.value,
@@ -174,7 +166,7 @@ export class VerificacionPage implements OnInit {
       seguridadPuertasVentanas: this.dataForm.controls.puertas_ventanas.value,
       muebleriaBasica: this.dataForm.controls.muebleria_basica.value,
       materialCasa: this.dataForm.get('material_casa').value,
-      periodicidadActividadesLaborales:this.dataForm.controls.periodicidad_actividades.value,
+      periodicidadActividadesLaborales: this.dataForm.controls.periodicidad_actividades.value,
       //acordeon confimacion vecino
       confirmacionInfoVecinos: this.dataForm.controls.vecino_confirma.value,
       nombreInfoVecino: this.dataForm.controls.vecino_nombre.value,
@@ -182,12 +174,10 @@ export class VerificacionPage implements OnInit {
 
       //imagenes
 
-
-
       estabilidadLaboraSeisMesesImagen: this.photoService.photosEstabilidad64,
-      facturasProveedoresUltimosTresMesesImagen:this.photoService.photosFacturas64,
-      fachadaDelNegocioImagen:this.photoService.photosExterior64,
-      interiorDelNegocioImagen:this.photoService.photosInterior64,
+      facturasProveedoresUltimosTresMesesImagen: this.photoService.photosFacturas64,
+      fachadaDelNegocioImagen: this.photoService.photosExterior64,
+      interiorDelNegocioImagen: this.photoService.photosInterior64,
       clienteFueraDelNegocioImagen: this.photoService.photosClienteExterior64,
       clienteDentroDelNegocioImagen: this.photoService.photosClienteInterior64,
       tituloPropiedaGaranteOCodeudorImagen: this.photoService.photosTitulo64,
@@ -199,9 +189,6 @@ export class VerificacionPage implements OnInit {
       //latitud
       latitud: this.dataForm.controls.latitud.value,
       longitud: this.dataForm.controls.longitud.value,
-
-
-
     };
 
     console.dir(this.photoService.photosPlanilla64);
@@ -219,28 +206,22 @@ export class VerificacionPage implements OnInit {
         };
 
         // console.log(JSON.stringify(this.photoService.photosBase64.length));
-        await this._http
-          .post(url, JSON.stringify(postData), httpOptions)
-          .subscribe(
-            () => {
-              this.showLoading('Guardando Registro...').then((e) => {});
-              setTimeout(() => {
-                this.presentToast(
-                  'Registro Enviado',
-                  'checkmark-outline',
-                  'success'
-                );
-                this.redirect();
-              }, 3000);
-            },
-            (error) => {
-              setTimeout(() => {
-                this.presentToast('Error', error, 'error');
-                this.redirect();
-              }, 3000);
-              console.log(error);
-            }
-          );
+        await this._http.post(url, JSON.stringify(postData), httpOptions).subscribe(
+          () => {
+            this.showLoading('Guardando Registro...').then((e) => {});
+            setTimeout(() => {
+              this.presentToast('Registro Enviado', 'checkmark-outline', 'success');
+              this.redirect();
+            }, 3000);
+          },
+          (error) => {
+            setTimeout(() => {
+              this.presentToast('Error', error, 'error');
+              this.redirect();
+            }, 3000);
+            console.log(error);
+          }
+        );
 
         setTimeout(() => {
           this.presentToast('Registro Enviado', 'checkmark-outline', 'success');
@@ -248,7 +229,6 @@ export class VerificacionPage implements OnInit {
         }, 3000);
       }
     }
-
   }
 
   async changeStatus() {
@@ -270,9 +250,6 @@ export class VerificacionPage implements OnInit {
         console.log(error);
       });
   }
-
-
-
 
   async showLoading(msg) {
     const loading = await this.loadingCtrl.create({
@@ -299,8 +276,7 @@ export class VerificacionPage implements OnInit {
 
     this.isPlanillaDisabled = true;
 
-    if (valorPlanilla == 'si')
-      this.isPlanillaDisabled = false;
+    if (valorPlanilla == 'si') this.isPlanillaDisabled = false;
   }
 
   onVecinoConfirmaChange() {
@@ -308,24 +284,17 @@ export class VerificacionPage implements OnInit {
     console.log(valorVecino);
     this.isVecinoDisabled = true;
 
-    if(valorVecino =='si')
-    this.isVecinoDisabled = false;
+    if (valorVecino == 'si') this.isVecinoDisabled = false;
   }
 
   validatePhoneNumber(event: any) {
     const input = event.target as HTMLInputElement;
-    let phoneNumber = input.value.replace(/\D/g,''); // Remueve los caracteres no numéricos
+    let phoneNumber = input.value.replace(/\D/g, ''); // Remueve los caracteres no numéricos
     if (phoneNumber.length > 10) {
       phoneNumber = phoneNumber.substr(0, 10); // Limita el número de caracteres a 10
     }
     this.dataForm.get('vecino_celular').setValue(phoneNumber);
   }
-
-
-
-
-
-
 
   redirect() {
     // this.navCtrl.navigateForward('home/listing');
@@ -338,6 +307,4 @@ export class VerificacionPage implements OnInit {
   addPhoto(tipo: string) {
     this.photoService.addNewToGallery(tipo);
   }
-
-
 }

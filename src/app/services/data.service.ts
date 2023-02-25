@@ -76,12 +76,14 @@ export class dataService {
   }
 
   sendTextMessage(numero: string) {
-    // const apiUrl = `http://200.7.249.21:90/ApiTextMessageMovil/api/enviomensaje?send=${codigo}&number=${dndlN_telefonocelular}&apikey=API_KEY`;
-    // const apiUrl = `http://200.7.249.21:90/ApiTextMessageMovil/api/enviomensaje?send=message&number=${numero}&message=X12345`;
-    const data = {
-      codigo: 'X12345',
-    };
-    // return this._http.get(apiUrl);
-    return data;
+    const url = `${environment.apiUrl}verificacion.php?opcion=send&number=593998439756`;
+    // const url = `${environment.apiUrl}verificacion.php?opcion=send&number=${numero}`;
+
+    // const data = {
+    //   codigo: 'X12345',
+    // };
+    return this._http.get<any>(url);
+
+    // return data;
   }
 }

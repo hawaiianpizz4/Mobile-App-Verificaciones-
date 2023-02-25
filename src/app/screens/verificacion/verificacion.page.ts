@@ -152,7 +152,8 @@ export class VerificacionPage implements OnInit {
       vf_nombre_tienda: this.dataForm.controls.nombre_tienda.value,
       nombreCliente: this.dataForm.controls.nombre_cliente.value,
       cedulaCliente: this.dataForm.controls.numero_cedula.value,
-      codigoVerificacion: this.dataForm.controls.codigo.value,
+      // codigoVerificacion: this.dataForm.controls.codigo.value,
+      codigoVerificacion: 10,
       direccionDomiciliaria: this.dataForm.controls.direccion_cliente.value,
       //vivienda
       tipoVivienda: this.dataForm.get('tipo_vivienda').value,

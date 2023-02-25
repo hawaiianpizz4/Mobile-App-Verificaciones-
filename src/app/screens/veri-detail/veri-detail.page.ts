@@ -88,6 +88,7 @@ dataForm: FormGroup;
       impuestoPredialImagen: new FormControl(this.getdata.impuestoPredialImagen, []),
       respaldoIngresosImagen: new FormControl(this.getdata.respaldoIngresosImagen, []),
       certificadoLaboralImagen: new FormControl(this.getdata.certificadoLaboralImagen, []),
+      interiorDomicilioImagen: new FormControl(this.getdata.interiorDomicilioImagen, []),
 
 
     });

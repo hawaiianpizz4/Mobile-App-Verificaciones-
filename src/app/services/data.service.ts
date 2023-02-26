@@ -65,7 +65,7 @@ export class dataService {
   }
 
   getUsersVerifi2(nombreGestor) {
-    const url = `${environment.apiUrl}verificacion.php?opcion=getUsersVerificados&nombreGestor=${nombreGestor}`;
+    const url = `${environment.apiUrl}verificacion.php?opcion=getUsersReservados&nombreGestor=${nombreGestor}`;
     console.log(url);
 
     return this._http.get<any>(url);
@@ -76,7 +76,7 @@ export class dataService {
   }
 
   sendTextMessage(numero: string) {
-    const url = `${environment.apiUrl}verificacion.php?opcion=send&number=593998439756`;
+    const url = `${environment.apiUrl}verificacion.php?opcion=send&number=${numero}`;
     // const url = `${environment.apiUrl}verificacion.php?opcion=send&number=${numero}`;
 
     // const data = {

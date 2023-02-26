@@ -16,16 +16,16 @@ export class MenuComponent implements OnInit {
   ngOnInit() {}
 
   menuOptions: any[] = [
-    { title: 'Gestiones Cobranza', icon: 'flask', route: '/' },
-    { title: 'Historial Gestión ', icon: 'logo-github', route: '/historial' },
+    { title: 'Gestiones Cobranza', icon: 'wallet-outline', route: '/' },
+    { title: 'Historia Gestión ', icon: 'receipt-outline', route: '/historial' },
     {
-      title: 'Historial Refinanciamiento ',
-      icon: 'logo-github',
+      title: 'Historia Refinanciamiento ',
+      icon: 'cash-outline',
       route: '/refi-historial',
     },
     {
       title: 'Verificacion',
-      icon: 'flask',
+      icon: 'person-outline',
       subMenu: [
         { title: 'Por Reservar', icon: 'checkmark', route: '/verificaciones' },
         {

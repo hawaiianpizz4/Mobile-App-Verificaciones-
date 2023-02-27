@@ -130,6 +130,8 @@ export class VerificacionPage implements OnInit {
     this.dataForm.controls.numero_cedula.setValue(this.activatedRoute.snapshot.paramMap.get('vf_cedula_cliente'));
     this.dataForm.controls.direccion_cliente.setValue(this.activatedRoute.snapshot.paramMap.get('dndlD_direccion_domiciliaria'));
 
+    console.log(this.item);
+
     Network.addListener('networkStatusChange', (status) => {
       this.ngZone.run(() => {
         this.changeStatus();

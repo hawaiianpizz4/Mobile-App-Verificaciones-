@@ -54,18 +54,19 @@ export class dataService {
     );
   }
 
-  getUsersParaReservar() {
-    return this._http.get<any>(`${environment.apiUrl}verificacion.php?opcion=getUsersParaReservar`);
+  getClientesParaReservar() {
+    return this._http.get<any>(`${environment.apiUrl}verificacion.php?opcion=getClientesParaReservar`);
   }
 
-  reservarVerificacionUser(cedula, nombreGestor) {
-    return this._http.get<any>(
-      `${environment.apiUrl}verificacion.php?opcion=reservarVerificacionUser&cedula=${cedula}&nombreGestor=${nombreGestor}`
+  setClienteReservado(cedula, nombreGestor) {
+    return this._http.post<any>(
+      `${environment.apiUrl}verificacion.php?opcion=setClienteReservado&cedula=${cedula}&nombreGestor=${nombreGestor}`,
+      null
     );
   }
 
-  getUsersVerifi2(nombreGestor) {
-    const url = `${environment.apiUrl}verificacion.php?opcion=getUsersReservados&nombreGestor=${nombreGestor}`;
+  getClientesParaVerificar(nombreGestor) {
+    const url = `${environment.apiUrl}verificacion.php?opcion=getClientesParaVerificar&nombreGestor=${nombreGestor}`;
     console.log(url);
 
     return this._http.get<any>(url);
@@ -75,15 +76,9 @@ export class dataService {
     return this._http.get<any>(`http://200.7.249.21:90/ApiVerificaciones/api/verificaciones?consult=direccion_cliente`);
   }
 
-  sendTextMessage(numero: string) {
-    const url = `${environment.apiUrl}verificacion.php?opcion=send&number=${numero}`;
-    // const url = `${environment.apiUrl}verificacion.php?opcion=send&number=${numero}`;
-
-    // const data = {
-    //   codigo: 'X12345',
-    // };
+  getSmsCode(numero: string) {
+    const url = `${environment.apiUrl}verificacion.php?opcion=getSmsCode&number=${numero}`;
     return this._http.get<any>(url);
 
-    // return data;
   }
 }

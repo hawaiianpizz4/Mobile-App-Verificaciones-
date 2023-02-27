@@ -27,10 +27,10 @@ export class MenuComponent implements OnInit {
       title: 'Verificacion',
       icon: 'person-outline',
       subMenu: [
-        { title: 'Por Reservar', icon: 'checkmark', route: '/verificaciones' },
+        { title: 'Por Reservar', icon: 'list', route: '/verificaciones' },
         {
           title: 'Por Verificar',
-          icon: 'checkmark',
+          icon: 'time',
           route: '/verificaciones2',
         },
         { title: 'Verificados', icon: 'checkmark', route: '/verificados' },

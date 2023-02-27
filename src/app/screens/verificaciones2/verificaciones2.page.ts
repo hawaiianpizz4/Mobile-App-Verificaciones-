@@ -17,7 +17,7 @@ export class Verificaciones2Page implements OnInit {
 
   ngOnInit() {
 
-    this._service.getUsersVerifi2(JSON.parse(localStorage.getItem('user'))).subscribe((data) => {
+    this._service.getClientesParaVerificar(JSON.parse(localStorage.getItem('user'))).subscribe((data) => {
       this.dataList2 = data;
       console.log(this.dataList2);
     });
@@ -25,7 +25,7 @@ export class Verificaciones2Page implements OnInit {
 
   handleRefresh(event) {
     setTimeout(() => {
-      this._service.getUsersVerifi2(JSON.parse(localStorage.getItem('user'))).subscribe((data) => {
+      this._service.getClientesParaVerificar(JSON.parse(localStorage.getItem('user'))).subscribe((data) => {
         this.dataList2 = data;
       });
       event.target.complete();

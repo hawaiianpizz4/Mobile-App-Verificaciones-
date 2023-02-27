@@ -23,9 +23,6 @@ export class ListUsersVerifiCheckComponent {
 
     goToVerificacion() {
 
-
-
-
       this.router.navigate(['verificacion', this.item]);
     }
 

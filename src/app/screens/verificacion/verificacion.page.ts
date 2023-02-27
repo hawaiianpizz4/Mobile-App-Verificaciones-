@@ -87,9 +87,8 @@ export class VerificacionPage implements OnInit {
   }
 
   async getCodigoSMS(numeroTelf) {
-    console.log(numeroTelf);
-    const codigo = this._services.sendTextMessage(numeroTelf);
 
+    let codigo = null;
     // create a new loading controller instance
     this.isServiceCallInProgress = await this.loadingCtrl.create({
       message: 'Cargando Datos de Cliente...',
@@ -100,9 +99,12 @@ export class VerificacionPage implements OnInit {
     await this.isServiceCallInProgress.present();
 
     try {
-      this._services.sendTextMessage(numeroTelf).subscribe(
+      this._services.getSmsCode(numeroTelf).subscribe(
         (data) => {
-          console.log(data);
+          codigo = data[0]['datos'];
+          console.log(codigo);
+          console.log(numeroTelf);
+          this.dataForm.controls.codigo.setValue(codigo);
           this.isServiceCallInProgress.dismiss();
         },
         (error) => {
@@ -116,25 +118,18 @@ export class VerificacionPage implements OnInit {
       this.isServiceCallInProgress.dismiss();
     }
 
-    console.log(codigo);
     return codigo;
   }
 
   async ngOnInit() {
+    let numCelular = this.activatedRoute.snapshot.paramMap.get('dndlN_telefonocelular');
     this.getCurrentCoordinates();
-
-    const codigoSMS = this.getCodigoSMS('123123');
-
-    this.dataForm.controls.codigo.setValue(codigoSMS['code']);
 
     this.dataForm.controls.nombre_gestor.setValue(this.activatedRoute.snapshot.paramMap.get('vf_nombre_vendedor'));
     this.dataForm.controls.nombre_tienda.setValue(this.activatedRoute.snapshot.paramMap.get('vf_nombre_tienda'));
     this.dataForm.controls.nombre_cliente.setValue(this.activatedRoute.snapshot.paramMap.get('vf_nombre_cliente'));
     this.dataForm.controls.numero_cedula.setValue(this.activatedRoute.snapshot.paramMap.get('vf_cedula_cliente'));
     this.dataForm.controls.direccion_cliente.setValue(this.activatedRoute.snapshot.paramMap.get('dndlD_direccion_domiciliaria'));
-    // this.dataForm.controls.codigo.setValue(
-    //   this.activatedRoute.snapshot.paramMap.get('dndlD_codigo')
-    // );
 
     Network.addListener('networkStatusChange', (status) => {
       this.ngZone.run(() => {
@@ -143,6 +138,7 @@ export class VerificacionPage implements OnInit {
     });
 
     this.changeStatus();
+    await this.getCodigoSMS(numCelular);
   }
 
   async submitForm() {
@@ -198,7 +194,7 @@ export class VerificacionPage implements OnInit {
     {
       // if (this.status)
       {
-        const url = `${environment.apiUrl}verificacion.php?op=insertVer`;
+        const url = `${environment.apiUrl}verificacion.php?opcion=setClienteVerificado`;
 
         const httpOptions = {
           headers: new HttpHeaders({

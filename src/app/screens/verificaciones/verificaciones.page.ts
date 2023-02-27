@@ -12,13 +12,13 @@ export class VerificacionesPage implements OnInit {
   constructor(private _service: dataService, private loadingCtrl: LoadingController, private toastController: ToastController) {}
 
   ngOnInit() {
-    this._service.getUsersParaReservar().subscribe((data) => {
+    this._service.getClientesParaReservar().subscribe((data) => {
       this.dataList = data;
     });
   }
   handleRefresh(event) {
     setTimeout(() => {
-      this._service.getUsersParaReservar().subscribe((data) => {
+      this._service.getClientesParaReservar().subscribe((data) => {
         this.dataList = data;
       });
       event.target.complete();
@@ -26,9 +26,9 @@ export class VerificacionesPage implements OnInit {
     }, 2000);
   }
 
-  sendRequestVerifi(user) {
+  setClienteReservado(user) {
     console.log(JSON.parse(localStorage.getItem('user')));
-    this._service.reservarVerificacionUser(user.vf_cedula_cliente, JSON.parse(localStorage.getItem('user'))).subscribe((data) => {
+    this._service.setClienteReservado(user.vf_cedula_cliente, JSON.parse(localStorage.getItem('user'))).subscribe((data) => {
       console.log(data);
     });
     this.showLoading('Reservando verificacion...').then((e) => {});

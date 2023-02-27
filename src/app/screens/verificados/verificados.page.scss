@@ -1,3 +1,7 @@
+strong{
+  margin-right: 200px;
+}
+
 
 ion-content{
   --pading-start:1rem;
@@ -41,10 +45,13 @@ ion-content{
       margin-bottom: 1.6rem;
       margin-top: .5rem;
   }
-  .food-list{
-      display: grid;
-      grid-template-columns: 1fr ;
-      grid-gap: 1rem;
+  .food-list {
+    display: grid;
+    grid-template-columns: 1fr ;
+    grid-gap: 1rem;
+    div:not(:last-child) {
+      margin-bottom: 0.5rem;
+    }
   }
   .contenedor{
       position: relative;
@@ -60,18 +67,5 @@ ion-content{
           color: #000000;
       }
   }
-  .empty-cart{
-      height: 50%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #c7c7c7;
-      ion-icon{
-          font-size: 8rem;
-      }
-      p{
-          font-size: 1rem;
-      }
-  }
+
 }

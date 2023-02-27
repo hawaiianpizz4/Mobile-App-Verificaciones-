@@ -7,8 +7,8 @@
       <ion-item>
         <h5>{{ item.nombreCliente }}</h5>
       </ion-item>
-      <p><strong>Cedula :</strong>{{ item.cedulaCliente}}</p>
-      <p><strong>Direccion:</strong>{{ item.direccionDomiciliaria}}</p>
+      <p><ion-label>Cedula:</ion-label>{{ item.cedulaCliente}}</p>
+      <p><ion-label>Direccion: </ion-label>{{ item.direccionDomiciliaria}}</p>
 
       <ion-item>
         <app-button (click)="goToVeriDetail()">Detalle</app-button>

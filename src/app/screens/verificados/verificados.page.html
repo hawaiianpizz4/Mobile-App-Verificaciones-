@@ -5,11 +5,12 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
 <ion-content class="ion-padding">
   <div class="header">
     <div class="contenedor">
       <img src="assets/images/IconoIcesa.png" alt="iconoIcesa" />
-      <div class="centrado"><h1>Check List Verificados</h1></div>
+      <div class="centrado"><h1>Clientes Verificados</h1></div>
     </div>
     <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
       <ion-refresher-content
@@ -21,9 +22,22 @@
     </ion-refresher>
   </div>
 
-  <h1 class="list-header">Lista x</h1>
-  <div class="food-list" *ngIf="dataList.length != 0">
-    <app-list-users-verificados *ngFor="let user of dataList " [item]="user"></app-list-users-verificados>
+  <h1 class="list-header">Lista </h1>
+  <div class="food-list" *ngIf="dataList.length != 0" >
+    <app-list-users-verificados *ngFor="let user of dataList " [item]="user">
+      <div style="display: flex; align-items: center;">
+        <div style="margin-right: 10px;">{{ user.nombre }}:</div>
+        <div>{{ user.nombreValor }}</div>
+      </div>
+      <div style="display: flex; align-items: center;">
+        <div style="margin-right: 10px;">{{ user.apellido }}:</div>
+        <div>{{ user.apellidoValor }}</div>
+      </div>
+      <div style="display: flex; align-items: center;">
+        <div style="margin-right: 10px;">{{ user.direccion }}:</div>
+        <div class="text-center">{{ user.direccionValor }}</div>
+      </div>
+    </app-list-users-verificados>
   </div>
 
   <div class="empty-cart" *ngIf="!(dataList).length || 0">

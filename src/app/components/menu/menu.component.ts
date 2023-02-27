@@ -24,7 +24,7 @@ export class MenuComponent implements OnInit {
       route: '/refi-historial',
     },
     {
-      title: 'Verificacion',
+      title: 'Verificación',
       icon: 'person-outline',
       subMenu: [
         { title: 'Por Reservar', icon: 'list', route: '/verificaciones' },

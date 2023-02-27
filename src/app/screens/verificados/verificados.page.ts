@@ -14,8 +14,14 @@ export class VerificadosPage implements OnInit {
   constructor(private _service: dataService) {}
 
   ngOnInit() {
+    this._service.getClientesVerificados(JSON.parse(localStorage.getItem('user'))).subscribe((data) => {
+      this.dataList = data;
+      console.log(this.dataList);
+    });
+  }
 
-    this._service.getClientesParaVerificar(JSON.parse(localStorage.getItem('user'))).subscribe((data) => {
+  handleRefresh(event) {
+    this._service.getClientesVerificados(JSON.parse(localStorage.getItem('user'))).subscribe((data) => {
       this.dataList = data;
       console.log(this.dataList);
     });

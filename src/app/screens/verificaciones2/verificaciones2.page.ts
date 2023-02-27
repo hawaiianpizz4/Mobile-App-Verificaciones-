@@ -16,18 +16,24 @@ export class Verificaciones2Page implements OnInit {
   constructor(private _service: dataService, private loadingCtrl: LoadingController, private toastController: ToastController) {}
 
   ngOnInit() {
-
-    this._service.getClientesParaVerificar(JSON.parse(localStorage.getItem('user'))).subscribe((data) => {
-      this.dataList2 = data;
-      console.log(this.dataList2);
-    });
+    this.dataList2 = [];
+    try {
+      this._service.getClientesParaVerificar(JSON.parse(localStorage.getItem('user'))).subscribe((data) => {
+        this.dataList2 = data;
+        console.log(this.dataList2);
+      });
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   handleRefresh(event) {
+    this.dataList2 = [];
     setTimeout(() => {
       this._service.getClientesParaVerificar(JSON.parse(localStorage.getItem('user'))).subscribe((data) => {
         this.dataList2 = data;
       });
+
       event.target.complete();
       this.presentToast('La Informacion ha sido Actualizada correctamente', 'pulse-outline', 'success');
     }, 2000);

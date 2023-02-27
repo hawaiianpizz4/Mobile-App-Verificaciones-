@@ -87,7 +87,6 @@ export class VerificacionPage implements OnInit {
   }
 
   async getCodigoSMS(numeroTelf) {
-
     let codigo = null;
     // create a new loading controller instance
     this.isServiceCallInProgress = await this.loadingCtrl.create({
@@ -125,7 +124,7 @@ export class VerificacionPage implements OnInit {
     let numCelular = this.activatedRoute.snapshot.paramMap.get('dndlN_telefonocelular');
     this.getCurrentCoordinates();
 
-    this.dataForm.controls.nombre_gestor.setValue(this.activatedRoute.snapshot.paramMap.get('vf_nombre_vendedor'));
+    this.dataForm.controls.nombre_gestor.setValue(localStorage.getItem('user').replace(/"/g, ''));
     this.dataForm.controls.nombre_tienda.setValue(this.activatedRoute.snapshot.paramMap.get('vf_nombre_tienda'));
     this.dataForm.controls.nombre_cliente.setValue(this.activatedRoute.snapshot.paramMap.get('vf_nombre_cliente'));
     this.dataForm.controls.numero_cedula.setValue(this.activatedRoute.snapshot.paramMap.get('vf_cedula_cliente'));
@@ -143,11 +142,8 @@ export class VerificacionPage implements OnInit {
 
   async submitForm() {
     const postData = {
-      nombreGestor: this.dataForm.controls.nombre_gestor.value,
-      //fechaverificacion: this.dataForm.controls.fecha_actual.value,
-      vf_nombre_tienda: this.dataForm.controls.nombre_tienda.value,
-      nombreCliente: this.dataForm.controls.nombre_cliente.value,
       cedulaCliente: this.dataForm.controls.numero_cedula.value,
+      nombreCliente: this.dataForm.controls.nombre_cliente.value,
       // codigoVerificacion: this.dataForm.controls.codigo.value,
       codigoVerificacion: 10,
       direccionDomiciliaria: this.dataForm.controls.direccion_cliente.value,
@@ -186,6 +182,8 @@ export class VerificacionPage implements OnInit {
       //latitud
       latitud: this.dataForm.controls.latitud.value,
       longitud: this.dataForm.controls.longitud.value,
+      vf_nombre_tienda: this.dataForm.controls.nombre_tienda.value,
+      nombreGestor: this.dataForm.controls.nombre_gestor.value,
     };
 
     console.dir(this.photoService.photosPlanilla64);
@@ -199,6 +197,8 @@ export class VerificacionPage implements OnInit {
         const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
+            'Access-Control-Allow-Methods': 'POST',
+            'Access-Control-Allow-Headers': 'origin, x-requested-with',
           }),
         };
 

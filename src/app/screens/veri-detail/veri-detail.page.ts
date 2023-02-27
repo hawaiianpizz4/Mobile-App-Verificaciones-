@@ -34,9 +34,7 @@ export class VeriDetailPage implements OnInit {
   address: string;
   public photosPlanilla: UserPhoto[];
 
-dataForm: FormGroup;
-
-
+  dataForm: FormGroup;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -52,14 +50,18 @@ dataForm: FormGroup;
     private modalCtrl: ModalController
   ) {
     this.getdata = localStorage.getItem('detalleVeri');
-    console.log(JSON.parse(this.getdata));
+    this.getdata = JSON.parse(localStorage.getItem('detalleVeri'));
   }
 
   ngOnInit() {
     this.initMap();
+    this.cargarFormulario();
+  }
 
+  cargarFormulario() {
+    console.log(this.getdata['nombreGestor']);
     this.dataForm = new FormGroup({
-      nombreGestor: new FormControl(this.getdata.nombreGestor, []),
+      nombreGestor: new FormControl(this.getdata['nombreGestor'], []),
       fechaverificacion: new FormControl(this.getdata.fechaverificacion, []),
       vf_nombre_tienda: new FormControl(this.getdata.vf_nombre_tienda, []),
       nombreCliente: new FormControl(this.getdata.nombreCliente, []),
@@ -89,12 +91,7 @@ dataForm: FormGroup;
       respaldoIngresosImagen: new FormControl(this.getdata.respaldoIngresosImagen, []),
       certificadoLaboralImagen: new FormControl(this.getdata.certificadoLaboralImagen, []),
       interiorDomicilioImagen: new FormControl(this.getdata.interiorDomicilioImagen, []),
-
-
     });
-
-
-
   }
 
   initMap() {

@@ -68,7 +68,11 @@ export class dataService {
   getClientesParaVerificar(nombreGestor) {
     const url = `${environment.apiUrl}verificacion.php?opcion=getClientesParaVerificar&nombreGestor=${nombreGestor}`;
     console.log(url);
-
+    return this._http.get<any>(url);
+  }
+  getClientesVerificados(nombreGestor) {
+    const url = `${environment.apiUrl}verificacion.php?opcion=getClientesVerificados&nombreGestor=${nombreGestor}`;
+    console.log(url);
     return this._http.get<any>(url);
   }
 
@@ -79,6 +83,5 @@ export class dataService {
   getSmsCode(numero: string) {
     const url = `${environment.apiUrl}verificacion.php?opcion=getSmsCode&number=${numero}`;
     return this._http.get<any>(url);
-
   }
 }

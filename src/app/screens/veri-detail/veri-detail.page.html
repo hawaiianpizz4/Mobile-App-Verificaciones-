@@ -9,19 +9,15 @@
 
   <div class="card">
     <div class="card-content">
-
       <ion-item>
-        <p><strong style="right: auto;">Codigo:</strong>{{this.getdata.codigo}}</p>
+        <p><strong style="right: auto">Codigo:</strong>{{this.getdata.codigo}}</p>
       </ion-item>
 
-      <h1 style="color: #ff0000; text-align: center">
-        Detalle De Formulario Verificación
-      </h1>
+      <h1 style="color: #ff0000; text-align: center">Detalle De Formulario Verificación</h1>
 
       <form [formGroup]="dataForm">
-
         <ion-item>
-          <h2 style="color: #1EA9A7">Datos Iniciales</h2>
+          <h2 style="color: #1ea9a7">Datos Iniciales</h2>
         </ion-item>
 
         <ion-item>
@@ -39,8 +35,6 @@
           <ion-input formControlName="vf_nombre_tienda"></ion-input>
         </ion-item>
 
-
-
         <ion-item>
           <ion-label position="floating">Nombre Cliente</ion-label>
           <ion-input formControlName="nombreCliente"></ion-input>
@@ -56,14 +50,12 @@
           <div id="coordinates" class="coordinates"></div>
         </ion-item>
 
-
         <ion-accordion-group>
           <ion-accordion value="datosVivienda">
             <ion-item slot="header" color="light">
               <ion-label> Vivienda</ion-label>
             </ion-item>
             <div class="ion-padding" slot="content">
-
               <ion-item>
                 <ion-label position="floating">Tipo Vivienda</ion-label>
                 <ion-input formControlName="tipoVivienda"></ion-input>
@@ -84,12 +76,10 @@
                 <ion-input formControlName="localTerrenoPropio"></ion-input>
               </ion-item>
 
-
               <ion-item>
                 <ion-label position="floating">Local Terreno Arrendado</ion-label>
                 <ion-input formControlName="localTerrenoArrendado"></ion-input>
               </ion-item>
-
             </div>
           </ion-accordion>
 
@@ -98,7 +88,6 @@
               <ion-label> Servicios</ion-label>
             </ion-item>
             <div class="ion-padding" slot="content">
-
               <ion-item>
                 <ion-label position="floating">Planilla Servicio Básico</ion-label>
                 <ion-input formControlName="planillaServicioBasico"></ion-input>
@@ -108,7 +97,6 @@
                 <ion-label position="floating">Captura Planilla</ion-label>
                 <ion-input formControlName="planillaServicioBasicoImagen"></ion-input>
               </ion-item>
-
 
               <ion-item>
                 <ion-label position="floating">Seguridad Puertas Ventanas</ion-label>
@@ -138,7 +126,6 @@
             </ion-item>
 
             <div class="ion-padding" slot="content">
-
               <ion-item>
                 <ion-label position="floating">Confirmación Vecinos</ion-label>
                 <ion-input formControlName="confirmacionInfoVecinos"></ion-input>
@@ -153,7 +140,6 @@
                 <ion-label position="floating">Celular Vecino</ion-label>
                 <ion-input formControlName="celularInfoVecino"></ion-input>
               </ion-item>
-
             </div>
           </ion-accordion>
 
@@ -162,8 +148,6 @@
               <ion-label>Imágenes</ion-label>
             </ion-item>
             <div class="ion-padding" slot="content">
-
-
               <ion-item>
                 <ion-label position="floating">Estabilidad Laboral Mayor 6 Meses</ion-label>
                 <ion-input formControlName="estabilidadLaboraSeisMesesImagen"></ion-input>
@@ -179,12 +163,10 @@
                 <ion-input formControlName="fachadaDelNegocioImagen"></ion-input>
               </ion-item>
 
-
               <ion-item>
                 <ion-label position="floating">Foto Interior Negocio</ion-label>
                 <ion-input formControlName="interiorDelNegocioImagen"></ion-input>
               </ion-item>
-
 
               <ion-item>
                 <ion-label position="floating">Foto Cliente Dentro Del Negocio</ion-label>
@@ -211,7 +193,6 @@
                 <ion-input formControlName="respaldoIngresosImagen"></ion-input>
               </ion-item>
 
-
               <ion-item>
                 <ion-label position="floating">Certificado Laboral</ion-label>
                 <ion-input formControlName="certificadoLaboralImagen"></ion-input>
@@ -221,17 +202,10 @@
                 <ion-label position="floating">Imagen Interior Del Domicilio</ion-label>
                 <ion-input formControlName="interiorDomicilioImagen"></ion-input>
               </ion-item>
-
-
             </div>
-
           </ion-accordion>
         </ion-accordion-group>
-
-
-
       </form>
-
     </div>
   </div>
 </ion-content>

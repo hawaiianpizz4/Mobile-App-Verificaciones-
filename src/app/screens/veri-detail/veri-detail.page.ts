@@ -66,6 +66,7 @@ export class VeriDetailPage implements OnInit {
       vf_nombre_tienda: new FormControl(this.getdata.vf_nombre_tienda, []),
       nombreCliente: new FormControl(this.getdata.nombreCliente, []),
       cedulaCliente: new FormControl(this.getdata.cedulaCliente, []),
+      direccionDomiciliaria: new FormControl(this.getdata.direccionDomiciliaria, []),
       tipoVivienda: new FormControl(this.getdata.tipoVivienda, []),
       personaQuienRealizaLaVerificación: new FormControl(this.getdata.personaQuienRealizaLaVerificación, []),
       residenciaMinimaTresMeses: new FormControl(this.getdata.residenciaMinimaTresMeses, []),

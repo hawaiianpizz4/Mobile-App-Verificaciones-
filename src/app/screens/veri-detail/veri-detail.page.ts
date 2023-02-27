@@ -87,7 +87,7 @@ export class VeriDetailPage implements OnInit {
       interiorDelNegocioImagen: new FormControl(this.getdata.interiorDelNegocioImagen, []),
       clienteDentroDelNegocioImagen: new FormControl(this.getdata.clienteDentroDelNegocioImagen, []),
       clienteFueraDelNegocioImagen: new FormControl(this.getdata.clienteFueraDelNegocioImagen, []),
-      imagen_tituloPropiedad: new FormControl(this.getdata.imagen_tituloPropiedad, []),
+      imagen_tituloPropiedad: new FormControl(this.getdata.tituloPropiedaGaranteOCodeudorImagen, []),
       impuestoPredialImagen: new FormControl(this.getdata.impuestoPredialImagen, []),
       respaldoIngresosImagen: new FormControl(this.getdata.respaldoIngresosImagen, []),
       certificadoLaboralImagen: new FormControl(this.getdata.certificadoLaboralImagen, []),

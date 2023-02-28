@@ -1,3 +1,7 @@
+strong{
+  margin-right: 200px;
+}
+
 
 ion-content{
   --pading-start:1rem;
@@ -10,8 +14,8 @@ ion-content{
       margin-bottom: 1rem;
   }
   h1{
-      font-size: 2.0rem;
-      font-weight: 600;
+      font-size: 1.5rem;
+      font-weight: 700;
       color: #515151;
       margin: 0;
   }
@@ -19,7 +23,7 @@ ion-content{
       width: 35px;
       height: 35px;
       background-color: #6b45bc;
-      border-radius: 50%;
+      border-radius: 70%;
       display: flex;
       align-items: flex-end;
       justify-content: center;
@@ -36,20 +40,26 @@ ion-content{
   }
   .list-header{
       font-weight: 700;
-      color: #2c2b2b;
-      font-size: 1.8rem;
+      color:#6b45bc;
+      font-size: 1.9rem;
       margin-bottom: 1.6rem;
       margin-top: .5rem;
   }
-  .food-list{
+  .food-list {
       display: grid;
-      grid-template-columns: 1fr ;
-      grid-gap: 1rem;
+      font-size: 1rem;
+    grid-template-columns: 1fr ;
+    grid-gap: 1rem;
+    div:not(:last-child) {
+      margin-bottom: 0.5rem;
+    }
   }
   .contenedor{
       position: relative;
       display: inline-block;
       text-align: center;
+
+
   }
   .centrado{
       position: absolute;
@@ -57,21 +67,8 @@ ion-content{
       left: 65%;
       transform: translate(-50%, -50%);
       h1{
-          color: #000000;
+          color: #285430;
       }
   }
-  .empty-cart{
-      height: 50%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #c7c7c7;
-      ion-icon{
-          font-size: 8rem;
-      }
-      p{
-          font-size: 1rem;
-      }
-  }
+
 }

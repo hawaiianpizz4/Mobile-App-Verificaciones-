@@ -7,22 +7,19 @@
     </ion-buttons>
   </div>
 
-  <div class="card">
+  <div class="card" >
     <div class="card-content">
-      <ion-item>
-        <p><strong style="right: auto">Codigo:</strong>{{this.getdata.codigo}}</p>
-      </ion-item>
 
-      <h1 style="color: #ff0000; text-align: center">Detalle De Formulario Verificación</h1>
+      <h1 style="color: #285430; text-align: center">Detalle Verificación</h1>
 
       <form [formGroup]="dataForm">
         <ion-item>
-          <h2 style="color: #1ea9a7">Datos Iniciales</h2>
+          <h2 style="color: #6b45bc">Datos Iniciales</h2>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Nombre Gestor</ion-label>
-          <ion-input formControlName="nombreGestor"></ion-input>
+          <ion-input formControlName="nombreGestor" ></ion-input>
         </ion-item>
 
         <ion-item>
@@ -43,6 +40,11 @@
         <ion-item>
           <ion-label position="floating">Número Cédula</ion-label>
           <ion-input formControlName="cedulaCliente"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Dirección</ion-label>
+          <ion-input formControlName="direccionDomiciliaria"></ion-input>
         </ion-item>
 
         <ion-item>

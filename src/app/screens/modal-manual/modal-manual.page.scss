@@ -1,5 +1,5 @@
 ion-content{
-    --background : #6b45bc;
+
     position: relative;
     .header{
         display: flex;
@@ -37,9 +37,7 @@ ion-content{
                 font-weight: 700;
             }
             ion-button{
-                --box-shadow:none;
-                --border-radius:1.8rem;
-                --background:#eb445a;
+
                 margin-top: 1.8rem;
                 text-transform: initial;
                 font-size: 1.2rem;

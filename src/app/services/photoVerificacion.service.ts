@@ -95,7 +95,7 @@ export class PhotoService {
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera,
-      quality: 70,
+      quality: 50,
     });
 
     const filePath = await this.readAsBase64(capturedPhoto.webPath);

@@ -1,35 +1,14 @@
-.submenu ion-item ion-icon {
-  margin-right: 2px;
-  margin-left: -2px;
-  border-radius: 5px;
-
-}
-.submenu {
-  background-color: #ddd;
-  border: 1px solid #ffff;
-  text-align: center;
-  font-weight: bold;
-  font-size: 18px;
-  border-radius: 10px;
-  margin-top: 1px;
-  margin-bottom: 2px;
-  margin-left: -5px;
+ion-item.submenu > ion-list.menu-submenu {
+  --height: 200px; /* establece aquí la altura deseada para los submenús */
+  --overflow-y: auto; /* añade una barra de desplazamiento vertical si es necesario */
+  --border-top: none; /* elimina la línea superior del submenú */
+  --border-left: none; /* elimina la línea izquierda del submenú */
+  --border-right: none; /* elimina la línea derecha del submenú */
+  --border-bottom: 1px solid #ccc; /* establece el estilo de la línea inferior del submenú */
+  --animation-duration: 0.2s; /* establece la duración de la animación de entrada */
+  --animation-name: slide-in-down; /* establece la dirección de la animación de entrada */
 }
 
-.menu-item {
-  ion-label {
-    font-weight: bold;
-  }
-}
-
-.submenu ion-label {
-  color: #285430;
-}
-
-
-.menu-item {
-  color: #285430;
-}
 
 ion-header {
   ion-toolbar {
@@ -47,7 +26,7 @@ ion-icon {
 }
 
 ion-content {
-  --ion-background-color: #f3e1f6;
+  --ion-background-color: #f0eff0;
 }
 
 

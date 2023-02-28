@@ -16,4 +16,39 @@
   margin-left: -5px;
 }
 
+.menu-item {
+  ion-label {
+    font-weight: bold;
+  }
+}
+
+.submenu ion-label {
+  color: #285430;
+}
+
+
+.menu-item {
+  color: #285430;
+}
+
+ion-header {
+  ion-toolbar {
+    --background: #6b45bc;
+    color: #fff;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 10px;
+  }
+}
+
+ion-icon {
+  color: #8e44ad;
+  font-weight: bold;
+}
+
+ion-content {
+  --ion-background-color: #f1d9f6;
+}
+
+
 

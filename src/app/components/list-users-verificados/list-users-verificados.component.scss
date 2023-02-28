@@ -15,10 +15,12 @@
     align-items: center;
     justify-content: center;
     background-color: #ddd;
-    border-radius: 50%;
+    border-radius: 0%;
     ion-icon{
-        font-size: 3rem;
+        font-size: 4rem;
     }
+
+
   }
 
   .info-container {
@@ -26,11 +28,11 @@
     padding-left: 1rem;
     h5{
         font-weight: bold;
-        color: crimson;
+        color:#6b45bc;
     }
 
     p{
-        font-size: 1.5rem;
+        font-size: 10rem;
         align-items: center;
         font-weight: bold;
 

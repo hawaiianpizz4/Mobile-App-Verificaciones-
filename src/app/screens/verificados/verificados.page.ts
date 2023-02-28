@@ -38,6 +38,7 @@ export class VerificadosPage implements OnInit {
       this.dataList = data;
       console.log(this.dataList);
     });
+    event.target.complete();
   }
 
 

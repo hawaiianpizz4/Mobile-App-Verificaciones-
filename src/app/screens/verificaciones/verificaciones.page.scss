@@ -42,9 +42,9 @@ ion-content{
         margin-top: .5rem;
     }
     .food-list{
-        display: grid;
-        grid-template-columns: 1fr ;
-        grid-gap: 1rem;
+        display: block;
+        // grid-template-columns: 1fr ;
+        // grid-gap: 1rem;
     }
     .contenedor{
         position: relative;

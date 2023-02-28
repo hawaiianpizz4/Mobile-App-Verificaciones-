@@ -1,3 +1,4 @@
+
 #mapa {
   margin-top: 3vh;
   width: 100%;
@@ -18,22 +19,6 @@
   display: none;
 }
 
-ion-item {
-  --padding-start: 0px;
-  --inner-padding-end: 0px;
-
-  ion-label {
-    color: black;
-  }
-}
-
-.label-floating.sc-ion-label-md-h {
-  margin-bottom: 20px;
-  color: #45bc6e;
-  flex: 10;
-  font-size: 18px
-}
-
 #map {
   margin-top: 1vh;
   width: 100%;
@@ -46,31 +31,25 @@ capacitor-google-maps {
   height: 90%;
 }
 
+.label-floating.sc-ion-label-md-h {
+  margin-bottom: 20px;
+  color: #0d7832;
+  flex: 10;
+  font-size: 20px;
+}
+
 ion-content {
   --background: #6b45bc;
   position: relative;
   font-size: 16px;
+
   ion-input {
-    border: solid 2px #6b45bc;
+    margin-top: 10px;
+    border: solid 1px #6b45bc;
+    padding: 10px;
+    width: 100%;
   }
 
-  .container {
-    width: 200px;
-    height: 600px;
-  }
-
-  .header {
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem 0, 5rem;
-    ion-button {
-      height: 60px;
-      width: 60px;
-      ion-icon {
-        font-size: 2rem;
-      }
-    }
-  }
   .card {
     height: 85%;
     width: 100%;
@@ -79,53 +58,20 @@ ion-content {
     bottom: 0;
     border-radius: 2rem 2rem 0 0;
     padding: 1rem;
-    .image {
-      position: absolute;
-      top: -2.5rem;
-      width: 40%;
-      left: 50%;
-      transform: translate(-50%);
-    }
-    .card-title {
-      margin-top: 30%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.2rem;
-      h1 {
-        font-weight: 700;
-        font-size: 1.5rem;
-      }
-      p {
-        font-size: 2.2rem;
-        font-weight: 800;
-        color: #ffb800;
-        sup {
-          font-size: 1.2rem;
-          margin-right: -0.1rem;
-        }
-      }
-    }
-    .rates {
-      display: flex;
-      align-items: center;
-      margin-bottom: 2rem;
-    }
-    .span-text {
-      font-weight: 600;
-    }
+    margin-bottom: 20px;
+  }
+}
 
-    .about {
-      margin-bottom: 1rem;
-      h1 {
-        font-weight: 600;
-        font-size: 1rem;
-      }
-      p {
-        font-size: 1.1rem;
-        line-height: 1.6;
-        color: #b9b9b9;
-      }
-    }
+.form-group {
+  margin-bottom: 20px;
+  .form-label-gestor {
+    color: #6b45bc;
+    font-size: 20px;
+  }
+  .form-input-gestor {
+    margin-top: 10px;
+    border: solid 1px #6b45bc;
+    padding-left: 10px; /* Agregar un espacio en blanco de 10px en el lado izquierdo */
+    width: 100%;
   }
 }

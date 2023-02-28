@@ -4,9 +4,10 @@
     justify-content: space-between;
     padding: 0.5rem;
     border: 2px solid #ddd;
-    border-radius: 15px;
+
+
   }
-  
+
   .icon-container {
     width: 50px;
     height: 50px;
@@ -14,30 +15,32 @@
     align-items: center;
     justify-content: center;
     background-color: #ddd;
-    border-radius: 50%;
+    border-radius: 0%;
     ion-icon{
-        font-size: 2rem;
+        font-size: 4rem;
     }
+
+
   }
-  
+
   .info-container {
     width: calc(100% - 60px);
     padding-left: 1rem;
+
     h5{
-        font-weight: 600;
+        font-weight: bold;
+        color:#285430;
     }
-    strong{
-        font-size: 0.9rem;
-    }
+
     p{
-        font-size: 0.8rem;
+        font-size: 1.1rem;
+        align-items: center;
+        font-weight: bold;
+
+
     }
-    ion-button{
-        background-color: #ddd;
-    }
+
+
   }
-  
-  .fa-thumbs-up {
-    font-size: 2rem;
-    color: #333;
-  }
+
+

@@ -34,6 +34,11 @@ ion-content {
 
   ion-input {
     border: solid 1px #6b45bc;
+
+    .ion-datetime {
+      display: flex;
+      justify-content: center;
+    }
   }
 
   .container {

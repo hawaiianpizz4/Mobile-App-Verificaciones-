@@ -24,11 +24,13 @@ export class PhotoService {
 
     const filePath = await this.readAsBase64(capturedPhoto.webPath);
 
+    this.photos.pop();
     this.photos.unshift({
       filepath: filePath,
       webviewPath: capturedPhoto.webPath,
     });
     console.log(filePath);
+    this.photosBase64.pop();
     this.photosBase64.unshift(filePath.split(',')[1]);
 
     const response = await fetch(capturedPhoto.webPath);

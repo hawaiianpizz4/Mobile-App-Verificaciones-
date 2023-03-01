@@ -114,7 +114,7 @@ export class VerificacionPage implements OnInit {
         },
         (error) => {
           console.log(error);
-          presentToast('Error al obtener datos del cliente.', 'checkmark-outline', 'danger');
+          presentToast('Error al obtener enviar SMS.', 'checkmark-outline', 'danger');
           this.isServiceCallInProgress.dismiss();
         }
       );

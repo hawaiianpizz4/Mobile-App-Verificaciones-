@@ -1,118 +1,114 @@
-strong{
+strong {
   margin-right: 200px;
 }
 
-
-ion-content{
-    --pading-start:1rem;
-    --pading-end:2rem;
-    // --ion-background-color:;
-    .header{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-    }
-    h1{
-        font-size: 2.0rem;
-        font-weight: 600;
-        color: #515151;
-        margin: 0;
-    }
-    .avatar{
-        width: 35px;
-        height: 35px;
-        background-color: #6b45bc;
-        border-radius: 50%;
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
-        overflow: hidden;
-        ion-img{
-            width: 90%;
-            height: 90%;
-        }
-    }
-    .categories{
-        display: grid;
-        grid-template-columns: repeat(2,1fr);
-        grid-gap: 1rem;
-    }
-    .list-header{
-        font-weight: 700;
-        color: #2c2b2b;
-        font-size: 1.8rem;
-        margin-bottom: 1.6rem;
-        margin-top: .5rem;
-    }
-    .food-list{
-        display: block;
-        // grid-template-columns: 1fr ;
-        // grid-gap: 1rem;
-  --pading-start:1rem;
-  --pading-end:2rem;
+ion-content {
+  --pading-start: 1rem;
+  --pading-end: 2rem;
   // --ion-background-color:;
-  .header{
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
   }
-  h1{
-      font-size: 2.0rem;
-      font-weight: 700;
-      color: #222222;
-      margin: 0;
+  h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #515151;
+    margin: 0;
   }
-  .avatar{
-      width: 35px;
-      height: 35px;
-      border-radius: 70%;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      overflow: hidden;
-      ion-img{
-          width: 90%;
-          height: 90%;
-      }
+  .avatar {
+    width: 35px;
+    height: 35px;
+    background-color: #6b45bc;
+    border-radius: 50%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+    ion-img {
+      width: 90%;
+      height: 90%;
+    }
   }
-  .categories{
-      display: grid;
-      grid-template-columns: repeat(2,1fr);
-      grid-gap: 1rem;
+  .categories {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1rem;
   }
-  .list-header{
-      font-weight: 700;
-      color:#6b45bc;
-      font-size: 2rem;
-      margin-bottom: 1.6rem;
-      margin-top: .5rem;
+  .list-header {
+    font-weight: 700;
+    color: #2c2b2b;
+    font-size: 1.8rem;
+    margin-bottom: 1.6rem;
+    margin-top: 0.5rem;
   }
   .food-list {
-      display: grid;
-    grid-template-columns: 1fr ;
+    display: block;
+    // grid-template-columns: 1fr ;
+    // grid-gap: 1rem;
+    --pading-start: 1rem;
+    --pading-end: 2rem;
+    // --ion-background-color:;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #222222;
+    margin: 0;
+  }
+  .avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 70%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+    ion-img {
+      width: 90%;
+      height: 90%;
+    }
+  }
+  .categories {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1rem;
+  }
+  .list-header {
+    font-weight: 700;
+    color: #6b45bc;
+    font-size: 2rem;
+    margin-bottom: 1.6rem;
+    margin-top: 0.5rem;
+  }
+  .food-list {
+    display: grid;
+    grid-template-columns: 1fr;
     grid-gap: 1rem;
     div:not(:last-child) {
       margin-bottom: 0.5rem;
-
     }
   }
-  .contenedor{
-      position: relative;
-      display: inline-block;
-      text-align: center;
-
-
+  .contenedor {
+    position: relative;
+    display: inline-block;
+    text-align: center;
   }
-  .centrado{
-      position: absolute;
-      top: 40%;
-      left: 65%;
-      transform: translate(-50%, -50%);
-      h1{
-          color: #285430;
-      }
+  .centrado {
+    position: absolute;
+    top: 40%;
+    left: 65%;
+    transform: translate(-50%, -50%);
+    h1 {
+      color: #285430;
+    }
   }
-
 }

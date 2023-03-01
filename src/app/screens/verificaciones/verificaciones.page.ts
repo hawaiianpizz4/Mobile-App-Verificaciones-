@@ -38,7 +38,6 @@ export class VerificacionesPage implements OnInit {
   }
 
   setClienteReservado(user) {
-    console.log('asdfasdf');
     console.log(JSON.parse(localStorage.getItem('user')));
     this._service.setClienteReservado(user.vf_cedula_cliente, JSON.parse(localStorage.getItem('user'))).subscribe((data) => {
       console.log(data);

@@ -436,7 +436,7 @@
 
         <ion-item>
           <ion-grid>
-            <ion-button expand="block" color="primary" type="submit"> Realizar Verificacion </ion-button>
+            <ion-button [disabled]="formData.invalid" expand="block" color="primary" type="submit">Realizar Verificacion </ion-button>
           </ion-grid>
         </ion-item>
         <ion-item> </ion-item>

@@ -188,12 +188,7 @@
               <ion-label>Ubicación del Cliente</ion-label>
             </ion-item>
             <div class="ion-padding" slot="content">
-              <ion-item>
-                <ion-label position="floating">Dirección</ion-label>
-                <ion-input formControlName="dir_direccion_exacta" type="text"></ion-input>
-                <div id="mapa"></div>
-              </ion-item>
-
+              <div id="mapa"></div>
               <ion-item>
                 <ion-label position="floating">Provincia</ion-label>
                 <ion-input formControlName="dir_provincia" type="text"></ion-input>
@@ -280,6 +275,11 @@
               <ion-item>
                 <ion-label position="floating">Teléfono Arrendador/Familiar</ion-label>
                 <ion-input formControlName="dir_telf_arrendador" type="tel"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Dirección</ion-label>
+                <ion-input formControlName="dir_direccion_exacta" type="text"></ion-input>
               </ion-item>
             </div>
           </ion-accordion>
@@ -471,8 +471,8 @@
                 <ion-input formControlName="trabajo_barrio" type="text"></ion-input>
               </ion-item>
               <ion-item>
-                <ion-label position="floating">Dirección</ion-label>
-                <ion-input formControlName="trabajo_direccion" type="text"></ion-input>
+                <ion-label style="display: none" position="floating">Dirección</ion-label>
+                <ion-input style="display: none" formControlName="trabajo_direccion" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
@@ -502,7 +502,8 @@
             </div>
           </ion-accordion>
         </ion-accordion-group>
-        <ion-button [disabled]="formData.invalid" expand="block" color="primary" type="submit"> Realizar Gestion </ion-button>
+        <ion-button expand="block" color="primary" type="submit"> Realizar Gestion </ion-button>
+        <!-- <ion-button [disabled]="formData.invalid" expand="block" color="primary" type="submit"> Realizar Gestion </ion-button> -->
       </form>
     </div>
   </div>

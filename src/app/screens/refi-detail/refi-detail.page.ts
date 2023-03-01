@@ -15,7 +15,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { getCurrentCoordinates, presentToast } from 'src/app/utils/utils';
 import { iCurrentLocation } from 'src/interfaces/currentLocation.interface';
-const url = `${environment.apiUrl}refinanciamiento.php?opcion=postformData`;
+const url = `${environment.apiUrl}refinanciamiento.php?opcion=postDatosRefi`;
 
 @Component({
   selector: 'app-refi-detail',
@@ -251,16 +251,16 @@ export class RefiDetailPage implements OnInit {
       style: 'mapbox://styles/mapbox/streets-v11',
       // center: [this.currentLocation.longitude, this.currentLocation.latitude],
       center: [-78.47748161030977, -0.12763545952685718],
-
-      zoom: 20,
+      pitch: 45,
+      zoom: 17,
     });
     // Add the control to the map.
-    this.map.addControl(
-      new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl,
-      })
-    );
+    // this.map.addControl(
+    //   new MapboxGeocoder({
+    //     accessToken: mapboxgl.accessToken,
+    //     mapboxgl: mapboxgl,
+    //   })
+    // );
 
     this.map.on('idle', function () {
       this.resize();
@@ -275,6 +275,7 @@ export class RefiDetailPage implements OnInit {
     marker.on('dragend', () => {
       //mostrar coordenadas
       // const features = this.map.queryRenderedFeatures(marker._pos);
+      console.log(this.map);
       this.crearMarker(marker);
     });
   }
@@ -327,7 +328,7 @@ export class RefiDetailPage implements OnInit {
       cliente_profesion: new FormControl('', []),
       cliente_estado_civil: new FormControl('', []),
       cliente_numero_dependientes: new FormControl('', []),
-      dir_direccion_exacta: new FormControl('', VALIDATOR_REQUIRED),
+      dir_direccion_exacta: new FormControl('', []),
       dir_provincia: new FormControl('', VALIDATOR_REQUIRED),
       dir_canton_ciudad: new FormControl('', VALIDATOR_REQUIRED),
       dir_parroquia: new FormControl('', VALIDATOR_REQUIRED),
@@ -377,6 +378,9 @@ export class RefiDetailPage implements OnInit {
       trabajo_telefono: new FormControl('', []),
       trabajo_antiguedad: new FormControl('', []),
     });
+
+    this.formData.controls.dir_latitud.disable();
+    this.formData.controls.dir_longitud.disable();
   }
 
   cargarDatosDesdeLista() {

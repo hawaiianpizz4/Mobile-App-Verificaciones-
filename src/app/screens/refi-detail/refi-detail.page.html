@@ -10,9 +10,9 @@
 
   <div class="card">
     <div class="card-content">
-      <form [formGroup]="dataForm" (ngSubmit)="submitForm()">
+      <form [formGroup]="formData" (ngSubmit)="submitForm()">
         <ion-accordion-group>
-          <ion-accordion value="datosRefi" formControlName="datosRefi">
+          <ion-accordion value="datosRefi">
             <ion-item slot="header" color="light">
               <ion-label>Datos Refinanciamiento</ion-label>
             </ion-item>
@@ -65,7 +65,7 @@
 
               <ion-item>
                 <ion-label position="floating">Fecha Primer Pago</ion-label>
-                <ion-input value="{{this.selectedDatePrimerPago}}"></ion-input>
+                <!-- <ion-input value="{{this.selectedDatePrimerPago}}"></ion-input> -->
                 <ion-datetime [mode]="'ios'" displayFormat="DD/MM/YYYY" (ionChange)="dateChangedPrimerPago($event)"></ion-datetime>
               </ion-item>
 
@@ -502,7 +502,7 @@
             </div>
           </ion-accordion>
         </ion-accordion-group>
-        <ion-button [disabled]="dataForm.invalid" expand="block" color="primary" type="submit"> Realizar Gestion </ion-button>
+        <ion-button [disabled]="formData.invalid" expand="block" color="primary" type="submit"> Realizar Gestion </ion-button>
       </form>
     </div>
   </div>

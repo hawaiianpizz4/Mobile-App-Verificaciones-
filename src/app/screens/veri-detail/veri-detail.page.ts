@@ -1,9 +1,7 @@
-
-
 import { Component, OnInit, NgZone, Input } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl/dist/mapbox-gl.js';
 
-import { HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 
 import { ModalController, NavController, ToastController, LoadingController } from '@ionic/angular';
@@ -12,11 +10,9 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 import { PhotoService, UserPhoto } from '../../services/photo.service';
 
-
 import { dataService } from 'src/app/services/data.service';
 
 import { FormGroup, FormControl } from '@angular/forms';
-
 
 @Component({
   selector: 'app-veri-detail',
@@ -114,7 +110,7 @@ export class VeriDetailPage implements OnInit {
       .addTo(map);
 
     // Obtener la dirección del cliente desde getdata
-    const address = this.getdata['direccion_cliente'];
+    const address = this.getdata['direccionDomiciliaria'];
 
     // Enviar la dirección a la API de geocodificación de Mapbox
     fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?access_token=${mapboxgl.accessToken}`)
@@ -141,24 +137,30 @@ export class VeriDetailPage implements OnInit {
           map.addControl(new mapboxgl.NavigationControl());
 
           // Agregar el control de rotación al mapa
-          map.addControl(new mapboxgl.RotateControl({
-            bearingSnap: 15
-          }));
+          map.addControl(
+            new mapboxgl.RotateControl({
+              bearingSnap: 15,
+            })
+          );
 
           // Agregar el control de escala al mapa
-          map.addControl(new mapboxgl.ScaleControl({
-            maxWidth: 80,
-            unit: 'metric'
-          }));
+          map.addControl(
+            new mapboxgl.ScaleControl({
+              maxWidth: 80,
+              unit: 'metric',
+            })
+          );
+
+          // Agregar el marcador con la nueva dirección
+          const newMarker = new mapboxgl.Marker({
+            draggable: false,
+          })
+            .setLngLat([lng, lat])
+            .addTo(map);
         });
       })
       .catch((error) => console.error(error));
   }
-
-
-
-
-
 
   async showLoading(msg) {
     const loading = await this.loadingCtrl.create({

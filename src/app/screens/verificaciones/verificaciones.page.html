@@ -21,7 +21,8 @@
     </ion-refresher>
   </div>
 
-  <h1 class="list-header">Lista</h1>
+  <h1 class="list-header">Reserva de Clientes</h1>
+  <app-searchbar (ionChange)="handleChange($event)"></app-searchbar>
   <div class="food-list" *ngIf="dataList.length != 0">
     <ng-container *ngFor="let user of dataList">
       <div class="user-item">

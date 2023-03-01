@@ -49,6 +49,10 @@ export class VeriDetailPage implements OnInit {
   ) {
     this.getdata = localStorage.getItem('detalleVeri');
     this.getdata = JSON.parse(localStorage.getItem('detalleVeri'));
+    this.dataForm = new FormGroup({
+      myControl: new FormControl('')
+    });
+
   }
 
   ngOnInit() {
@@ -92,7 +96,6 @@ export class VeriDetailPage implements OnInit {
       interiorDomicilioImagen: new FormControl(this.getdata.interiorDomicilioImagen, []),
     });
   }
-
   initMap() {
     mapboxgl.accessToken = 'pk.eyJ1IjoianF1aWxjaGFtaW4iLCJhIjoiY2xkdzJiaTN4MDM5NjNvbnV4eTI5MmV0MCJ9.xkxeH8IUvBcUTyHOLEORJg';
 
@@ -101,20 +104,32 @@ export class VeriDetailPage implements OnInit {
       container: 'mapa',
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [-79.4698468, -1.0037841],
-      zoom: 18,
-      scrollZoom: false, // Deshabilitar el zoom con la rueda del ratón
-      dragPan: false, // Deshabilitar el arrastre del mapa
+      pitch : 30,
+      zoom: 15,
+
+      // Asegurarse de que el mapa se dibuje completamente
+      renderWorldCopies: false,
+      maxBounds: [
+        [-180, -90],
+        [180, 90]
+      ],
+      scrollZoom: false,
+      dragPan: false,
+    });
+
+    map.on('idle', function () {
+      this.resize();
     });
 
     // Crear el marcador y agregarlo al mapa
     const marker = new mapboxgl.Marker({
-      draggable: false, // Deshabilitar la capacidad de arrastrar el marcador
+      draggable: false,
     })
       .setLngLat([-79.4698468, -1.0037841])
       .addTo(map);
 
     // Obtener la dirección del cliente desde getdata
-    const address = this.getdata['direccion_cliente'];
+    const address = this.getdata['direccionDomiciliaria'];
 
     // Enviar la dirección a la API de geocodificación de Mapbox
     fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${address}.json?access_token=${mapboxgl.accessToken}`)
@@ -150,15 +165,22 @@ export class VeriDetailPage implements OnInit {
             maxWidth: 80,
             unit: 'metric'
           }));
+
+          // Agregar el marcador con la nueva dirección
+          const newMarker = new mapboxgl.Marker({
+            draggable: false,
+          })
+            .setLngLat([lng, lat])
+            .addTo(map);
         });
       })
       .catch((error) => console.error(error));
+
+    // Cambiar el estilo del mapa para que las calles sean más claras
+    map.on('load', () => {
+      map.setStyle('mapbox://styles/mapbox/light-v10');
+    });
   }
-
-
-
-
-
 
   async showLoading(msg) {
     const loading = await this.loadingCtrl.create({

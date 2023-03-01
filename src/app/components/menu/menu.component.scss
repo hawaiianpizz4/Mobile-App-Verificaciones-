@@ -1,12 +1,26 @@
-ion-item.submenu > ion-list.menu-submenu {
-  --height: 200px; /* establece aquí la altura deseada para los submenús */
-  --overflow-y: auto; /* añade una barra de desplazamiento vertical si es necesario */
-  --border-top: none; /* elimina la línea superior del submenú */
-  --border-left: none; /* elimina la línea izquierda del submenú */
-  --border-right: none; /* elimina la línea derecha del submenú */
-  --border-bottom: 1px solid #ccc; /* establece el estilo de la línea inferior del submenú */
-  --animation-duration: 0.2s; /* establece la duración de la animación de entrada */
-  --animation-name: slide-in-down; /* establece la dirección de la animación de entrada */
+ion-item.menu-item {
+  --background: transparent;
+  --border-style: none;
+  --inner-padding-end: 0px;
+  --inner-padding-start: 0px;
+}
+
+ion-item.menu-item .submenu {
+  --background: transparent;
+  --border-style: none;
+  --padding-end: 0px;
+  --padding-start: 0px;
+  --inner-padding-end: 5px;
+}
+
+ion-item.menu-item .submenu .ion-label {
+  --padding-start: 10px;
+}
+
+ion-item.submenu-item {
+  --background: transparent;
+  --border-style: none;
+  --padding-start: 35px;
 }
 
 

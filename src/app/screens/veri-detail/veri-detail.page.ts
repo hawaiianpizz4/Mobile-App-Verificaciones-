@@ -1,9 +1,7 @@
-
-
 import { Component, OnInit, NgZone, Input } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl/dist/mapbox-gl.js';
 
-import { HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 
 import { ModalController, NavController, ToastController, LoadingController } from '@ionic/angular';
@@ -12,11 +10,9 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 import { PhotoService, UserPhoto } from '../../services/photo.service';
 
-
 import { dataService } from 'src/app/services/data.service';
 
 import { FormGroup, FormControl } from '@angular/forms';
-
 
 @Component({
   selector: 'app-veri-detail',
@@ -156,9 +152,11 @@ export class VeriDetailPage implements OnInit {
           map.addControl(new mapboxgl.NavigationControl());
 
           // Agregar el control de rotación al mapa
-          map.addControl(new mapboxgl.RotateControl({
-            bearingSnap: 15
-          }));
+          map.addControl(
+            new mapboxgl.RotateControl({
+              bearingSnap: 15,
+            })
+          );
 
           // Agregar el control de escala al mapa
           map.addControl(new mapboxgl.ScaleControl({

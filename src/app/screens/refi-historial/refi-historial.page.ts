@@ -12,6 +12,7 @@ export class RefiHistorialPage implements OnInit {
   constructor(private _services: dataService, private toastController: ToastController) {}
 
   handleRefresh(event) {
+    this.getHist = [];
     setTimeout(() => {
       this._services.getHistorialRefi(JSON.parse(localStorage.getItem('user'))).subscribe(
         (data) => {
@@ -33,13 +34,14 @@ export class RefiHistorialPage implements OnInit {
     const toast = await this.toastController.create({
       message: message,
       duration: 2500,
-      position: 'top',
+      position: 'bottom',
       icon: icon,
       color: color,
     });
     await toast.present();
   }
   ngOnInit() {
+    this.getHist = [];
     this._services.getHistorialRefi(JSON.parse(localStorage.getItem('user'))).subscribe(
       (data) => {
         console.log(data);

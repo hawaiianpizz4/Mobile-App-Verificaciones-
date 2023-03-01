@@ -8,7 +8,7 @@
 <ion-content class="ion-padding">
   <div class="header">
     <div class="contenedor">
-      <img src="assets/images/IconoIcesa.png" alt="iconoIcesa">
+      <img src="assets/images/IconoIcesa.png" alt="iconoIcesa" />
       <div class="centrado"><h1>Clientes Por Reservar</h1></div>
     </div>
     <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
@@ -21,19 +21,14 @@
     </ion-refresher>
   </div>
 
-  <h1 class="list-header">Lista</h1>
+  <h1 class="list-header">Reserva de Clientes</h1>
+  <app-searchbar (ionChange)="handleChange($event)"></app-searchbar>
   <div class="food-list" *ngIf="dataList.length != 0">
-    <ng-container *ngFor="let user of dataList">
-      <div class="user-item">
-        <app-list-users-verifi [item]="user"></app-list-users-verifi>
-        <button (click)="setClienteReservado(user)">Seleccionar</button>
-      </div>
-    </ng-container>
+    <app-list-users-verifi *ngFor="let user of dataList" [item]="user" (clicked)="setClienteReservado(user)"></app-list-users-verifi>
   </div>
 
   <div class="empty-cart" *ngIf="!(dataList).length || 0">
-    <ion-icon  name="card"></ion-icon>
+    <ion-icon name="card"></ion-icon>
     <p>0 Registros para verificaciones</p>
   </div>
-
 </ion-content>

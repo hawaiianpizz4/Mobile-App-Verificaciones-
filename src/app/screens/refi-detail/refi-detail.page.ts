@@ -1,9 +1,9 @@
 import mapboxgl from 'mapbox-gl/';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ModalController, NavController, ToastController, LoadingController } from '@ionic/angular';
+import { ModalController, NavController, ToastController, LoadingController, IonAccordion } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Network } from '@capacitor/network';
 import { Observable } from 'rxjs';
@@ -15,6 +15,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { getCurrentCoordinates, presentToast } from 'src/app/utils/utils';
 import { iCurrentLocation } from 'src/interfaces/currentLocation.interface';
+const url = `${environment.apiUrl}refinanciamiento.php?opcion=postformData`;
 
 @Component({
   selector: 'app-refi-detail',
@@ -32,9 +33,9 @@ export class RefiDetailPage implements OnInit {
   operacion: string;
   nombreUsuario: string;
   selectedDatePrimerPago: string;
-  currentDate: string = new Date().toISOString();
+  currentDate: string = new Date().toLocaleString();
 
-  dataForm: FormGroup;
+  formData: FormGroup;
   postInfoCliente: Observable<any>;
 
   isServiceCallInProgress: any;
@@ -58,13 +59,15 @@ export class RefiDetailPage implements OnInit {
 
   async ngOnInit() {
     this.currentLocation = await getCurrentCoordinates();
-
     console.dir(this.currentLocation);
     this.initMap();
+
     this.photoService.resetPhotos();
+
     this.cargarDatosDesdeLista();
 
     await this.getDatosCliente();
+
     this.checkDatosCargados();
 
     console.log(`${this.idCliente} - ${this.operacion} - ${this.currentDate}`);
@@ -73,6 +76,10 @@ export class RefiDetailPage implements OnInit {
         this.changeStatus();
       });
     });
+  }
+
+  async IonViewDidLeave() {
+    this.photoService.limpiarImagenes();
   }
 
   checkDatosCargados() {
@@ -120,143 +127,124 @@ export class RefiDetailPage implements OnInit {
     });
     // present the loading controller
     await this.isServiceCallInProgress.present();
-
-    const postData = {
-      refi_usuario: this.dataForm.controls.refi_usuario.value,
-      refi_fecha: this.dataForm.controls.refi_fecha.value,
-      refi_operacion: this.dataForm.controls.refi_operacion.value,
-      refi_autorizacion: this.dataForm.controls.refi_autorizacion.value,
-      refi_autorizacion_original: this.dataForm.controls.refi_autorizacion_original.value,
-      refi_plazo: this.dataForm.controls.refi_plazo.value,
-      refi_valor_cuota: this.dataForm.get('refi_valor_cuota').value,
-      refi_pago_gastos_admin: this.dataForm.controls.refi_pago_gastos_admin.value,
-      refi_total_reest: this.dataForm.controls.refi_total_reest.value,
-      refi_total_pagar: this.dataForm.controls.refi_total_pagar.value,
-      cliente_cedula: this.dataForm.controls.cliente_cedula.value,
-      cliente_nombres: this.dataForm.controls.cliente_nombres.value,
-      cliente_nacionalidad: this.dataForm.controls.cliente_nacionalidad.value,
-      cliente_ciudad_nacimiento: this.dataForm.controls.cliente_ciudad_nacimiento.value,
-      cliente_fecha_nacimiento: this.dataForm.controls.cliente_fecha_nacimiento.value,
-      // cliente_sexo: this.dataForm.controls.cliente_sexo.value,
-      cliente_sexo: this.dataForm.get('cliente_sexo').value,
-      cliente_nivel_educativo: this.dataForm.get('cliente_nivel_educativo').value,
-      cliente_profesion: this.dataForm.controls.cliente_profesion.value,
-      cliente_estado_civil: this.dataForm.get('cliente_estado_civil').value,
-      cliente_numero_dependientes: this.dataForm.controls.cliente_numero_dependientes.value,
-      dir_direccion_exacta: this.dataForm.controls.dir_direccion_exacta.value,
-      dir_provincia: this.dataForm.controls.dir_provincia.value,
-      dir_canton_ciudad: this.dataForm.controls.dir_canton_ciudad.value,
-      dir_parroquia: this.dataForm.controls.dir_parroquia.value,
-      dir_direccion: this.dataForm.controls.dir_direccion.value,
-      dir_calle_transversal: this.dataForm.controls.dir_calle_transversal.value,
-      dir_numero: this.dataForm.controls.dir_numero.value,
-      dir_latitud: this.dataForm.controls.dir_latitud.value,
-      dir_longitud: this.dataForm.controls.dir_longitud.value,
-      dir_referencia: this.dataForm.controls.dir_referencia.value,
-      dir_tipo_vivienda: this.dataForm.get('dir_tipo_vivienda').value,
-      dir_tiempo: this.dataForm.controls.dir_tiempo.value,
-      dir_telf_1: this.dataForm.controls.dir_telf_1.value,
-      dir_telf_2: this.dataForm.controls.dir_telf_2.value,
-      dir_email: this.dataForm.controls.dir_email.value,
-      dir_nombre_arrendador: this.dataForm.controls.dir_nombre_arrendador.value,
-      dir_telf_arrendador: this.dataForm.controls.dir_telf_arrendador.value,
-      conyuge_cedula: this.dataForm.controls.conyuge_cedula.value,
-      conyuge_nombres: this.dataForm.controls.conyuge_nombres.value,
-      conyuge_email: this.dataForm.controls.conyuge_email.value,
-      conyuge_telf_1: this.dataForm.controls.conyuge_telf_1.value,
-      conyuge_telf_2: this.dataForm.controls.conyuge_telf_2.value,
-      conyuge_tipo_actividad: this.dataForm.get('conyuge_tipo_actividad').value,
-      conyuge_nombre_empresa: this.dataForm.controls.conyuge_nombre_empresa.value,
-      conyuge_actividad_empresa: this.dataForm.controls.conyuge_actividad_empresa.value,
-      conyuge_cargo: this.dataForm.controls.conyuge_cargo.value,
-      conyuge_telefono_empresa: this.dataForm.controls.conyuge_telefono_empresa.value,
-      conyuge_ingresos_mensuales: this.dataForm.controls.conyuge_ingresos_mensuales.value,
-      ref1_nombres: this.dataForm.controls.ref1_nombres.value,
-      ref1_parentesco: this.dataForm.controls.ref1_parentesco.value,
-      ref1_telf_1: this.dataForm.controls.ref1_telf_1.value,
-      ref1_telf_2: this.dataForm.controls.ref1_telf_2.value,
-      ref2_nombres: this.dataForm.controls.ref2_nombres.value,
-      ref2_parentesco: this.dataForm.controls.ref2_parentesco.value,
-      ref2_telf_1: this.dataForm.controls.ref2_telf_1.value,
-      ref2_telf_2: this.dataForm.controls.ref2_telf_2.value,
-      trabajo_tipo_actividad: this.dataForm.get('trabajo_tipo_actividad').value,
-      trabajo_ruc: this.dataForm.controls.trabajo_ruc.value,
-      trabajo_nombre: this.dataForm.controls.trabajo_nombre.value,
-      trabajo_provincia: this.dataForm.controls.trabajo_provincia.value,
-      trabajo_canton: this.dataForm.controls.trabajo_canton.value,
-      trabajo_parroquia: this.dataForm.controls.trabajo_parroquia.value,
-      trabajo_barrio: this.dataForm.controls.trabajo_barrio.value,
-      trabajo_direccion: this.dataForm.controls.trabajo_direccion.value,
-      trabajo_numero: this.dataForm.controls.trabajo_numero.value,
-      trabajo_calle_transversal: this.dataForm.controls.trabajo_calle_transversal.value,
-      trabajo_ref_ubicacion: this.dataForm.controls.trabajo_ref_ubicacion.value,
-      trabajo_telefono: this.dataForm.controls.trabajo_telefono.value,
-      trabajo_antiguedad: this.dataForm.controls.trabajo_antiguedad.value,
-      imagen_files: this.photoService.photosBase64,
-    };
+    const postData = this.loadPostData();
 
     console.dir(postData);
 
-    if (postData.cliente_cedula && postData.cliente_cedula != undefined) {
-      if (this.networkStatus) {
-        const url = `${environment.apiUrl}refinanciamiento.php?opcion=postDatosRefi`;
+    if (this.networkStatus) {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+      };
 
-        const httpOptions = {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-          }),
-        };
-
-        try {
-          await this._http.post(url, JSON.stringify(postData), httpOptions).toPromise();
-          this.isServiceCallInProgress.dismiss();
-          this.redirect();
-          setTimeout(() => {
-            presentToast('Registro Enviado', 'checkmark-outline', 'success');
-            this.redirect();
-          }, 1000);
-        } catch (error) {
-          this.isServiceCallInProgress.dismiss();
-          setTimeout(() => {
-            presentToast('Error al enviar registro', 'checkmark-outline', 'success');
-            this.redirect();
-          }, 3000);
-          console.log(error);
-        }
-
+      try {
+        await this._http.post(url, JSON.stringify(postData), httpOptions).toPromise();
+        this.isServiceCallInProgress.dismiss();
+        this.redirect();
         setTimeout(() => {
           presentToast('Registro Enviado', 'checkmark-outline', 'success');
           this.redirect();
-        }, 3000);
-      } else {
-        var dataInLocalStorage = localStorage.getItem('refi-storageWait');
-        var local = [];
-        if (dataInLocalStorage) {
-          local = Array.from(JSON.parse(dataInLocalStorage));
-          local.push(JSON.stringify(postData));
-          localStorage.setItem('refi-storageWait', JSON.stringify(local));
-          this.showLoading('Guardando registro para ser enviado');
-          setTimeout(() => {
-            presentToast('Registro Guardado', 'checkmark-outline', 'success');
-          }, 3000);
-        } else {
-          var insert = Array.from(JSON.stringify(postData));
-          console.log('here');
-          insert.push(JSON.stringify(postData));
-          localStorage.setItem('refi-storageWait', JSON.stringify(insert));
-          this.showLoading('Guardando registro para ser enviado');
-          setTimeout(() => {
-            presentToast('Registro Guardado', 'checkmark-outline', 'success');
-            this.redirect();
-          }, 3000);
-        }
+        }, 1000);
+      } catch (error) {
+        this.isServiceCallInProgress.dismiss();
+        setTimeout(() => {
+          presentToast('Error al enviar registro', 'checkmark-outline', 'success');
+          this.redirect();
+        }, 1000);
+        console.log(error);
       }
+
+      setTimeout(() => {
+        presentToast('Registro Enviado', 'checkmark-outline', 'success');
+        this.redirect();
+      }, 1000);
     } else {
-      presentToast('No debe existir campos vacios', 'alert', 'warning');
+      setTimeout(() => {
+        presentToast('Error, No hay conexión a internet', 'checkmark-outline', 'success');
+        this.redirect();
+      }, 1000);
     }
   }
 
+  loadPostData() {
+    return {
+      refi_usuario: this.formData.controls.refi_usuario.value,
+      refi_fecha: this.formData.controls.refi_fecha.value,
+      refi_operacion: this.formData.controls.refi_operacion.value,
+      refi_autorizacion: this.formData.controls.refi_autorizacion.value,
+      refi_autorizacion_original: this.formData.controls.refi_autorizacion_original.value,
+      refi_plazo: this.formData.controls.refi_plazo.value,
+      refi_valor_cuota: this.formData.get('refi_valor_cuota').value,
+      refi_pago_gastos_admin: this.formData.controls.refi_pago_gastos_admin.value,
+      refi_total_reest: this.formData.controls.refi_total_reest.value,
+      refi_total_pagar: this.formData.controls.refi_total_pagar.value,
+      cliente_cedula: this.formData.controls.cliente_cedula.value,
+      cliente_nombres: this.formData.controls.cliente_nombres.value,
+      cliente_nacionalidad: this.formData.controls.cliente_nacionalidad.value,
+      cliente_ciudad_nacimiento: this.formData.controls.cliente_ciudad_nacimiento.value,
+      cliente_fecha_nacimiento: this.formData.controls.cliente_fecha_nacimiento.value,
+      // cliente_sexo: this.dataForm.controls.cliente_sexo.value,
+      cliente_sexo: this.formData.get('cliente_sexo').value,
+      cliente_nivel_educativo: this.formData.get('cliente_nivel_educativo').value,
+      cliente_profesion: this.formData.controls.cliente_profesion.value,
+      cliente_estado_civil: this.formData.get('cliente_estado_civil').value,
+      cliente_numero_dependientes: this.formData.controls.cliente_numero_dependientes.value,
+      dir_direccion_exacta: this.formData.controls.dir_direccion_exacta.value,
+      dir_provincia: this.formData.controls.dir_provincia.value,
+      dir_canton_ciudad: this.formData.controls.dir_canton_ciudad.value,
+      dir_parroquia: this.formData.controls.dir_parroquia.value,
+      dir_direccion: this.formData.controls.dir_direccion.value,
+      dir_calle_transversal: this.formData.controls.dir_calle_transversal.value,
+      dir_numero: this.formData.controls.dir_numero.value,
+      dir_latitud: this.formData.controls.dir_latitud.value,
+      dir_longitud: this.formData.controls.dir_longitud.value,
+      dir_referencia: this.formData.controls.dir_referencia.value,
+      dir_tipo_vivienda: this.formData.get('dir_tipo_vivienda').value,
+      dir_tiempo: this.formData.controls.dir_tiempo.value,
+      dir_telf_1: this.formData.controls.dir_telf_1.value,
+      dir_telf_2: this.formData.controls.dir_telf_2.value,
+      dir_email: this.formData.controls.dir_email.value,
+      dir_nombre_arrendador: this.formData.controls.dir_nombre_arrendador.value,
+      dir_telf_arrendador: this.formData.controls.dir_telf_arrendador.value,
+      conyuge_cedula: this.formData.controls.conyuge_cedula.value,
+      conyuge_nombres: this.formData.controls.conyuge_nombres.value,
+      conyuge_email: this.formData.controls.conyuge_email.value,
+      conyuge_telf_1: this.formData.controls.conyuge_telf_1.value,
+      conyuge_telf_2: this.formData.controls.conyuge_telf_2.value,
+      conyuge_tipo_actividad: this.formData.get('conyuge_tipo_actividad').value,
+      conyuge_nombre_empresa: this.formData.controls.conyuge_nombre_empresa.value,
+      conyuge_actividad_empresa: this.formData.controls.conyuge_actividad_empresa.value,
+      conyuge_cargo: this.formData.controls.conyuge_cargo.value,
+      conyuge_telefono_empresa: this.formData.controls.conyuge_telefono_empresa.value,
+      conyuge_ingresos_mensuales: this.formData.controls.conyuge_ingresos_mensuales.value,
+      ref1_nombres: this.formData.controls.ref1_nombres.value,
+      ref1_parentesco: this.formData.controls.ref1_parentesco.value,
+      ref1_telf_1: this.formData.controls.ref1_telf_1.value,
+      ref1_telf_2: this.formData.controls.ref1_telf_2.value,
+      ref2_nombres: this.formData.controls.ref2_nombres.value,
+      ref2_parentesco: this.formData.controls.ref2_parentesco.value,
+      ref2_telf_1: this.formData.controls.ref2_telf_1.value,
+      ref2_telf_2: this.formData.controls.ref2_telf_2.value,
+      trabajo_tipo_actividad: this.formData.get('trabajo_tipo_actividad').value,
+      trabajo_ruc: this.formData.controls.trabajo_ruc.value,
+      trabajo_nombre: this.formData.controls.trabajo_nombre.value,
+      trabajo_provincia: this.formData.controls.trabajo_provincia.value,
+      trabajo_canton: this.formData.controls.trabajo_canton.value,
+      trabajo_parroquia: this.formData.controls.trabajo_parroquia.value,
+      trabajo_barrio: this.formData.controls.trabajo_barrio.value,
+      trabajo_direccion: this.formData.controls.trabajo_direccion.value,
+      trabajo_numero: this.formData.controls.trabajo_numero.value,
+      trabajo_calle_transversal: this.formData.controls.trabajo_calle_transversal.value,
+      trabajo_ref_ubicacion: this.formData.controls.trabajo_ref_ubicacion.value,
+      trabajo_telefono: this.formData.controls.trabajo_telefono.value,
+      trabajo_antiguedad: this.formData.controls.trabajo_antiguedad.value,
+      imagen_files: this.photoService.photosBase64,
+    };
+  }
+
   initMap() {
+    console.log(this.currentLocation);
     mapboxgl.accessToken = 'pk.eyJ1IjoianF1aWxjaGFtaW4iLCJhIjoiY2xkdzJiaTN4MDM5NjNvbnV4eTI5MmV0MCJ9.xkxeH8IUvBcUTyHOLEORJg';
     this.map = new mapboxgl.Map({
       container: 'mapa',
@@ -299,14 +287,14 @@ export class RefiDetailPage implements OnInit {
         console.dir(data);
         console.dir(data.features[0].context[1].text);
 
-        this.dataForm.controls.dir_latitud.setValue(lngLat.lat);
-        this.dataForm.controls.dir_longitud.setValue(lngLat.lng);
-        this.dataForm.controls.dir_longitud.setValue(lngLat.lng);
-        this.dataForm.controls.dir_longitud.setValue(lngLat.lng);
+        this.formData.controls.dir_latitud.setValue(lngLat.lat);
+        this.formData.controls.dir_longitud.setValue(lngLat.lng);
+        this.formData.controls.dir_longitud.setValue(lngLat.lng);
+        this.formData.controls.dir_longitud.setValue(lngLat.lng);
 
-        this.dataForm.controls.dir_direccion.setValue(data.features[0].place_name);
-        this.dataForm.controls.dir_canton_ciudad.setValue(data.features[0].context[1].text);
-        this.dataForm.controls.dir_provincia.setValue(data.features[0].context[2].text);
+        this.formData.controls.dir_direccion.setValue(data.features[0].place_name);
+        this.formData.controls.dir_canton_ciudad.setValue(data.features[0].context[1].text);
+        this.formData.controls.dir_provincia.setValue(data.features[0].context[2].text);
       },
       (error) => {
         presentToast('Error al crear marcador!', '', 'error');
@@ -315,36 +303,36 @@ export class RefiDetailPage implements OnInit {
     );
   }
 
-  handleChange(event) {}
-
   createDataForm() {
-    this.dataForm = new FormGroup({
+    const VALIDATOR_REQUIRED = [Validators.required];
+
+    this.formData = new FormGroup({
       refi_fecha: new FormControl({ value: this.currentDate, disabled: true }, []),
       refi_usuario: new FormControl({ value: this.nombreUsuario, disabled: true }, []),
       refi_operacion: new FormControl({ value: this.operacion, disabled: true }, []),
-      refi_autorizacion: new FormControl('', []),
-      refi_autorizacion_original: new FormControl('', []),
-      refi_plazo: new FormControl('', []),
-      refi_valor_cuota: new FormControl('', []),
-      refi_pago_gastos_admin: new FormControl('', []),
-      refi_total_reest: new FormControl('', []),
-      refi_total_pagar: new FormControl('', []),
-      cliente_cedula: new FormControl(this.idCliente, []),
-      cliente_nombres: new FormControl('', []),
-      cliente_nacionalidad: new FormControl('', []),
-      cliente_ciudad_nacimiento: new FormControl('', []),
-      cliente_fecha_nacimiento: new FormControl('', []),
+      refi_autorizacion: new FormControl('', VALIDATOR_REQUIRED),
+      refi_autorizacion_original: new FormControl('', VALIDATOR_REQUIRED),
+      refi_plazo: new FormControl('', VALIDATOR_REQUIRED),
+      refi_valor_cuota: new FormControl('', VALIDATOR_REQUIRED),
+      refi_pago_gastos_admin: new FormControl('', VALIDATOR_REQUIRED),
+      refi_total_reest: new FormControl('', VALIDATOR_REQUIRED),
+      refi_total_pagar: new FormControl('', VALIDATOR_REQUIRED),
+      cliente_cedula: new FormControl(this.idCliente, VALIDATOR_REQUIRED),
+      cliente_nombres: new FormControl('', VALIDATOR_REQUIRED),
+      cliente_nacionalidad: new FormControl('', VALIDATOR_REQUIRED),
+      cliente_ciudad_nacimiento: new FormControl('', VALIDATOR_REQUIRED),
+      cliente_fecha_nacimiento: new FormControl('', VALIDATOR_REQUIRED),
       cliente_sexo: new FormControl('', []),
       cliente_nivel_educativo: new FormControl('', []),
       cliente_profesion: new FormControl('', []),
       cliente_estado_civil: new FormControl('', []),
       cliente_numero_dependientes: new FormControl('', []),
-      dir_direccion_exacta: new FormControl('', []),
-      dir_provincia: new FormControl('', []),
-      dir_canton_ciudad: new FormControl('', []),
-      dir_parroquia: new FormControl('', []),
-      dir_direccion: new FormControl('', []),
-      dir_calle_transversal: new FormControl('', []),
+      dir_direccion_exacta: new FormControl('', VALIDATOR_REQUIRED),
+      dir_provincia: new FormControl('', VALIDATOR_REQUIRED),
+      dir_canton_ciudad: new FormControl('', VALIDATOR_REQUIRED),
+      dir_parroquia: new FormControl('', VALIDATOR_REQUIRED),
+      dir_direccion: new FormControl('', VALIDATOR_REQUIRED),
+      dir_calle_transversal: new FormControl('', VALIDATOR_REQUIRED),
       dir_numero: new FormControl('', []),
       dir_latitud: new FormControl('', []),
       dir_longitud: new FormControl('', []),
@@ -396,18 +384,34 @@ export class RefiDetailPage implements OnInit {
     this.idCliente = this.activatedRoute.snapshot.paramMap.get('id');
     this.operacion = this.activatedRoute.snapshot.paramMap.get('operacion');
 
-    this.dataForm.controls.refi_fecha.setValue(this.currentDate);
-    this.dataForm.controls.refi_operacion.setValue(this.operacion);
-    this.dataForm.controls.refi_usuario.setValue(this.nombreUsuario);
-    this.dataForm.controls.cliente_cedula.setValue(this.idCliente);
+    this.formData.controls.refi_fecha.setValue(this.currentDate);
+    this.formData.controls.refi_operacion.setValue(this.operacion);
+    this.formData.controls.refi_usuario.setValue(this.nombreUsuario);
+    this.formData.controls.cliente_cedula.setValue(this.idCliente);
   }
 
   loadMineDataInForm() {
-    this.dataForm.controls.cliente_sexo.setValue(this.datosSolicitudCliente['des_sexo']);
-    this.dataForm.controls.cliente_nivel_educativo.setValue(this.datosSolicitudCliente['nivel_instruccion']);
-    this.dataForm.controls.cliente_estado_civil.setValue(this.datosSolicitudCliente['estado_civ']);
-    this.dataForm.controls.dir_tipo_vivienda.setValue(this.datosSolicitudCliente['tipo_vivienda']);
-    this.dataForm.controls.trabajo_tipo_actividad.setValue(this.datosSolicitudCliente['relacion_dependencia']);
+    this.formData.controls.cliente_nombres.setValue(this.datosSolicitudCliente['nombres']);
+    this.formData.controls.cliente_nacionalidad.setValue(this.datosSolicitudCliente['nacionalidad']);
+    this.formData.controls.cliente_fecha_nacimiento.setValue(this.datosSolicitudCliente['fecha_naci']);
+    this.formData.controls.cliente_sexo.setValue(this.datosSolicitudCliente['des_sexo']);
+    this.formData.controls.cliente_profesion.setValue(this.datosSolicitudCliente['des_profes']);
+    this.formData.controls.cliente_estado_civil.setValue(this.datosSolicitudCliente['estado_civ']);
+    this.formData.controls.cliente_numero_dependientes.setValue(this.datosSolicitudCliente['num_hijos']);
+    this.formData.controls.cliente_nivel_educativo.setValue(this.datosSolicitudCliente['nivel_instruccion']);
+
+    this.formData.controls.dir_provincia.setValue(this.datosSolicitudCliente['cod_prov_dom']);
+    this.formData.controls.dir_canton_ciudad.setValue(this.datosSolicitudCliente['cod_cant_dom']);
+    this.formData.controls.dir_parroquia.setValue(this.datosSolicitudCliente['cod_parr_dom']);
+    this.formData.controls.dir_tipo_vivienda.setValue(this.datosSolicitudCliente['tipo_vivienda']);
+
+    this.formData.controls.trabajo_nombre.setValue(this.datosSolicitudCliente['nombre_empresa_titular']);
+    this.formData.controls.trabajo_provincia.setValue(this.datosSolicitudCliente['cod_prov_trabajo_titular']);
+    this.formData.controls.trabajo_canton.setValue(this.datosSolicitudCliente['cod_cant_trabajo_titular']);
+    this.formData.controls.trabajo_parroquia.setValue(this.datosSolicitudCliente['cod_parr_trabajo_titular']);
+    this.formData.controls.trabajo_antiguedad.setValue(this.datosSolicitudCliente['antiguedad_lab']);
+
+    this.formData.controls.trabajo_tipo_actividad.setValue(this.datosSolicitudCliente['relacion_dependencia']);
   }
 
   async changeStatus() {
@@ -415,18 +419,6 @@ export class RefiDetailPage implements OnInit {
     this.networkStatus = status?.connected;
     this.networkStatus ? presentToast('Conectado', 'wifi-outline', 'success') : presentToast('Sin conexion', 'globe-outline', 'warning');
   }
-
-  // getCurrentCoordinates() {
-  //   this.geolocation
-  //     .getCurrentPosition()
-  //     .then((resp) => {
-  //       this.latitude = resp.coords.latitude;
-  //       this.longitude = resp.coords.longitude;
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
 
   async showLoading(msg) {
     const loading = await this.loadingCtrl.create({
@@ -450,5 +442,101 @@ export class RefiDetailPage implements OnInit {
   dateChangedPrimerPago(event) {
     console.dir(event.detail);
     this.selectedDatePrimerPago = event.detail.value;
+  }
+
+  onEstadoCivilSelected() {
+    let valor = String(this.formData.get('cliente_estado_civil').value);
+
+    console.log(valor);
+    if (valor == 'S' || valor == 'D' || valor == 'V') {
+      this.formData.controls.conyuge_cedula.disable();
+      this.formData.controls.conyuge_nombres.disable();
+      this.formData.controls.conyuge_email.disable();
+      this.formData.controls.conyuge_telf_1.disable();
+      this.formData.controls.conyuge_telf_2.disable();
+      this.formData.controls.conyuge_tipo_actividad.disable();
+      this.formData.controls.conyuge_nombre_empresa.disable();
+      this.formData.controls.conyuge_actividad_empresa.disable();
+      this.formData.controls.conyuge_cargo.disable();
+      this.formData.controls.conyuge_telefono_empresa.disable();
+      this.formData.controls.conyuge_ingresos_mensuales.disable();
+    } else {
+      this.formData.controls.conyuge_cedula.enable();
+      this.formData.controls.conyuge_nombres.enable();
+      this.formData.controls.conyuge_email.enable();
+      this.formData.controls.conyuge_telf_1.enable();
+      this.formData.controls.conyuge_telf_2.enable();
+      this.formData.controls.conyuge_tipo_actividad.enable();
+      this.formData.controls.conyuge_nombre_empresa.enable();
+      this.formData.controls.conyuge_actividad_empresa.enable();
+      this.formData.controls.conyuge_cargo.enable();
+      this.formData.controls.conyuge_telefono_empresa.enable();
+      this.formData.controls.conyuge_ingresos_mensuales.enable();
+    }
+  }
+
+  onTipoActividadConyugeSelected() {
+    let valor = String(this.formData.get('conyuge_tipo_actividad').value);
+
+    console.log(valor);
+    if (valor == 'CES') {
+      this.formData.controls.conyuge_nombre_empresa.disable();
+      this.formData.controls.conyuge_actividad_empresa.disable();
+      this.formData.controls.conyuge_cargo.disable();
+      this.formData.controls.conyuge_telefono_empresa.disable();
+      this.formData.controls.conyuge_ingresos_mensuales.disable();
+    } else {
+      this.formData.controls.conyuge_nombre_empresa.enable();
+      this.formData.controls.conyuge_actividad_empresa.enable();
+      this.formData.controls.conyuge_cargo.enable();
+      this.formData.controls.conyuge_telefono_empresa.enable();
+      this.formData.controls.conyuge_ingresos_mensuales.enable();
+    }
+  }
+
+  onTipoViviendaChanged() {
+    let valor = String(this.formData.get('dir_tipo_vivienda').value);
+
+    console.log(valor);
+    if (valor == 'P') {
+      this.formData.controls.dir_nombre_arrendador.disable();
+      this.formData.controls.dir_telf_arrendador.disable();
+    } else {
+      this.formData.controls.dir_nombre_arrendador.enable();
+      this.formData.controls.dir_telf_arrendador.enable();
+    }
+  }
+
+  onTipoActividadChange() {
+    let valor = String(this.formData.get('trabajo_tipo_actividad').value);
+
+    console.log(valor);
+    if (valor == 'CES') {
+      this.formData.controls.trabajo_ruc.disable();
+      this.formData.controls.trabajo_nombre.disable();
+      this.formData.controls.trabajo_provincia.disable();
+      this.formData.controls.trabajo_canton.disable();
+      this.formData.controls.trabajo_parroquia.disable();
+      this.formData.controls.trabajo_barrio.disable();
+      this.formData.controls.trabajo_direccion.disable();
+      this.formData.controls.trabajo_numero.disable();
+      this.formData.controls.trabajo_calle_transversal.disable();
+      this.formData.controls.trabajo_ref_ubicacion.disable();
+      this.formData.controls.trabajo_telefono.disable();
+      this.formData.controls.trabajo_antiguedad.disable();
+    } else {
+      this.formData.controls.trabajo_ruc.enable();
+      this.formData.controls.trabajo_nombre.enable();
+      this.formData.controls.trabajo_provincia.enable();
+      this.formData.controls.trabajo_canton.enable();
+      this.formData.controls.trabajo_parroquia.enable();
+      this.formData.controls.trabajo_barrio.enable();
+      this.formData.controls.trabajo_direccion.enable();
+      this.formData.controls.trabajo_numero.enable();
+      this.formData.controls.trabajo_calle_transversal.enable();
+      this.formData.controls.trabajo_ref_ubicacion.enable();
+      this.formData.controls.trabajo_telefono.enable();
+      this.formData.controls.trabajo_antiguedad.enable();
+    }
   }
 }

@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Camera,
-  CameraResultType,
-  CameraSource,
-  Photo,
-} from '@capacitor/camera';
+import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 
 @Injectable({
   providedIn: 'root',
@@ -46,8 +41,6 @@ export class PhotoService {
 
   public photosInteriorDom: UserPhoto[] = [];
   public photosInteriorDom64: string[] = [];
-
-
 
   public async addNewToGallery(tipo: string) {
     switch (tipo) {
@@ -95,7 +88,7 @@ export class PhotoService {
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera,
-      quality: 70,
+      quality: 50,
     });
 
     const filePath = await this.readAsBase64(capturedPhoto.webPath);
@@ -104,7 +97,7 @@ export class PhotoService {
       filepath: filePath,
       webviewPath: capturedPhoto.webPath,
     });
-          console.log(filePath);
+    console.log(filePath);
     photosBase64.pop();
     photosBase64.unshift(filePath.split(',')[1]);
 
@@ -128,6 +121,44 @@ export class PhotoService {
       };
       reader.readAsDataURL(blob);
     });
+
+  public limpiarImagenes() {
+    this.photosPlanilla = [];
+    this.photosPlanilla64 = [];
+
+    this.photosEstabilidad = [];
+    this.photosEstabilidad64 = [];
+
+    this.photosFacturas = [];
+    this.photosFacturas64 = [];
+
+    this.photosExterior = [];
+    this.photosExterior64 = [];
+
+    this.photosInterior = [];
+    this.photosInterior64 = [];
+
+    this.photosClienteExterior = [];
+    this.photosClienteExterior64 = [];
+
+    this.photosClienteInterior = [];
+    this.photosClienteInterior64 = [];
+
+    this.photosTitulo = [];
+    this.photosTitulo64 = [];
+
+    this.photosImpuesto = [];
+    this.photosImpuesto64 = [];
+
+    this.photosRespaldo = [];
+    this.photosRespaldo64 = [];
+
+    this.photosCertificado = [];
+    this.photosCertificado64 = [];
+
+    this.photosInteriorDom = [];
+    this.photosInteriorDom64 = [];
+  }
 }
 
 export interface UserPhoto {

@@ -1,9 +1,9 @@
 import mapboxgl from 'mapbox-gl/';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ModalController, NavController, ToastController, LoadingController } from '@ionic/angular';
+import { ModalController, NavController, ToastController, LoadingController, IonAccordion } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Network } from '@capacitor/network';
 import { Observable } from 'rxjs';
@@ -32,7 +32,7 @@ export class RefiDetailPage implements OnInit {
   operacion: string;
   nombreUsuario: string;
   selectedDatePrimerPago: string;
-  currentDate: string = new Date().toISOString();
+  currentDate: string = new Date().toLocaleString();
 
   dataForm: FormGroup;
   postInfoCliente: Observable<any>;
@@ -63,8 +63,8 @@ export class RefiDetailPage implements OnInit {
     this.initMap();
     this.photoService.resetPhotos();
     this.cargarDatosDesdeLista();
-
     await this.getDatosCliente();
+
     this.checkDatosCargados();
 
     console.log(`${this.idCliente} - ${this.operacion} - ${this.currentDate}`);
@@ -73,6 +73,10 @@ export class RefiDetailPage implements OnInit {
         this.changeStatus();
       });
     });
+  }
+
+  async IonViewDidLeave() {
+    this.photoService.limpiarImagenes();
   }
 
   checkDatosCargados() {
@@ -257,6 +261,7 @@ export class RefiDetailPage implements OnInit {
   }
 
   initMap() {
+    console.log(this.currentLocation);
     mapboxgl.accessToken = 'pk.eyJ1IjoianF1aWxjaGFtaW4iLCJhIjoiY2xkdzJiaTN4MDM5NjNvbnV4eTI5MmV0MCJ9.xkxeH8IUvBcUTyHOLEORJg';
     this.map = new mapboxgl.Map({
       container: 'mapa',
@@ -315,36 +320,36 @@ export class RefiDetailPage implements OnInit {
     );
   }
 
-  handleChange(event) {}
-
   createDataForm() {
+    const VALIDATOR_REQUIRED = [Validators.required];
+
     this.dataForm = new FormGroup({
       refi_fecha: new FormControl({ value: this.currentDate, disabled: true }, []),
       refi_usuario: new FormControl({ value: this.nombreUsuario, disabled: true }, []),
       refi_operacion: new FormControl({ value: this.operacion, disabled: true }, []),
-      refi_autorizacion: new FormControl('', []),
-      refi_autorizacion_original: new FormControl('', []),
-      refi_plazo: new FormControl('', []),
-      refi_valor_cuota: new FormControl('', []),
-      refi_pago_gastos_admin: new FormControl('', []),
-      refi_total_reest: new FormControl('', []),
-      refi_total_pagar: new FormControl('', []),
-      cliente_cedula: new FormControl(this.idCliente, []),
-      cliente_nombres: new FormControl('', []),
-      cliente_nacionalidad: new FormControl('', []),
-      cliente_ciudad_nacimiento: new FormControl('', []),
-      cliente_fecha_nacimiento: new FormControl('', []),
+      refi_autorizacion: new FormControl('', VALIDATOR_REQUIRED),
+      refi_autorizacion_original: new FormControl('', VALIDATOR_REQUIRED),
+      refi_plazo: new FormControl('', VALIDATOR_REQUIRED),
+      refi_valor_cuota: new FormControl('', VALIDATOR_REQUIRED),
+      refi_pago_gastos_admin: new FormControl('', VALIDATOR_REQUIRED),
+      refi_total_reest: new FormControl('', VALIDATOR_REQUIRED),
+      refi_total_pagar: new FormControl('', VALIDATOR_REQUIRED),
+      cliente_cedula: new FormControl(this.idCliente, VALIDATOR_REQUIRED),
+      cliente_nombres: new FormControl('', VALIDATOR_REQUIRED),
+      cliente_nacionalidad: new FormControl('', VALIDATOR_REQUIRED),
+      cliente_ciudad_nacimiento: new FormControl('', VALIDATOR_REQUIRED),
+      cliente_fecha_nacimiento: new FormControl('', VALIDATOR_REQUIRED),
       cliente_sexo: new FormControl('', []),
       cliente_nivel_educativo: new FormControl('', []),
       cliente_profesion: new FormControl('', []),
       cliente_estado_civil: new FormControl('', []),
       cliente_numero_dependientes: new FormControl('', []),
-      dir_direccion_exacta: new FormControl('', []),
-      dir_provincia: new FormControl('', []),
-      dir_canton_ciudad: new FormControl('', []),
-      dir_parroquia: new FormControl('', []),
-      dir_direccion: new FormControl('', []),
-      dir_calle_transversal: new FormControl('', []),
+      dir_direccion_exacta: new FormControl('', VALIDATOR_REQUIRED),
+      dir_provincia: new FormControl('', VALIDATOR_REQUIRED),
+      dir_canton_ciudad: new FormControl('', VALIDATOR_REQUIRED),
+      dir_parroquia: new FormControl('', VALIDATOR_REQUIRED),
+      dir_direccion: new FormControl('', VALIDATOR_REQUIRED),
+      dir_calle_transversal: new FormControl('', VALIDATOR_REQUIRED),
       dir_numero: new FormControl('', []),
       dir_latitud: new FormControl('', []),
       dir_longitud: new FormControl('', []),
@@ -403,10 +408,26 @@ export class RefiDetailPage implements OnInit {
   }
 
   loadMineDataInForm() {
+    this.dataForm.controls.cliente_nombres.setValue(this.datosSolicitudCliente['nombres']);
+    this.dataForm.controls.cliente_nacionalidad.setValue(this.datosSolicitudCliente['nacionalidad']);
+    this.dataForm.controls.cliente_fecha_nacimiento.setValue(this.datosSolicitudCliente['fecha_naci']);
     this.dataForm.controls.cliente_sexo.setValue(this.datosSolicitudCliente['des_sexo']);
-    this.dataForm.controls.cliente_nivel_educativo.setValue(this.datosSolicitudCliente['nivel_instruccion']);
+    this.dataForm.controls.cliente_profesion.setValue(this.datosSolicitudCliente['des_profes']);
     this.dataForm.controls.cliente_estado_civil.setValue(this.datosSolicitudCliente['estado_civ']);
+    this.dataForm.controls.cliente_numero_dependientes.setValue(this.datosSolicitudCliente['num_hijos']);
+    this.dataForm.controls.cliente_nivel_educativo.setValue(this.datosSolicitudCliente['nivel_instruccion']);
+
+    this.dataForm.controls.dir_provincia.setValue(this.datosSolicitudCliente['cod_prov_dom']);
+    this.dataForm.controls.dir_canton_ciudad.setValue(this.datosSolicitudCliente['cod_cant_dom']);
+    this.dataForm.controls.dir_parroquia.setValue(this.datosSolicitudCliente['cod_parr_dom']);
     this.dataForm.controls.dir_tipo_vivienda.setValue(this.datosSolicitudCliente['tipo_vivienda']);
+
+    this.dataForm.controls.trabajo_nombre.setValue(this.datosSolicitudCliente['nombre_empresa_titular']);
+    this.dataForm.controls.trabajo_provincia.setValue(this.datosSolicitudCliente['cod_prov_trabajo_titular']);
+    this.dataForm.controls.trabajo_canton.setValue(this.datosSolicitudCliente['cod_cant_trabajo_titular']);
+    this.dataForm.controls.trabajo_parroquia.setValue(this.datosSolicitudCliente['cod_parr_trabajo_titular']);
+    this.dataForm.controls.trabajo_antiguedad.setValue(this.datosSolicitudCliente['antiguedad_lab']);
+
     this.dataForm.controls.trabajo_tipo_actividad.setValue(this.datosSolicitudCliente['relacion_dependencia']);
   }
 
@@ -415,18 +436,6 @@ export class RefiDetailPage implements OnInit {
     this.networkStatus = status?.connected;
     this.networkStatus ? presentToast('Conectado', 'wifi-outline', 'success') : presentToast('Sin conexion', 'globe-outline', 'warning');
   }
-
-  // getCurrentCoordinates() {
-  //   this.geolocation
-  //     .getCurrentPosition()
-  //     .then((resp) => {
-  //       this.latitude = resp.coords.latitude;
-  //       this.longitude = resp.coords.longitude;
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
 
   async showLoading(msg) {
     const loading = await this.loadingCtrl.create({
@@ -450,5 +459,101 @@ export class RefiDetailPage implements OnInit {
   dateChangedPrimerPago(event) {
     console.dir(event.detail);
     this.selectedDatePrimerPago = event.detail.value;
+  }
+
+  onEstadoCivilSelected() {
+    let valor = String(this.dataForm.get('cliente_estado_civil').value);
+
+    console.log(valor);
+    if (valor == 'S' || valor == 'D' || valor == 'V') {
+      this.dataForm.controls.conyuge_cedula.disable();
+      this.dataForm.controls.conyuge_nombres.disable();
+      this.dataForm.controls.conyuge_email.disable();
+      this.dataForm.controls.conyuge_telf_1.disable();
+      this.dataForm.controls.conyuge_telf_2.disable();
+      this.dataForm.controls.conyuge_tipo_actividad.disable();
+      this.dataForm.controls.conyuge_nombre_empresa.disable();
+      this.dataForm.controls.conyuge_actividad_empresa.disable();
+      this.dataForm.controls.conyuge_cargo.disable();
+      this.dataForm.controls.conyuge_telefono_empresa.disable();
+      this.dataForm.controls.conyuge_ingresos_mensuales.disable();
+    } else {
+      this.dataForm.controls.conyuge_cedula.enable();
+      this.dataForm.controls.conyuge_nombres.enable();
+      this.dataForm.controls.conyuge_email.enable();
+      this.dataForm.controls.conyuge_telf_1.enable();
+      this.dataForm.controls.conyuge_telf_2.enable();
+      this.dataForm.controls.conyuge_tipo_actividad.enable();
+      this.dataForm.controls.conyuge_nombre_empresa.enable();
+      this.dataForm.controls.conyuge_actividad_empresa.enable();
+      this.dataForm.controls.conyuge_cargo.enable();
+      this.dataForm.controls.conyuge_telefono_empresa.enable();
+      this.dataForm.controls.conyuge_ingresos_mensuales.enable();
+    }
+  }
+
+  onTipoActividadConyugeSelected() {
+    let valor = String(this.dataForm.get('conyuge_tipo_actividad').value);
+
+    console.log(valor);
+    if (valor == 'CES') {
+      this.dataForm.controls.conyuge_nombre_empresa.disable();
+      this.dataForm.controls.conyuge_actividad_empresa.disable();
+      this.dataForm.controls.conyuge_cargo.disable();
+      this.dataForm.controls.conyuge_telefono_empresa.disable();
+      this.dataForm.controls.conyuge_ingresos_mensuales.disable();
+    } else {
+      this.dataForm.controls.conyuge_nombre_empresa.enable();
+      this.dataForm.controls.conyuge_actividad_empresa.enable();
+      this.dataForm.controls.conyuge_cargo.enable();
+      this.dataForm.controls.conyuge_telefono_empresa.enable();
+      this.dataForm.controls.conyuge_ingresos_mensuales.enable();
+    }
+  }
+
+  onTipoViviendaChanged() {
+    let valor = String(this.dataForm.get('dir_tipo_vivienda').value);
+
+    console.log(valor);
+    if (valor == 'P') {
+      this.dataForm.controls.dir_nombre_arrendador.disable();
+      this.dataForm.controls.dir_telf_arrendador.disable();
+    } else {
+      this.dataForm.controls.dir_nombre_arrendador.enable();
+      this.dataForm.controls.dir_telf_arrendador.enable();
+    }
+  }
+
+  onTipoActividadChange() {
+    let valor = String(this.dataForm.get('trabajo_tipo_actividad').value);
+
+    console.log(valor);
+    if (valor == 'CES') {
+      this.dataForm.controls.trabajo_ruc.disable();
+      this.dataForm.controls.trabajo_nombre.disable();
+      this.dataForm.controls.trabajo_provincia.disable();
+      this.dataForm.controls.trabajo_canton.disable();
+      this.dataForm.controls.trabajo_parroquia.disable();
+      this.dataForm.controls.trabajo_barrio.disable();
+      this.dataForm.controls.trabajo_direccion.disable();
+      this.dataForm.controls.trabajo_numero.disable();
+      this.dataForm.controls.trabajo_calle_transversal.disable();
+      this.dataForm.controls.trabajo_ref_ubicacion.disable();
+      this.dataForm.controls.trabajo_telefono.disable();
+      this.dataForm.controls.trabajo_antiguedad.disable();
+    } else {
+      this.dataForm.controls.trabajo_ruc.enable();
+      this.dataForm.controls.trabajo_nombre.enable();
+      this.dataForm.controls.trabajo_provincia.enable();
+      this.dataForm.controls.trabajo_canton.enable();
+      this.dataForm.controls.trabajo_parroquia.enable();
+      this.dataForm.controls.trabajo_barrio.enable();
+      this.dataForm.controls.trabajo_direccion.enable();
+      this.dataForm.controls.trabajo_numero.enable();
+      this.dataForm.controls.trabajo_calle_transversal.enable();
+      this.dataForm.controls.trabajo_ref_ubicacion.enable();
+      this.dataForm.controls.trabajo_telefono.enable();
+      this.dataForm.controls.trabajo_antiguedad.enable();
+    }
   }
 }

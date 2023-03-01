@@ -10,7 +10,7 @@
   <div class="card">
     <div class="card-content">
       <form [formGroup]="dataForm" (ngSubmit)="submitForm()">
-        <h1 style="color: #ff0000; text-align: center">Formulario De Verificación</h1>
+        <h1 style="color: #6b45bc; text-align: center">Formulario De Verificación</h1>
 
         <ion-grid>
           <ion-row justify-content-around>
@@ -99,30 +99,34 @@
                 <ion-label position="floating">Residencia (Mínimo 3 meses)</ion-label>
               </ion-item>
               <ion-item>
-                <ion-radio-group FormControl="residencia_minima" class="ion-horizontal">
-                  <ion-item slot="start">
-                    <ion-label>Si</ion-label>
+                <ion-radio-group FormControl="residencia_minima" class="ion-horizontal ion-justify-content-between">
+                  <ion-item>
                     <ion-radio value="si"></ion-radio>
+                    <ion-label class="ion-text-end" style="margin-left: 5px;">Si</ion-label>
                   </ion-item>
-                  <ion-item slot="start">
-                    <ion-label>No</ion-label>
+                  <ion-item>
                     <ion-radio value="no"></ion-radio>
+                    <ion-label class="ion-text-end" style="margin-left: 5px;">No</ion-label>
                   </ion-item>
                 </ion-radio-group>
               </ion-item>
 
+
+
+
               <ion-item>
                 <ion-label position="floating">Local Terreno Propio</ion-label>
               </ion-item>
+
               <ion-item>
-                <ion-radio-group FormControl="localTerreno_propio" class="ion-horizontal">
-                  <ion-item slot="start">
-                    <ion-label>Si</ion-label>
+                <ion-radio-group FormControl="localTerreno_propio" class="ion-horizontal ion-justify-content-between">
+                  <ion-item>
                     <ion-radio value="si"></ion-radio>
+                    <ion-label class="ion-text-end" style="margin-left: 5px;">Si</ion-label>
                   </ion-item>
-                  <ion-item slot="start">
-                    <ion-label>No</ion-label>
+                  <ion-item>
                     <ion-radio value="no"></ion-radio>
+                    <ion-label class="ion-text-end" style="margin-left: 5px;">No</ion-label>
                   </ion-item>
                 </ion-radio-group>
               </ion-item>
@@ -130,18 +134,22 @@
               <ion-item>
                 <ion-label position="floating">Local Terreno Arrendado</ion-label>
               </ion-item>
+
               <ion-item>
-                <ion-radio-group FormControl="localTerreno_arrendado" class="ion-horizontal">
-                  <ion-item slot="start">
-                    <ion-label>Si</ion-label>
+                <ion-radio-group FormControl="localTerreno_arrendado"
+                  class="ion-horizontal ion-justify-content-between">
+                  <ion-item>
                     <ion-radio value="si"></ion-radio>
+                    <ion-label class="ion-text-end" style="margin-left: 5px;">Si</ion-label>
                   </ion-item>
-                  <ion-item slot="start">
-                    <ion-label>No</ion-label>
+                  <ion-item>
                     <ion-radio value="no"></ion-radio>
+                    <ion-label class="ion-text-end" style="margin-left: 5px;">No</ion-label>
                   </ion-item>
                 </ion-radio-group>
               </ion-item>
+
+
             </div>
           </ion-accordion>
           <ion-accordion value="datosServicios">
@@ -153,18 +161,19 @@
                 <ion-label position="floating">Planilla Servicios Básicos</ion-label>
               </ion-item>
               <ion-item>
-                <ion-radio-group formControlName="planilla_servicios" class="ion-horizontal"
+                <ion-radio-group formControlName="planilla_servicios" class="ion-horizontal ion-justify-content-between"
                   (ionChange)="onPlanillaSelected()">
                   <ion-item>
-                    <ion-label>Si</ion-label>
                     <ion-radio value="si"></ion-radio>
+                    <ion-label>Si</ion-label>
                   </ion-item>
                   <ion-item>
-                    <ion-label>No</ion-label>
                     <ion-radio value="no"></ion-radio>
+                    <ion-label>No</ion-label>
                   </ion-item>
                 </ion-radio-group>
               </ion-item>
+
 
               <ion-item>
                 <ion-button (click)='addPhoto("planilla")' [disabled]="isPlanillaDisabled"> Imágen Planilla
@@ -181,31 +190,34 @@
               <ion-item>
                 <ion-label position="floating">Seguridad Puertas y Ventanas</ion-label>
               </ion-item>
+
               <ion-item>
-                <ion-radio-group FormControl="puertas_ventanas" class="ion-horizontal">
-                  <ion-item slot="start">
-                    <ion-label>Si</ion-label>
+                <ion-radio-group FormControl="puertas_ventanas" class="ion-horizontal ion-justify-content-between">
+                  <ion-item>
                     <ion-radio value="si"></ion-radio>
+                    <ion-label class="ion-text-end" style="margin-left: 5px;">Si</ion-label>
                   </ion-item>
-                  <ion-item slot="start">
-                    <ion-label>No</ion-label>
+                  <ion-item>
                     <ion-radio value="no"></ion-radio>
+                    <ion-label class="ion-text-end" style="margin-left: 5px;">No</ion-label>
                   </ion-item>
                 </ion-radio-group>
               </ion-item>
 
+
               <ion-item>
                 <ion-label position="floating">Muebleria Básica</ion-label>
               </ion-item>
+
               <ion-item>
-                <ion-radio-group FormControl="muebleria_basica" class="ion-horizontal">
-                  <ion-item slot="start">
-                    <ion-label>Si</ion-label>
+                <ion-radio-group FormControl="muebleria_basica" class="ion-horizontal ion-justify-content-between">
+                  <ion-item>
                     <ion-radio value="si"></ion-radio>
+                    <ion-label class="ion-text-end" style="margin-left: 5px;">Si</ion-label>
                   </ion-item>
-                  <ion-item slot="start">
-                    <ion-label>No</ion-label>
+                  <ion-item>
                     <ion-radio value="no"></ion-radio>
+                    <ion-label class="ion-text-end" style="margin-left: 5px;">No</ion-label>
                   </ion-item>
                 </ion-radio-group>
               </ion-item>
@@ -244,16 +256,17 @@
               <ion-item>
                 <ion-label position="floating">Confirmacion Vecinos</ion-label>
               </ion-item>
+
               <ion-item>
-                <ion-radio-group formControlName="vecino_confirma" class="ion-horizontal"
+                <ion-radio-group formControlName="vecino_confirma" class="ion-horizontal ion-justify-content-between"
                   (ionChange)="onVecinoConfirmaChange($event)">
                   <ion-item>
-                    <ion-label>Si</ion-label>
                     <ion-radio value="si"></ion-radio>
+                    <ion-label>Si</ion-label>
                   </ion-item>
                   <ion-item>
-                    <ion-label>No</ion-label>
                     <ion-radio value="no"></ion-radio>
+                    <ion-label>No</ion-label>
                   </ion-item>
                 </ion-radio-group>
               </ion-item>

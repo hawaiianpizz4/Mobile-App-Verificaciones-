@@ -30,3 +30,17 @@ ion-content {
 
   }
 }
+
+ion-radio-group {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+
+  ion-label {
+    text-align: right;
+    margin: 2px;
+  }
+}
+
+
+

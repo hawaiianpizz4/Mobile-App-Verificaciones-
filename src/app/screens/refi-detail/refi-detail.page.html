@@ -12,7 +12,7 @@
     <div class="card-content">
       <form [formGroup]="dataForm" (ngSubmit)="submitForm()">
         <ion-accordion-group>
-          <ion-accordion value="datosRefi">
+          <ion-accordion value="datosRefi" formControlName="datosRefi">
             <ion-item slot="header" color="light">
               <ion-label>Datos Refinanciamiento</ion-label>
             </ion-item>
@@ -30,17 +30,17 @@
 
               <ion-item>
                 <ion-label position="floating">Número de Operacion</ion-label>
-                <ion-input formControlName="refi_operacion" type="number"></ion-input>
+                <ion-input formControlName="refi_operacion" type="number" inputmode="numeric"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Número de Autorización</ion-label>
-                <ion-input formControlName="refi_autorizacion" type="number"></ion-input>
+                <ion-input formControlName="refi_autorizacion" type="number" inputmode="numeric"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Número de Autorización Original</ion-label>
-                <ion-input formControlName="refi_autorizacion_original" type="number"></ion-input>
+                <ion-input formControlName="refi_autorizacion_original" type="number" inputmode="numeric"></ion-input>
               </ion-item>
 
               <ion-item>
@@ -60,7 +60,7 @@
 
               <ion-item>
                 <ion-label position="floating">Valor Cuota</ion-label>
-                <ion-input formControlName="refi_valor_cuota" type="number"></ion-input>
+                <ion-input formControlName="refi_valor_cuota" type="number" inputmode="numeric"></ion-input>
               </ion-item>
 
               <ion-item>
@@ -71,7 +71,7 @@
 
               <ion-item>
                 <ion-label position="floating">Pago de Gastos Administrativos</ion-label>
-                <ion-input formControlName="refi_pago_gastos_admin" type="number"></ion-input>
+                <ion-input formControlName="refi_pago_gastos_admin" type="number" inputmode="numeric"></ion-input>
 
                 <ion-button (click)="addPhotoToGallery()"> Capturar Comprobante </ion-button>
 
@@ -86,12 +86,12 @@
 
               <ion-item>
                 <ion-label position="floating">Total Reestructuración</ion-label>
-                <ion-input formControlName="refi_total_reest" type="number"></ion-input>
+                <ion-input formControlName="refi_total_reest" type="number" inputmode="numeric"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Total a Pagar</ion-label>
-                <ion-input formControlName="refi_total_pagar" type="number"></ion-input>
+                <ion-input formControlName="refi_total_pagar" type="number" inputmode="numeric"></ion-input>
               </ion-item>
             </div>
           </ion-accordion>
@@ -109,12 +109,12 @@
 
               <ion-item>
                 <ion-label position="floating">Nombres Completos</ion-label>
-                <ion-input formControlName="cliente_nombres" value="{{datosSolicitudCliente.nombres}}" type="text"></ion-input>
+                <ion-input formControlName="cliente_nombres" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Nacionalidad</ion-label>
-                <ion-input formControlName="cliente_nacionalidad" value="{{datosSolicitudCliente.nacionalidad}}" type="text"></ion-input>
+                <ion-input formControlName="cliente_nacionalidad" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
@@ -127,17 +127,13 @@
 
               <ion-item>
                 <ion-label position="floating">Fecha Nacimiento</ion-label>
-                <ion-input formControlName="cliente_fecha_nacimiento" value="{{datosSolicitudCliente.fecha_naci}}" type="text"></ion-input>
+                <ion-input formControlName="cliente_fecha_nacimiento" type="date"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Sexo</ion-label>
 
-                <ion-select
-                  interface="action-sheet"
-                  placeholder="Seleccionar"
-                  formControlName="cliente_sexo"
-                  value="{{datosSolicitudCliente.des_sexo}}">
+                <ion-select interface="action-sheet" placeholder="Seleccionar" formControlName="cliente_sexo">
                   <ion-select-option value="M">Masculino</ion-select-option>
                   <ion-select-option value="F">Femenino</ion-select-option>
                 </ion-select>
@@ -160,12 +156,16 @@
 
               <ion-item>
                 <ion-label position="floating">Profesión</ion-label>
-                <ion-input formControlName="cliente_profesion" value="{{datosSolicitudCliente.des_profes}}" type="text"></ion-input>
+                <ion-input formControlName="cliente_profesion" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Estado Civil</ion-label>
-                <ion-select interface="action-sheet" placeholder="Seleccionar" formControlName="cliente_estado_civil">
+                <ion-select
+                  interface="action-sheet"
+                  placeholder="Seleccionar"
+                  formControlName="cliente_estado_civil"
+                  (ionChange)="onEstadoCivilSelected()">
                   <ion-select-option value="C">Casado(a)</ion-select-option>
                   <ion-select-option value="D">Divorciado(a)</ion-select-option>
                   <ion-select-option value="E">Empresarial</ion-select-option>
@@ -178,10 +178,7 @@
 
               <ion-item>
                 <ion-label position="floating">Número Dependientes</ion-label>
-                <ion-input
-                  formControlName="cliente_numero_dependientes"
-                  value="{{datosSolicitudCliente.num_hijos}}"
-                  type="number"></ion-input>
+                <ion-input formControlName="cliente_numero_dependientes" type="number" inputmode="numeric"></ion-input>
               </ion-item>
             </div>
           </ion-accordion>
@@ -193,59 +190,62 @@
             <div class="ion-padding" slot="content">
               <ion-item>
                 <ion-label position="floating">Dirección</ion-label>
-                <ion-input formControlName="dir_direccion_exacta" value="" type="text"></ion-input>
-                <!-- <div id="mapa" style="height: 100%"></div> -->
+                <ion-input formControlName="dir_direccion_exacta" type="text"></ion-input>
                 <div id="mapa"></div>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Provincia</ion-label>
-                <ion-input formControlName="dir_provincia" value="{{datosSolicitudCliente.cod_prov_dom}}" type="text"></ion-input>
+                <ion-input formControlName="dir_provincia" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Cantón/Ciudad</ion-label>
-                <ion-input formControlName="dir_canton_ciudad" value="{{datosSolicitudCliente.cod_cant_dom}}" type="text"></ion-input>
+                <ion-input formControlName="dir_canton_ciudad" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Parroquia</ion-label>
-                <ion-input formControlName="dir_parroquia" value="{{datosSolicitudCliente.cod_parr_dom}}" type="text"></ion-input>
+                <ion-input formControlName="dir_parroquia" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Dirección</ion-label>
-                <ion-input formControlName="dir_direccion" value="" type="text"></ion-input>
+                <ion-input formControlName="dir_direccion" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Calle Transversal</ion-label>
-                <ion-input formControlName="dir_calle_transversal" value="" type="text"></ion-input>
+                <ion-input formControlName="dir_calle_transversal" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Número</ion-label>
-                <ion-input formControlName="dir_numero" value="" type="text"></ion-input>
+                <ion-input formControlName="dir_numero" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Latitud</ion-label>
-                <ion-input formControlName="dir_latitud" value="" type="number"></ion-input>
+                <ion-input formControlName="dir_latitud" type="number" inputmode="numeric"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Longitud</ion-label>
-                <ion-input formControlName="dir_longitud" value="" type="number"></ion-input>
+                <ion-input formControlName="dir_longitud" type="number" inputmode="numeric"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Referencia</ion-label>
-                <ion-input formControlName="dir_referencia" value="" type="text"></ion-input>
+                <ion-input formControlName="dir_referencia" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Tipo Vivienda</ion-label>
-                <ion-select interface="action-sheet" placeholder="Seleccionar" formControlName="dir_tipo_vivienda">
+                <ion-select
+                  interface="action-sheet"
+                  placeholder="Seleccionar"
+                  formControlName="dir_tipo_vivienda"
+                  (ionChange)="onTipoViviendaChanged($event)">
                   <ion-select-option value="P">PROPIA</ion-select-option>
                   <ion-select-option value="A">ARRENDADA</ion-select-option>
                   <ion-select-option value="F">VIVE CON FAMILIARES</ion-select-option>
@@ -254,32 +254,32 @@
 
               <ion-item>
                 <ion-label position="floating">Tiempo Residencia</ion-label>
-                <ion-input formControlName="dir_tiempo" value="" type="number"></ion-input>
+                <ion-input formControlName="dir_tiempo" type="number" inputmode="numeric"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Teléfono #1</ion-label>
-                <ion-input formControlName="dir_telf_1" value="" type="tel"></ion-input>
+                <ion-input formControlName="dir_telf_1" type="tel"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Teléfono #2</ion-label>
-                <ion-input formControlName="dir_telf_2" value="" type="tel"></ion-input>
+                <ion-input formControlName="dir_telf_2" type="tel"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Email</ion-label>
-                <ion-input formControlName="dir_email" value="" type="email"></ion-input>
+                <ion-input formControlName="dir_email" type="email"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Nombre Arrendador/Familiar</ion-label>
-                <ion-input formControlName="dir_nombre_arrendador" value="" type="text"></ion-input>
+                <ion-input formControlName="dir_nombre_arrendador" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Teléfono Arrendador/Familiar</ion-label>
-                <ion-input formControlName="dir_telf_arrendador" value="" type="tel"></ion-input>
+                <ion-input formControlName="dir_telf_arrendador" type="tel"></ion-input>
               </ion-item>
             </div>
           </ion-accordion>
@@ -291,27 +291,27 @@
             <div class="ion-padding" slot="content">
               <ion-item>
                 <ion-label position="floating">Cédula</ion-label>
-                <ion-input formControlName="conyuge_cedula" value="" type="number"></ion-input>
+                <ion-input formControlName="conyuge_cedula" type="number" inputmode="numeric"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Nombres Completos</ion-label>
-                <ion-input formControlName="conyuge_nombres" value="" type="text"></ion-input>
+                <ion-input formControlName="conyuge_nombres" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Email</ion-label>
-                <ion-input formControlName="conyuge_email" value="" type="email"></ion-input>
+                <ion-input formControlName="conyuge_email" type="email"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Telefono #1</ion-label>
-                <ion-input formControlName="conyuge_telf_1" value="" type="tel"></ion-input>
+                <ion-input formControlName="conyuge_telf_1" type="tel"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Telefono #2</ion-label>
-                <ion-input formControlName="conyuge_telf_2" value="" type="tel"></ion-input>
+                <ion-input formControlName="conyuge_telf_2" type="tel"></ion-input>
               </ion-item>
             </div>
           </ion-accordion>
@@ -324,10 +324,10 @@
               <ion-item>
                 <ion-label position="floating">Tipo de Económica</ion-label>
                 <ion-select
-                  (ionChange)="handleChange($event)"
                   interface="action-sheet"
                   placeholder="Seleccionar"
-                  formControlName="conyuge_tipo_actividad">
+                  formControlName="conyuge_tipo_actividad"
+                  (ionChange)="onTipoActividadConyugeSelected()">
                   <ion-select-option value="DEP">DEPENDENCIA</ion-select-option>
                   <ion-select-option value="IND">INDEPENDIENTE</ion-select-option>
                   <ion-select-option value="CES">CESANTE</ion-select-option>
@@ -337,27 +337,27 @@
 
               <ion-item>
                 <ion-label position="floating">Nombre Empresa</ion-label>
-                <ion-input formControlName="conyuge_nombre_empresa" value="" type="text"></ion-input>
+                <ion-input formControlName="conyuge_nombre_empresa" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Actividad Empresa</ion-label>
-                <ion-input formControlName="conyuge_actividad_empresa" value="" type="text"></ion-input>
+                <ion-input formControlName="conyuge_actividad_empresa" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Cargo</ion-label>
-                <ion-input formControlName="conyuge_cargo" value="" type="text"></ion-input>
+                <ion-input formControlName="conyuge_cargo" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Teléfono</ion-label>
-                <ion-input formControlName="conyuge_telefono_empresa" value="" type="tel"></ion-input>
+                <ion-input formControlName="conyuge_telefono_empresa" type="tel"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Ingresos Mensuales</ion-label>
-                <ion-input formControlName="conyuge_ingresos_mensuales" value="" type="text"></ion-input>
+                <ion-input formControlName="conyuge_ingresos_mensuales" type="text"></ion-input>
               </ion-item>
             </div>
           </ion-accordion>
@@ -369,22 +369,22 @@
             <div class="ion-padding" slot="content">
               <ion-item>
                 <ion-label position="floating">Nombres Completos</ion-label>
-                <ion-input formControlName="ref1_nombres" value="" type="text"></ion-input>
+                <ion-input formControlName="ref1_nombres" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Parentesco</ion-label>
-                <ion-input formControlName="ref1_parentesco" value="" type="text"></ion-input>
+                <ion-input formControlName="ref1_parentesco" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Teléfono #1</ion-label>
-                <ion-input formControlName="ref1_telf_1" value="" type="tel"></ion-input>
+                <ion-input formControlName="ref1_telf_1" type="tel"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Teléfono #2</ion-label>
-                <ion-input formControlName="ref1_telf_2" value="" type="tel"></ion-input>
+                <ion-input formControlName="ref1_telf_2" type="tel"></ion-input>
               </ion-item>
             </div>
           </ion-accordion>
@@ -396,22 +396,22 @@
             <div class="ion-padding" slot="content">
               <ion-item>
                 <ion-label position="floating">Nombres Completos</ion-label>
-                <ion-input formControlName="ref2_nombres" value="" type="text"></ion-input>
+                <ion-input formControlName="ref2_nombres" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Parentesco</ion-label>
-                <ion-input formControlName="ref2_parentesco" value="" type="text"></ion-input>
+                <ion-input formControlName="ref2_parentesco" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Teléfono #1</ion-label>
-                <ion-input formControlName="ref2_telf_1" value="" type="tel"></ion-input>
+                <ion-input formControlName="ref2_telf_1" type="tel"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Teléfono #2</ion-label>
-                <ion-input formControlName="ref2_telf_2" value="" type="tel"></ion-input>
+                <ion-input formControlName="ref2_telf_2" type="tel"></ion-input>
               </ion-item>
             </div>
           </ion-accordion>
@@ -423,7 +423,11 @@
             <div class="ion-padding" slot="content">
               <ion-item>
                 <ion-label position="floating">Tipo de Actividad Económica</ion-label>
-                <ion-select interface="action-sheet" placeholder="Seleccionar" formControlName="trabajo_tipo_actividad">
+                <ion-select
+                  interface="action-sheet"
+                  placeholder="Seleccionar"
+                  formControlName="trabajo_tipo_actividad"
+                  (ionChange)="onTipoActividadChange()">
                   <ion-select-option value="DEP">DEPENDENCIA</ion-select-option>
                   <ion-select-option value="IND">INDEPENDIENTE</ion-select-option>
                   <ion-select-option value="CES">CESANTE</ion-select-option>
@@ -440,72 +444,60 @@
             <div class="ion-padding" slot="content">
               <ion-item>
                 <ion-label position="floating">RUC</ion-label>
-                <ion-input formControlName="trabajo_ruc" value="" type="number"></ion-input>
+                <ion-input formControlName="trabajo_ruc" type="number" inputmode="numeric"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Nombre</ion-label>
-                <ion-input
-                  formControlName="trabajo_nombre"
-                  value="{{datosSolicitudCliente.nombre_empresa_titular}}"
-                  type="text"></ion-input>
+                <ion-input formControlName="trabajo_nombre" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Provincia</ion-label>
-                <ion-input
-                  formControlName="trabajo_provincia"
-                  value="{{datosSolicitudCliente.cod_prov_trabajo_titular}}"
-                  type="text"></ion-input>
+                <ion-input formControlName="trabajo_provincia" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Cantón/Ciudad</ion-label>
-                <ion-input
-                  formControlName="trabajo_canton"
-                  value="{{datosSolicitudCliente.cod_cant_trabajo_titular}}"
-                  type="text"></ion-input>
+                <ion-input formControlName="trabajo_canton" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Parroquia</ion-label>
-                <ion-input
-                  formControlName="trabajo_parroquia"
-                  value="{{datosSolicitudCliente.cod_parr_trabajo_titular}}"
-                  type="text"></ion-input>
+                <ion-input formControlName="trabajo_parroquia" type="text"></ion-input>
               </ion-item>
               <ion-item>
                 <ion-label position="floating">Barrio</ion-label>
-                <ion-input formControlName="trabajo_barrio" value="" type="text"></ion-input>
+                <ion-input formControlName="trabajo_barrio" type="text"></ion-input>
               </ion-item>
               <ion-item>
                 <ion-label position="floating">Dirección</ion-label>
-                <ion-input formControlName="trabajo_direccion" value="" type="text"></ion-input>
+                <ion-input formControlName="trabajo_direccion" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Número</ion-label>
-                <ion-input formControlName="trabajo_numero" value="" type="text"></ion-input>
+                <ion-input formControlName="trabajo_numero" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Calle Transversal</ion-label>
-                <ion-input formControlName="trabajo_calle_transversal" value="" type="text"></ion-input>
+                <ion-input formControlName="trabajo_calle_transversal" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Referencia Ubicacion</ion-label>
-                <ion-input formControlName="trabajo_ref_ubicacion" value="" type="text"></ion-input>
+                <ion-input formControlName="trabajo_ref_ubicacion" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Teléfono</ion-label>
-                <ion-input formControlName="trabajo_telefono" value="" type="text"></ion-input>
+                <ion-input formControlName="trabajo_telefono" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Antigüedad</ion-label>
-                <ion-input formControlName="trabajo_antiguedad" value="{{datosSolicitudCliente.antiguedad_lab}}" type="number"></ion-input>
+                <ion-input formControlName="trabajo_antiguedad" type="number" inputmode="numeric"></ion-input>
               </ion-item>
             </div>
           </ion-accordion>

@@ -9,7 +9,7 @@
   <div class="header">
     <div class="contenedor">
       <img src="assets/images/IconoIcesa.png" alt="iconoIcesa">
-      <div class="centrado"><h1>Clientes Recervados</h1></div>
+      <div class="centrado"><h1>Clientes Reservados</h1></div>
     </div>
     <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
       <ion-refresher-content
@@ -34,6 +34,6 @@
 
   <div class="empty-cart" *ngIf="!(dataList2).length || 0">
     <ion-icon  name="card"></ion-icon>
-    <p>0 Registros para verificaciones</p>
+    <p>0 Registros para Reservar</p>
   </div>
 </ion-content>

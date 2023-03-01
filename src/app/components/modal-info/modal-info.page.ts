@@ -2,12 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Input, NgZone, OnInit } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Network } from '@capacitor/network';
-import {
-  LoadingController,
-  ModalController,
-  NavController,
-  ToastController,
-} from '@ionic/angular';
+import { LoadingController, ModalController, NavController, ToastController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -44,9 +39,7 @@ export class ModalInfoPage implements OnInit {
   }
   changeStatus(status) {
     this.status = status?.connected;
-    this.status
-      ? this.presentToast('Conectado', 'wifi-outline', 'success')
-      : this.presentToast('Sin conexion', 'globe-outline', 'warning');
+    this.status ? this.presentToast('Conectado', 'wifi-outline', 'success') : this.presentToast('Sin conexion', 'globe-outline', 'warning');
   }
 
   redirect() {
@@ -79,7 +72,7 @@ export class ModalInfoPage implements OnInit {
     const toast = await this.toastController.create({
       message: message,
       duration: 2500,
-      position: 'top',
+      position: 'bottom',
       icon: iconInsert,
       color: color,
     });
@@ -89,16 +82,7 @@ export class ModalInfoPage implements OnInit {
 
   submitForm(e) {
     e.preventDefault();
-    const {
-      gestion,
-      cobranza,
-      observacion,
-      contacto,
-      lat,
-      long,
-      plazo,
-      valorRe,
-    } = e.target;
+    const { gestion, cobranza, observacion, contacto, lat, long, plazo, valorRe } = e.target;
     if (
       gestion.value &&
       gestion.value != undefined &&
@@ -146,11 +130,7 @@ export class ModalInfoPage implements OnInit {
           localStorage.setItem('storageWait', JSON.stringify(local));
           this.showLoading('Guardando registro para ser enviado');
           setTimeout(() => {
-            this.presentToast(
-              'Registro Guardado',
-              'checkmark-outline',
-              'success'
-            );
+            this.presentToast('Registro Guardado', 'checkmark-outline', 'success');
           }, 3000);
         } else {
           var insert = Array.from(JSON.parse(data));
@@ -158,11 +138,7 @@ export class ModalInfoPage implements OnInit {
           localStorage.setItem('storageWait', JSON.stringify(insert));
           this.showLoading('Guardando registro para ser enviado');
           setTimeout(() => {
-            this.presentToast(
-              'Registro Guardado',
-              'checkmark-outline',
-              'success'
-            );
+            this.presentToast('Registro Guardado', 'checkmark-outline', 'success');
             this.redirect();
             this.exit();
           }, 3000);

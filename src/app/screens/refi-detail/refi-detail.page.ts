@@ -15,6 +15,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { getCurrentCoordinates, presentToast } from 'src/app/utils/utils';
 import { iCurrentLocation } from 'src/interfaces/currentLocation.interface';
+const url = `${environment.apiUrl}refinanciamiento.php?opcion=postDatosRefi`;
 
 @Component({
   selector: 'app-refi-detail',
@@ -58,11 +59,13 @@ export class RefiDetailPage implements OnInit {
 
   async ngOnInit() {
     this.currentLocation = await getCurrentCoordinates();
-
     console.dir(this.currentLocation);
     this.initMap();
+
     this.photoService.resetPhotos();
+
     this.cargarDatosDesdeLista();
+
     await this.getDatosCliente();
 
     this.checkDatosCargados();
@@ -124,8 +127,48 @@ export class RefiDetailPage implements OnInit {
     });
     // present the loading controller
     await this.isServiceCallInProgress.present();
+    const postData = this.loadPostData();
 
-    const postData = {
+    console.dir(postData);
+
+    if (this.networkStatus) {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+      };
+
+      try {
+        await this._http.post(url, JSON.stringify(postData), httpOptions).toPromise();
+        this.isServiceCallInProgress.dismiss();
+        this.redirect();
+        setTimeout(() => {
+          presentToast('Registro Enviado', 'checkmark-outline', 'success');
+          this.redirect();
+        }, 1000);
+      } catch (error) {
+        this.isServiceCallInProgress.dismiss();
+        setTimeout(() => {
+          presentToast('Error al enviar registro', 'checkmark-outline', 'success');
+          this.redirect();
+        }, 1000);
+        console.log(error);
+      }
+
+      setTimeout(() => {
+        presentToast('Registro Enviado', 'checkmark-outline', 'success');
+        this.redirect();
+      }, 1000);
+    } else {
+      setTimeout(() => {
+        presentToast('Error, No hay conexión a internet', 'checkmark-outline', 'success');
+        this.redirect();
+      }, 1000);
+    }
+  }
+
+  loadPostData() {
+    return {
       refi_usuario: this.dataForm.controls.refi_usuario.value,
       refi_fecha: this.dataForm.controls.refi_fecha.value,
       refi_operacion: this.dataForm.controls.refi_operacion.value,
@@ -198,66 +241,6 @@ export class RefiDetailPage implements OnInit {
       trabajo_antiguedad: this.dataForm.controls.trabajo_antiguedad.value,
       imagen_files: this.photoService.photosBase64,
     };
-
-    console.dir(postData);
-
-    if (postData.cliente_cedula && postData.cliente_cedula != undefined) {
-      if (this.networkStatus) {
-        const url = `${environment.apiUrl}refinanciamiento.php?opcion=postDatosRefi`;
-
-        const httpOptions = {
-          headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-          }),
-        };
-
-        try {
-          await this._http.post(url, JSON.stringify(postData), httpOptions).toPromise();
-          this.isServiceCallInProgress.dismiss();
-          this.redirect();
-          setTimeout(() => {
-            presentToast('Registro Enviado', 'checkmark-outline', 'success');
-            this.redirect();
-          }, 1000);
-        } catch (error) {
-          this.isServiceCallInProgress.dismiss();
-          setTimeout(() => {
-            presentToast('Error al enviar registro', 'checkmark-outline', 'success');
-            this.redirect();
-          }, 3000);
-          console.log(error);
-        }
-
-        setTimeout(() => {
-          presentToast('Registro Enviado', 'checkmark-outline', 'success');
-          this.redirect();
-        }, 3000);
-      } else {
-        var dataInLocalStorage = localStorage.getItem('refi-storageWait');
-        var local = [];
-        if (dataInLocalStorage) {
-          local = Array.from(JSON.parse(dataInLocalStorage));
-          local.push(JSON.stringify(postData));
-          localStorage.setItem('refi-storageWait', JSON.stringify(local));
-          this.showLoading('Guardando registro para ser enviado');
-          setTimeout(() => {
-            presentToast('Registro Guardado', 'checkmark-outline', 'success');
-          }, 3000);
-        } else {
-          var insert = Array.from(JSON.stringify(postData));
-          console.log('here');
-          insert.push(JSON.stringify(postData));
-          localStorage.setItem('refi-storageWait', JSON.stringify(insert));
-          this.showLoading('Guardando registro para ser enviado');
-          setTimeout(() => {
-            presentToast('Registro Guardado', 'checkmark-outline', 'success');
-            this.redirect();
-          }, 3000);
-        }
-      }
-    } else {
-      presentToast('No debe existir campos vacios', 'alert', 'warning');
-    }
   }
 
   initMap() {

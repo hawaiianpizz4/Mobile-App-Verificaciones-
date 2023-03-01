@@ -31,7 +31,7 @@ export class HistorialPage implements OnInit {
     const toast = await this.toastController.create({
       message: message,
       duration: 2500,
-      position: 'top',
+      position: 'bottom',
       icon: icon,
       color: color,
     });

@@ -2,12 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Input, NgZone, OnInit } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Network } from '@capacitor/network';
-import {
-  LoadingController,
-  ModalController,
-  NavController,
-  ToastController,
-} from '@ionic/angular';
+import { LoadingController, ModalController, NavController, ToastController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 @Component({
   selector: 'app-modal-manual',
@@ -42,9 +37,7 @@ export class ModalManualPage implements OnInit {
   }
   changeStatus(status) {
     this.status = status?.connected;
-    this.status
-      ? this.presentToast('Conectado', 'wifi-outline', 'success')
-      : this.presentToast('Sin conexion', 'globe-outline', 'warning');
+    this.status ? this.presentToast('Conectado', 'wifi-outline', 'success') : this.presentToast('Sin conexion', 'globe-outline', 'warning');
   }
 
   redirect() {
@@ -77,7 +70,7 @@ export class ModalManualPage implements OnInit {
     const toast = await this.toastController.create({
       message: message,
       duration: 2500,
-      position: 'top',
+      position: 'bottom',
       icon: iconInsert,
       color: color,
     });
@@ -85,27 +78,19 @@ export class ModalManualPage implements OnInit {
     await toast.present();
   }
 
-
   submitForm(e) {
     e.preventDefault();
-    const {
-      gestion,
-      cobranza,
-      observacion,
-      contacto,
-      lat,
-      long,
-      plazo,
-      valorRe,
-      cedula,
-      numCredito
-    } = e.target;
+    const { gestion, cobranza, observacion, contacto, lat, long, plazo, valorRe, cedula, numCredito } = e.target;
     if (
-      gestion.value && gestion.value != undefined &&
+      gestion.value &&
+      gestion.value != undefined &&
       cobranza != undefined &&
-      observacion.value && observacion.value != undefined&&
-      contacto.value && contacto.value != undefined &&
-      cedula.value && numCredito != undefined
+      observacion.value &&
+      observacion.value != undefined &&
+      contacto.value &&
+      contacto.value != undefined &&
+      cedula.value &&
+      numCredito != undefined
     ) {
       if (this.status) {
         var plazoInsert, valorInsert;
@@ -145,11 +130,7 @@ export class ModalManualPage implements OnInit {
           localStorage.setItem('storageWait', JSON.stringify(local));
           this.showLoading('Guardando registro para ser enviado');
           setTimeout(() => {
-            this.presentToast(
-              'Registro Guardado',
-              'checkmark-outline',
-              'success'
-            );
+            this.presentToast('Registro Guardado', 'checkmark-outline', 'success');
           }, 3000);
         } else {
           var insert = Array.from(JSON.parse(data));
@@ -157,18 +138,14 @@ export class ModalManualPage implements OnInit {
           localStorage.setItem('storageWait', JSON.stringify(insert));
           this.showLoading('Guardando registro para ser enviado');
           setTimeout(() => {
-            this.presentToast(
-              'Registro Guardado',
-              'checkmark-outline',
-              'success'
-            );
+            this.presentToast('Registro Guardado', 'checkmark-outline', 'success');
             this.redirect();
             this.exit();
           }, 3000);
         }
       }
-    }else{
-      this.presentToast("No debe existir campos vacios","alert","warning");
+    } else {
+      this.presentToast('No debe existir campos vacios', 'alert', 'warning');
     }
   }
   handleChange(e) {

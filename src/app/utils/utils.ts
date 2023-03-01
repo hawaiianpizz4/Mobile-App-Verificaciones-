@@ -27,7 +27,7 @@ export async function presentToast(message, iconInsert, color) {
   const toast = await new ToastController().create({
     message: message,
     duration: 2500,
-    position: 'top',
+    position: 'bottom',
     icon: iconInsert,
     color: color,
   });

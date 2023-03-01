@@ -27,6 +27,7 @@ export class VerificacionesPage implements OnInit {
   }
 
   setClienteReservado(user) {
+    console.log('asdfasdf');
     console.log(JSON.parse(localStorage.getItem('user')));
     this._service.setClienteReservado(user.vf_cedula_cliente, JSON.parse(localStorage.getItem('user'))).subscribe((data) => {
       console.log(data);
@@ -48,7 +49,7 @@ export class VerificacionesPage implements OnInit {
     const toast = await this.toastController.create({
       message: message,
       duration: 2500,
-      position: 'top',
+      position: 'bottom',
       icon: iconInsert,
       color: color,
     });

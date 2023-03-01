@@ -51,7 +51,7 @@ export class Verificaciones2Page implements OnInit {
     const toast = await this.toastController.create({
       message: message,
       duration: 2500,
-      position: 'top',
+      position: 'bottom',
       icon: iconInsert,
       color: color,
     });

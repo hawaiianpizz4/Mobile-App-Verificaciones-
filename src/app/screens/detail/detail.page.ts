@@ -1,11 +1,7 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  ModalController,
-  NavController,
-  ToastController,
-} from '@ionic/angular';
+import { ModalController, NavController, ToastController } from '@ionic/angular';
 import { ModalInfoPage } from 'src/app/components/modal-info/modal-info.page';
 
 @Component({
@@ -63,7 +59,7 @@ export class DetailPage implements OnInit {
       message: mensaje,
       mode: 'ios',
       duration: 2000,
-      position: 'top',
+      position: 'bottom',
       icon: 'alert-circle-outline',
       color: 'danger',
     });

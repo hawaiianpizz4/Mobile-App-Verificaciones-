@@ -1,11 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  AlertController,
-  ModalController,
-  ToastController,
-} from '@ionic/angular';
+import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { dataService } from 'src/app/services/data.service';
 import { ModalManualPage } from '../modal-manual/modal-manual.page';
 
@@ -30,42 +26,34 @@ export class ListingPage implements OnInit {
     setTimeout(() => {
       if ((this.usuarioInsert = localStorage.getItem('user').length > 2)) {
         localStorage.setItem('storage', JSON.stringify([]));
-        this._services
-          .getDatos(JSON.parse(localStorage.getItem('user')))
-          .subscribe(
-            (data) => {
-              this.getdata = data;
-              localStorage.setItem('storage', JSON.stringify(data));
-            },
-            (error) => {
-              console.log(error);
-            }
-          );
+        this._services.getDatos(JSON.parse(localStorage.getItem('user'))).subscribe(
+          (data) => {
+            this.getdata = data;
+            localStorage.setItem('storage', JSON.stringify(data));
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
       } else {
         this.presentAlert();
       }
       event.target.complete();
-      this.presentToast(
-        'La Informacion ha sido Actualizada correctamente',
-        'pulse-outline',
-        'success'
-      );
+      this.presentToast('La Informacion ha sido Actualizada correctamente', 'pulse-outline', 'success');
     }, 2000);
   }
   ngOnInit() {
     if (!localStorage.getItem('storage')) {
       if (localStorage.getItem('user')) {
-        this._services
-          .getDatos(JSON.parse(localStorage.getItem('user')))
-          .subscribe(
-            (data) => {
-              this.getdata = data;
-              localStorage.setItem('storage', JSON.stringify(data));
-            },
-            (error) => {
-              console.log(error);
-            }
-          );
+        this._services.getDatos(JSON.parse(localStorage.getItem('user'))).subscribe(
+          (data) => {
+            this.getdata = data;
+            localStorage.setItem('storage', JSON.stringify(data));
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
       } else {
         this.presentAlert();
       }
@@ -86,8 +74,7 @@ export class ListingPage implements OnInit {
     const alert = await this.alertController.create({
       header: 'Ingresa tu usuario',
       subHeader: 'Este usuario no se podra cambiar!',
-      message:
-        'Mediante el usuario se filtrara la información que se mostrara en la aplicación',
+      message: 'Mediante el usuario se filtrara la información que se mostrara en la aplicación',
       inputs: [
         {
           placeholder: 'UsuarioMbcase',
@@ -127,7 +114,7 @@ export class ListingPage implements OnInit {
       message: mensaje,
       mode: 'ios',
       duration: 2000,
-      position: 'top',
+      position: 'bottom',
       icon: icon,
       color: color,
     });

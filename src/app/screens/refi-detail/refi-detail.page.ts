@@ -75,6 +75,10 @@ export class RefiDetailPage implements OnInit {
     });
   }
 
+  async IonViewDidLeave() {
+    this.photoService.limpiarImagenes();
+  }
+
   checkDatosCargados() {
     if (!this.datosSolicitudCliente) {
       presentToast('El usuario no se pudo encontrar', 'Error', 'warning');

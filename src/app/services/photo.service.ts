@@ -56,6 +56,11 @@ export class PhotoService {
       };
       reader.readAsDataURL(blob);
     });
+
+  public limpiarImagenes() {
+    this.photos = [];
+    this.photosBase64 = [];
+  }
 }
 
 export interface UserPhoto {

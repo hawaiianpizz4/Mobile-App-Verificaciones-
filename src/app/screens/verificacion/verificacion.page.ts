@@ -142,6 +142,10 @@ export class VerificacionPage implements OnInit {
     await this.getCodigoSMS(numCelular);
   }
 
+  async IonViewDidLeave() {
+    this.photoService.limpiarImagenes();
+  }
+
   async submitForm() {
     const postData = {
       cedulaCliente: this.dataForm.controls.numero_cedula.value,

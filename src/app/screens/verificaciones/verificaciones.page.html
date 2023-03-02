@@ -9,7 +9,7 @@
   <div class="header">
     <div class="contenedor">
       <img src="assets/images/IconoIcesa.png" alt="iconoIcesa" />
-      <div class="centrado"><h1>Clientes Por Reservar</h1></div>
+      <div class="centrado"><h1>Por Reservar</h1></div>
     </div>
     <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
       <ion-refresher-content
@@ -23,9 +23,28 @@
 
   <h1 class="list-header">Reserva de Clientes</h1>
   <app-searchbar (ionChange)="handleChange($event)"></app-searchbar>
-  <div class="food-list" *ngIf="dataList.length != 0">
-    <app-list-users-verifi *ngFor="let user of dataList" [item]="user" (clicked)="setClienteReservado(user)"></app-list-users-verifi>
+  <div class="food-list" *ngIf="results.length == 0">
+    <app-list-users-verifi
+      *ngFor="let user of dataList  | slice:0:15;"
+      [item]="user"
+      (clicked)="setClienteReservado(user)"
+    ></app-list-users-verifi>
   </div>
+  <div class="food-list">
+    <app-list-users-verifi
+      *ngFor="let user of results | slice:0:15"
+      [item]="user"
+      (clicked)="setClienteReservado(user)"
+    ></app-list-users-verifi>
+  </div>
+
+
+
+
+
+  <!-- <div class="food-list" *ngIf="dataList.length != 0">
+    <app-list-users-verifi *ngFor="let user of dataList" [item]="user" (clicked)="setClienteReservado(user)"></app-list-users-verifi>
+  </div> -->
 
   <div class="empty-cart" *ngIf="!(dataList).length || 0">
     <ion-icon name="card"></ion-icon>

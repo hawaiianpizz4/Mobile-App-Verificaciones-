@@ -9,20 +9,28 @@ import { dataService } from 'src/app/services/data.service';
 })
 export class VerificacionesPage implements OnInit {
   dataList = [];
+  public results: any[] = [];
+  public checkenviodatos: any[] = [];
+
+  isServiceCallInProgress: any;
+
   constructor(private _service: dataService, private loadingCtrl: LoadingController, private toastController: ToastController) {}
 
   ngOnInit() {
-    this._service.getClientesParaReservar().subscribe((data) => {
-      this.dataList = data;
-      console.log(this.dataList);
-    });
+    this.cargarDatos();
   }
   handleRefresh(event) {
+    this.cargarDatos();
+    event.target.complete();
+
+  }
+
+  cargarDatos(){
     setTimeout(() => {
       this._service.getClientesParaReservar().subscribe((data) => {
         this.dataList = data;
+        console.log(this.dataList);
       });
-      event.target.complete();
       this.presentToast('La Informacion ha sido Actualizada correctamente', 'pulse-outline', 'success');
     }, 2000);
   }
@@ -34,18 +42,48 @@ export class VerificacionesPage implements OnInit {
     v.map((m) => {
       Total.push(m[1]);
     });
-    this.dataList = Total.filter((e) => e.vf_cedula_cliente.includes(query));
+    this.results = Total.filter((e) => e.vf_cedula_cliente.includes(query));
+    console.log("Probando");
+    console.log(this.results);
+
   }
 
-  setClienteReservado(user) {
-    console.log(JSON.parse(localStorage.getItem('user')));
-    this._service.setClienteReservado(user.vf_cedula_cliente, JSON.parse(localStorage.getItem('user'))).subscribe((data) => {
-      console.log(data);
-    });
-    this.showLoading('Reservando verificacion...').then((e) => {});
-    setTimeout(() => {
-      this.presentToast('Registro Enviado', 'checkmark-outline', 'success');
-    }, 3000);
+  // handleChange(event) {
+  //   const query = event.target.value.toLowerCase();
+  //   var users = JSON.parse(localStorage.getItem('storage'));
+  //   const v = Object.entries(users);
+  //   const Total: any = [];
+  //   v.map((m) => {
+  //     Total.push(m[1]);
+  //   });
+  //   this.results = Total.filter((e) => e.numeroCredito.includes(query));
+  // }
+
+  
+  
+  async setClienteReservado(user) {
+    try {
+      this._service.setClienteReservado(user.vf_cedula_cliente, JSON.parse(localStorage.getItem('user'))).subscribe(
+        (data) => {
+          this.showLoading('Reservando verificacion...').then((e) => {});
+          setTimeout(() => {
+            this.presentToast('Registro Enviado', 'checkmark-outline', 'success');
+            this.checkenviodatos.push(0);
+            this.cargarDatos();
+            console.log(this.checkenviodatos);
+          }, 3000);
+        console.log(data);
+      },
+      (error) =>{
+        console.log(error);
+        console.log("Hola");
+        this.presentToast('Error al enviar datos', 'checkmark-outline', 'danger');
+        // this.isServiceCallInProgress.dismiss();
+      });
+    } catch(error){
+      this.presentToast('Error al guardar información', 'checkmark-outline', 'danger');
+      // this.isServiceCallInProgress.dismiss();
+    }
   }
   async showLoading(msg) {
     const loading = await this.loadingCtrl.create({

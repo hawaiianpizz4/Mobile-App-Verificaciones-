@@ -1,21 +1,16 @@
 import mapboxgl from 'mapbox-gl/';
-import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ModalController, NavController, ToastController, LoadingController, IonAccordion } from '@ionic/angular';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { NavController } from '@ionic/angular';
 import { Network } from '@capacitor/network';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
 import { PhotoService } from '../../services/photo.service';
-import { RefiModalMapPage } from 'src/app/components/refi-modal-map/refi-modal-map.page';
 import { dataService } from 'src/app/services/data.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { getCurrentCoordinates, presentToast } from 'src/app/utils/utils';
+import { getCurrentCoordinates, presentToast } from 'src/app/utils/Utils';
 import { iCurrentLocation } from 'src/interfaces/currentLocation.interface';
-const url = `${environment.apiUrl}refinanciamiento.php?opcion=postDatosRefi`;
+import { LoadingService } from 'src/app/utils/LoadingService';
 
 @Component({
   selector: 'app-refi-detail',
@@ -27,15 +22,16 @@ export class RefiDetailPage implements OnInit {
 
   currentLocation: iCurrentLocation;
 
-  datosSolicitudCliente = [];
-
   idCliente: string;
   operacion: string;
   nombreUsuario: string;
   selectedDatePrimerPago: string;
+
   currentDate: string = new Date().toLocaleString();
 
   formData: FormGroup;
+
+  datosClienteMina = [];
   postInfoCliente: Observable<any>;
 
   isServiceCallInProgress: any;
@@ -44,33 +40,16 @@ export class RefiDetailPage implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private navCtrl: NavController,
-    private loadingCtrl: LoadingController,
-    private geolocation: Geolocation,
-    private toastController: ToastController,
     private ngZone: NgZone,
-    private _http: HttpClient,
     public photoService: PhotoService,
     private _services: dataService,
-    private modalCtrl: ModalController
+    private loadingService: LoadingService
   ) {
     this.changeStatus();
     this.createDataForm();
   }
 
   async ngOnInit() {
-    this.currentLocation = await getCurrentCoordinates();
-    console.dir(this.currentLocation);
-    this.initMap();
-
-    this.photoService.resetPhotos();
-
-    this.cargarDatosDesdeLista();
-
-    await this.getDatosCliente();
-
-    this.checkDatosCargados();
-
-    console.log(`${this.idCliente} - ${this.operacion} - ${this.currentDate}`);
     Network.addListener('networkStatusChange', (status) => {
       this.ngZone.run(() => {
         this.changeStatus();
@@ -78,93 +57,68 @@ export class RefiDetailPage implements OnInit {
     });
   }
 
+  async ionViewWillEnter() {
+    this.photoService.resetPhotos();
+    this.currentLocation = await getCurrentCoordinates();
+    this.initMap();
+
+    console.dir(this.currentLocation);
+
+    this.cargarDatosDesdePagAnterior();
+    await this.getDatosClienteMina();
+    this.checkDatosCargados();
+
+    console.log(`${this.idCliente} - ${this.operacion} - ${this.currentDate}`);
+  }
+
   async IonViewDidLeave() {
     this.photoService.limpiarImagenes();
   }
 
   checkDatosCargados() {
-    if (!this.datosSolicitudCliente) {
+    if (!this.datosClienteMina) {
       presentToast('El usuario no se pudo encontrar', 'Error', 'warning');
       this.redirect();
     }
   }
 
-  async getDatosCliente() {
-    // create a new loading controller instance
-    this.isServiceCallInProgress = await this.loadingCtrl.create({
-      message: 'Cargando Datos de Cliente...',
-      spinner: 'bubbles',
-      duration: 10000, // set a timeout of 5 seconds (5000 milliseconds)
-    });
-    // present the loading controller
-    await this.isServiceCallInProgress.present();
+  async getDatosClienteMina() {
+    const loading = await this.loadingService.createLoading('Cargando Datos de Cliente...', 5000);
 
     try {
-      this._services.getDatosCliente(this.idCliente).subscribe(
-        (data) => {
-          console.log(data[0]);
-          this.datosSolicitudCliente = data[0];
-          this.loadMineDataInForm();
-          this.isServiceCallInProgress.dismiss();
-        },
-        (error) => {
-          console.log(error);
-          presentToast('Error al obtener datos del cliente.', 'checkmark-outline', 'danger');
-          this.isServiceCallInProgress.dismiss();
-        }
-      );
+      const response = await this._services.getDatosCliente(this.idCliente).toPromise();
+      console.log(response[0]);
+      this.datosClienteMina = response[0];
+      this.loadMineDataInForm();
+      presentToast('Datos del cliente cargados correctamente', 'checkmark-outline', 'success');
     } catch (error) {
-      presentToast('Error al enviar datos', 'checkmark-outline', 'danger');
-      this.isServiceCallInProgress.dismiss();
+      console.log(error);
+      presentToast('Error al obtener datos del cliente.', 'checkmark-outline', 'danger');
+    } finally {
+      await loading.dismiss();
     }
   }
 
-  async submitForm(e) {
-    // create a new loading controller instance
-    this.isServiceCallInProgress = await this.loadingCtrl.create({
-      message: 'Enviando actualización de datos...',
-      spinner: 'bubbles',
-    });
-    // present the loading controller
-    await this.isServiceCallInProgress.present();
+  async submitForm() {
+    const loading = await this.loadingService.createLoading('Guardado Registro...', 5000);
     const postData = this.loadPostData();
-
     console.dir(postData);
 
     if (this.networkStatus) {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-      };
-
       try {
-        await this._http.post(url, JSON.stringify(postData), httpOptions).toPromise();
-        this.isServiceCallInProgress.dismiss();
-        this.redirect();
-        setTimeout(() => {
-          presentToast('Registro Enviado', 'checkmark-outline', 'success');
-          this.redirect();
-        }, 1000);
-      } catch (error) {
-        this.isServiceCallInProgress.dismiss();
-        setTimeout(() => {
-          presentToast('Error al enviar registro', 'checkmark-outline', 'success');
-          this.redirect();
-        }, 1000);
-        console.log(error);
-      }
-
-      setTimeout(() => {
+        await this._services.postFormRefi(postData).toPromise();
         presentToast('Registro Enviado', 'checkmark-outline', 'success');
+      } catch (error) {
+        presentToast('Error al enviar registro', 'checkmark-outline', 'success');
+        console.log(error);
+      } finally {
         this.redirect();
-      }, 1000);
+      }
     } else {
-      setTimeout(() => {
-        presentToast('Error, No hay conexión a internet', 'checkmark-outline', 'success');
-        this.redirect();
-      }, 1000);
+      this.redirect();
+      presentToast('Error, No hay conexión a internet', 'checkmark-outline', 'success');
     }
+    await loading.dismiss();
   }
 
   loadPostData() {
@@ -290,8 +244,6 @@ export class RefiDetailPage implements OnInit {
 
         this.formData.controls.dir_latitud.setValue(lngLat.lat);
         this.formData.controls.dir_longitud.setValue(lngLat.lng);
-        this.formData.controls.dir_longitud.setValue(lngLat.lng);
-        this.formData.controls.dir_longitud.setValue(lngLat.lng);
 
         this.formData.controls.dir_direccion.setValue(data.features[0].place_name);
         this.formData.controls.dir_canton_ciudad.setValue(data.features[0].context[1].text);
@@ -383,7 +335,7 @@ export class RefiDetailPage implements OnInit {
     this.formData.controls.dir_longitud.disable();
   }
 
-  cargarDatosDesdeLista() {
+  cargarDatosDesdePagAnterior() {
     this.nombreUsuario = JSON.parse(localStorage.getItem('user'));
     this.idCliente = this.activatedRoute.snapshot.paramMap.get('id');
     this.operacion = this.activatedRoute.snapshot.paramMap.get('operacion');
@@ -394,28 +346,37 @@ export class RefiDetailPage implements OnInit {
     this.formData.controls.cliente_cedula.setValue(this.idCliente);
   }
 
-  loadMineDataInForm() {
-    this.formData.controls.cliente_nombres.setValue(this.datosSolicitudCliente['nombres']);
-    this.formData.controls.cliente_nacionalidad.setValue(this.datosSolicitudCliente['nacionalidad']);
-    this.formData.controls.cliente_fecha_nacimiento.setValue(this.datosSolicitudCliente['fecha_naci']);
-    this.formData.controls.cliente_sexo.setValue(this.datosSolicitudCliente['des_sexo']);
-    this.formData.controls.cliente_profesion.setValue(this.datosSolicitudCliente['des_profes']);
-    this.formData.controls.cliente_estado_civil.setValue(this.datosSolicitudCliente['estado_civ']);
-    this.formData.controls.cliente_numero_dependientes.setValue(this.datosSolicitudCliente['num_hijos']);
-    this.formData.controls.cliente_nivel_educativo.setValue(this.datosSolicitudCliente['nivel_instruccion']);
+  async loadMineDataInForm() {
+    const provincia = await this._services.getProvincia(this.datosClienteMina['cod_prov_dom']).toPromise();
+    const canton = await this._services.getCanton(this.datosClienteMina['cod_cant_dom']).toPromise();
+    const parroquia = await this._services.getParroquia(this.datosClienteMina['cod_parr_dom']).toPromise();
 
-    this.formData.controls.dir_provincia.setValue(this.datosSolicitudCliente['cod_prov_dom']);
-    this.formData.controls.dir_canton_ciudad.setValue(this.datosSolicitudCliente['cod_cant_dom']);
-    this.formData.controls.dir_parroquia.setValue(this.datosSolicitudCliente['cod_parr_dom']);
-    this.formData.controls.dir_tipo_vivienda.setValue(this.datosSolicitudCliente['tipo_vivienda']);
+    this.formData.controls.cliente_nombres.setValue(this.datosClienteMina['nombres']);
+    this.formData.controls.cliente_nacionalidad.setValue(this.datosClienteMina['nacionalidad']);
+    this.formData.controls.cliente_ciudad_nacimiento.setValue(this.datosClienteMina['cod_cant_nacim']);
+    this.formData.controls.cliente_fecha_nacimiento.setValue(this.datosClienteMina['fecha_naci']);
+    this.formData.controls.cliente_sexo.setValue(this.datosClienteMina['des_sexo']);
+    this.formData.controls.cliente_profesion.setValue(this.datosClienteMina['des_profes']);
+    this.formData.controls.cliente_estado_civil.setValue(this.datosClienteMina['estado_civ']);
+    this.formData.controls.cliente_numero_dependientes.setValue(this.datosClienteMina['num_hijos']);
+    this.formData.controls.cliente_nivel_educativo.setValue(this.datosClienteMina['nivel_instruccion']);
 
-    this.formData.controls.trabajo_nombre.setValue(this.datosSolicitudCliente['nombre_empresa_titular']);
-    this.formData.controls.trabajo_provincia.setValue(this.datosSolicitudCliente['cod_prov_trabajo_titular']);
-    this.formData.controls.trabajo_canton.setValue(this.datosSolicitudCliente['cod_cant_trabajo_titular']);
-    this.formData.controls.trabajo_parroquia.setValue(this.datosSolicitudCliente['cod_parr_trabajo_titular']);
-    this.formData.controls.trabajo_antiguedad.setValue(this.datosSolicitudCliente['antiguedad_lab']);
+    this.formData.controls.dir_provincia.setValue(provincia.nombre);
+    this.formData.controls.dir_canton_ciudad.setValue(canton.nombre);
+    this.formData.controls.dir_parroquia.setValue(parroquia.nombre);
+    this.formData.controls.dir_tipo_vivienda.setValue(this.datosClienteMina['tipo_vivienda']);
 
-    this.formData.controls.trabajo_tipo_actividad.setValue(this.datosSolicitudCliente['relacion_dependencia']);
+    this.formData.controls.trabajo_nombre.setValue(this.datosClienteMina['nombre_empresa_titular']);
+    this.formData.controls.trabajo_provincia.setValue(this.datosClienteMina['cod_prov_trabajo_titular']);
+    this.formData.controls.trabajo_canton.setValue(this.datosClienteMina['cod_cant_trabajo_titular']);
+    this.formData.controls.trabajo_parroquia.setValue(this.datosClienteMina['cod_parr_trabajo_titular']);
+    this.formData.controls.trabajo_antiguedad.setValue(this.datosClienteMina['antiguedad_lab']);
+
+    this.formData.controls.trabajo_tipo_actividad.setValue(this.datosClienteMina['relacion_dependencia']);
+
+    console.log(provincia.nombre);
+    console.log(canton.nombre);
+    console.log(parroquia.nombre);
   }
 
   async changeStatus() {
@@ -424,19 +385,11 @@ export class RefiDetailPage implements OnInit {
     this.networkStatus ? presentToast('Conectado', 'wifi-outline', 'success') : presentToast('Sin conexion', 'globe-outline', 'warning');
   }
 
-  async showLoading(msg) {
-    const loading = await this.loadingCtrl.create({
-      message: msg,
-    });
-    return loading;
-  }
-
   addPhotoToGallery() {
     this.photoService.addNewToGallery();
   }
 
   redirect() {
-    // this.navCtrl.navigateForward('home/listing');
     this.navCtrl.navigateRoot('home/listing', {
       animated: true,
       animationDirection: 'forward',

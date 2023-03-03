@@ -19,7 +19,7 @@ export class PhotoService {
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera,
-      quality: 70,
+      quality: 50,
     });
 
     const filePath = await this.readAsBase64(capturedPhoto.webPath);
@@ -32,11 +32,6 @@ export class PhotoService {
     console.log(filePath);
     this.photosBase64.pop();
     this.photosBase64.unshift(filePath.split(',')[1]);
-
-    const response = await fetch(capturedPhoto.webPath);
-    const blob = new Blob([await response.arrayBuffer()], {
-      type: 'image/png',
-    });
   }
 
   private async readAsBase64(webviewPath: string) {

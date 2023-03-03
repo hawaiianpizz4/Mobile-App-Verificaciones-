@@ -46,9 +46,8 @@ export class VeriDetailPage implements OnInit {
     this.getdata = localStorage.getItem('detalleVeri');
     this.getdata = JSON.parse(localStorage.getItem('detalleVeri'));
     this.dataForm = new FormGroup({
-      myControl: new FormControl('')
+      myControl: new FormControl(''),
     });
-
   }
 
   ngOnInit() {
@@ -100,14 +99,14 @@ export class VeriDetailPage implements OnInit {
       container: 'mapa',
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [-79.4698468, -1.0037841],
-      pitch : 30,
+      pitch: 30,
       zoom: 15,
 
       // Asegurarse de que el mapa se dibuje completamente
       renderWorldCopies: false,
       maxBounds: [
         [-180, -90],
-        [180, 90]
+        [180, 90],
       ],
       scrollZoom: false,
       dragPan: false,
@@ -159,13 +158,15 @@ export class VeriDetailPage implements OnInit {
           );
 
           // Agregar el control de escala al mapa
-          map.addControl(new mapboxgl.ScaleControl({
-            maxWidth: 80,
-            unit: 'metric'
-          }));
+          map.addControl(
+            new mapboxgl.ScaleControl({
+              maxWidth: 80,
+              unit: 'metric',
+            })
+          );
 
           // Agregar el marcador con la nueva dirección
-          const newMarker = new mapboxgl.Marker({
+          new mapboxgl.Marker({
             draggable: false,
           })
             .setLngLat([lng, lat])

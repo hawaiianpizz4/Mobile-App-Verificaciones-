@@ -23,7 +23,7 @@ export function getCurrentCoordinates(): Promise<{ latitude: number; longitude: 
   });
 }
 
-export async function presentToast(message, iconInsert, color) {
+export async function presentToast(message, iconInsert, color, duration: number = 3000) {
   const toast = await new ToastController().create({
     message: message,
     duration: 2500,

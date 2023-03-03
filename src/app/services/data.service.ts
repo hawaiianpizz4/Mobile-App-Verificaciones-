@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -7,6 +7,12 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class dataService {
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    }),
+  };
+
   constructor(private _http: HttpClient) {}
   getDatos(user: string) {
     return this._http.get<any>(
@@ -48,6 +54,18 @@ export class dataService {
     );
   }
 
+  postFormRefi(postData) {
+    const url = `${environment.apiUrl}refinanciamiento.php?opcion=postDatosRefi`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+
+    return this._http.post(url, JSON.stringify(postData), httpOptions);
+  }
+
   getCurrentPoss(lat: number, long: number, apiKey: string) {
     return this._http.get<any>(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${lat},${long}.json?types=address&access_token=${apiKey}`
@@ -82,6 +100,21 @@ export class dataService {
 
   getSmsCode(numero: string) {
     const url = `${environment.apiUrl}verificacion.php?opcion=getSmsCode&number=${numero}`;
+    return this._http.get<any>(url);
+  }
+
+  getProvincia(codigo) {
+    const url = `${environment.apiUrl}catalogos.php?opcion=getNombreCatalogo&codigo=${codigo}&tipo=provincia`;
+    return this._http.get<any>(url);
+  }
+
+  getCanton(codigo) {
+    const url = `${environment.apiUrl}catalogos.php?opcion=getNombreCatalogo&codigo=${codigo}&tipo=canton`;
+    return this._http.get<any>(url);
+  }
+
+  getParroquia(codigo) {
+    const url = `${environment.apiUrl}catalogos.php?opcion=getNombreCatalogo&codigo=${codigo}&tipo=parroquia`;
     return this._http.get<any>(url);
   }
 }

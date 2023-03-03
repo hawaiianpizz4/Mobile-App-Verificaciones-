@@ -143,7 +143,7 @@ export class VerificacionPage implements OnInit {
     await this.getCodigoSMS(numCelular);
   }
 
-  async submitForm(e) {
+  async submitForm() {
     // create a new loading controller instance
     this.isServiceCallInProgress = await this.loadingCtrl.create({
       message: 'Enviando actualización de datos...',

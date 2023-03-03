@@ -344,6 +344,9 @@ export class RefiDetailPage implements OnInit {
     this.formData.controls.refi_operacion.setValue(this.operacion);
     this.formData.controls.refi_usuario.setValue(this.nombreUsuario);
     this.formData.controls.cliente_cedula.setValue(this.idCliente);
+
+    this.formData.controls.dir_latitud.setValue(this.currentLocation.latitude);
+    this.formData.controls.dir_longitud.setValue(this.currentLocation.longitude);
   }
 
   async loadMineDataInForm() {

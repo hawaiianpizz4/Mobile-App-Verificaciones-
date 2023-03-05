@@ -1,4 +1,6 @@
 import mapboxgl from 'mapbox-gl/';
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+
 import { Component, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
@@ -209,12 +211,12 @@ export class RefiDetailPage implements OnInit {
       zoom: 17,
     });
     // Add the control to the map.
-    // this.map.addControl(
-    //   new MapboxGeocoder({
-    //     accessToken: mapboxgl.accessToken,
-    //     mapboxgl: mapboxgl,
-    //   })
-    // );
+    this.map.addControl(
+      new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+      })
+    );
 
     this.map.on('idle', function () {
       this.resize();

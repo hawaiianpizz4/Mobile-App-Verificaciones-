@@ -76,9 +76,11 @@ export class dataService {
     return this._http.get<any>(`${environment.apiUrl}verificacion.php?opcion=getClientesParaReservar`);
   }
 
-  setClienteReservado(cedula, nombreGestor) {
+  setClienteReservado(cedula, nombreGestor, latitud, longitud) {
     return this._http.post<any>(
-      `${environment.apiUrl}verificacion.php?opcion=setClienteReservado&cedula=${cedula}&nombreGestor=${nombreGestor}`,
+      `${environment.apiUrl}verificacion.php?opcion=setClienteReservado&cedula=${cedula}&nombreGestor=${nombreGestor}
+      &latitud=${latitud}
+      &longitud=${longitud}`,
       null
     );
   }

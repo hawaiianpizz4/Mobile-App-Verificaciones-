@@ -194,11 +194,8 @@ export class VerificacionPage implements OnInit {
   async changeStatus() {
     const status = await Network.getStatus();
     this.networkStatus = status?.connected;
-    this.networkStatus
-      ? this.presentToast('Conectado', 'wifi-outline', 'success')
-      : this.presentToast('Sin conexion', 'globe-outline', 'warning');
+    this.networkStatus ? presentToast('Conectado', 'wifi-outline', 'success') : presentToast('Sin conexion', 'globe-outline', 'warning');
   }
-
   getCurrentCoordinates() {
     this.geolocation
       .getCurrentPosition()

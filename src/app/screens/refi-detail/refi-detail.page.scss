@@ -1,3 +1,7 @@
+ion-input {
+  text-transform: uppercase;
+}
+
 small {
   color: var(--ion-color-danger-shade);
 }
@@ -6,7 +10,6 @@ small {
   color: var(--ion-color-danger-shade);
 }
 
-/** For form invalid field for Angular*/
 .ion-invalid.ion-touched ion-input {
   color: red;
 }

@@ -61,7 +61,6 @@ export class VerificacionesPage implements OnInit {
   // }
 
   async setClienteReservado(user) {
-    console.log(JSON.parse(localStorage.getItem('user')));
     try {
       this._service
         .setClienteReservado(
@@ -81,7 +80,6 @@ export class VerificacionesPage implements OnInit {
           },
           (error) => {
             console.log(error);
-            console.log('Hola');
             this.presentToast('Error al enviar datos', 'checkmark-outline', 'danger');
             // this.isServiceCallInProgress.dismiss();
           }

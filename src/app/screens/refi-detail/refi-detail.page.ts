@@ -28,6 +28,7 @@ export class RefiDetailPage implements OnInit {
 
   currentLocation: iCurrentLocation;
   selectPlazoOptions = [3, 6, 9, 12, 15, 18, 24, 32, 48];
+  selectNivelEduOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
   idCliente: string;
   operacion: string;
@@ -86,6 +87,105 @@ export class RefiDetailPage implements OnInit {
     this.photoService.limpiarImagenes();
   }
 
+  createDataForm() {
+    const VALIDATOR_REQUIRED = [Validators.required];
+    const VALIDATOR_REQUIRED_ONLY_NUMBERS = [Validators.required];
+    const VALIDATOR_REQUIRED_MONEY = [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')];
+
+    this.formData = this.formBuilder.group({
+      refi_fecha: [],
+      refi_usuario: [],
+      refi_operacion: [],
+      refi_autorizacion: [''],
+      refi_autorizacion_original: [''],
+      refi_plazo: ['', selectValidator(this.selectPlazoOptions)],
+      refi_valor_cuota: ['', VALIDATOR_REQUIRED_MONEY],
+      refi_fecha_primer_pago: ['', [isValidDate]],
+      refi_pago_gastos_admin: ['', VALIDATOR_REQUIRED_MONEY],
+      refi_total_reest: ['', VALIDATOR_REQUIRED_MONEY],
+      refi_total_pagar: ['', VALIDATOR_REQUIRED_MONEY],
+      cliente_cedula: [this.idCliente, VALIDATOR_REQUIRED],
+      cliente_nombres: ['', VALIDATOR_REQUIRED],
+      cliente_nacionalidad: ['', VALIDATOR_REQUIRED],
+      cliente_ciudad_nacimiento: ['', VALIDATOR_REQUIRED],
+      cliente_fecha_nacimiento: ['', VALIDATOR_REQUIRED],
+      cliente_sexo: ['', VALIDATOR_REQUIRED],
+      cliente_nivel_educativo: ['', selectValidator(this.selectNivelEduOptions)],
+      cliente_profesion: ['', VALIDATOR_REQUIRED],
+      cliente_estado_civil: [''],
+      cliente_numero_dependientes: ['', VALIDATOR_REQUIRED],
+      dir_direccion_exacta: ['', VALIDATOR_REQUIRED],
+      dir_provincia: ['', VALIDATOR_REQUIRED],
+      dir_canton_ciudad: ['', VALIDATOR_REQUIRED],
+      dir_parroquia: ['', VALIDATOR_REQUIRED],
+      dir_direccion: ['', VALIDATOR_REQUIRED],
+      dir_calle_transversal: ['', VALIDATOR_REQUIRED],
+      dir_numero: ['', VALIDATOR_REQUIRED],
+      dir_latitud: ['', VALIDATOR_REQUIRED],
+      dir_longitud: ['', VALIDATOR_REQUIRED],
+      dir_referencia: ['', VALIDATOR_REQUIRED],
+      dir_tipo_vivienda: [''],
+      dir_tiempo: ['', [Validators.required, Validators.max(99), Validators.min(1)]],
+      dir_telf_1: ['', [Validators.required, Validators.minLength(10)]],
+      dir_telf_2: ['', [Validators.minLength(10)]],
+      dir_email: ['', [Validators.required, Validators.pattern('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,3}$')]],
+
+      dir_nombre_arrendador: ['', [Validators.required, Validators.minLength(10)]],
+      dir_telf_arrendador: ['', [Validators.required, Validators.minLength(10)]],
+      conyuge_cedula: ['', VALIDATOR_REQUIRED],
+      conyuge_nombres: ['', VALIDATOR_REQUIRED],
+      conyuge_email: [''],
+      conyuge_telf_1: ['', [Validators.required, Validators.minLength(10)]],
+      conyuge_telf_2: ['', [Validators.required, Validators.minLength(10)]],
+      conyuge_tipo_actividad: ['', VALIDATOR_REQUIRED],
+      conyuge_nombre_empresa: ['', VALIDATOR_REQUIRED],
+      conyuge_actividad_empresa: ['', VALIDATOR_REQUIRED],
+      conyuge_cargo: ['', VALIDATOR_REQUIRED],
+      conyuge_telefono_empresa: [''],
+      conyuge_ingresos_mensuales: ['', VALIDATOR_REQUIRED_MONEY],
+      ref1_nombres: ['', VALIDATOR_REQUIRED],
+      ref1_parentesco: ['', VALIDATOR_REQUIRED],
+      ref1_telf_1: ['', [Validators.required, Validators.minLength(10)]],
+      ref1_telf_2: ['', [Validators.minLength(10)]],
+      ref2_nombres: [''],
+      ref2_parentesco: [''],
+      ref2_telf_1: ['', [Validators.minLength(10)]],
+      ref2_telf_2: ['', [Validators.minLength(10)]],
+      trabajo_tipo_actividad: [''],
+      trabajo_ruc: ['', [Validators.minLength(13)]],
+      trabajo_nombre: ['', VALIDATOR_REQUIRED],
+      trabajo_provincia: ['', VALIDATOR_REQUIRED],
+      trabajo_canton: ['', VALIDATOR_REQUIRED],
+      trabajo_parroquia: ['', VALIDATOR_REQUIRED],
+      trabajo_barrio: [''],
+      trabajo_direccion: ['', VALIDATOR_REQUIRED],
+      trabajo_numero: ['', VALIDATOR_REQUIRED],
+      trabajo_calle_transversal: [''],
+      trabajo_ref_ubicacion: [''],
+      trabajo_telefono: ['', [Validators.required, Validators.minLength(10)]],
+      trabajo_antiguedad: [''],
+    });
+
+    this.formData.markAllAsTouched();
+
+    this.formData.controls.refi_fecha.disable();
+    this.formData.controls.refi_usuario.disable();
+    this.formData.controls.refi_operacion.disable();
+    this.formData.controls.refi_autorizacion.disable();
+    this.formData.controls.refi_autorizacion_original.disable();
+
+    this.formData.controls.dir_direccion.disable();
+    this.formData.controls.dir_latitud.disable();
+    this.formData.controls.dir_longitud.disable();
+
+    this.formData.controls.cliente_cedula.disable();
+    this.formData.controls.cliente_ciudad_nacimiento.disable();
+    this.formData.controls.cliente_fecha_nacimiento.disable();
+    this.formData.controls.cliente_nacionalidad.disable();
+    this.formData.controls.cliente_nombres.disable();
+    this.formData.controls.cliente_sexo.disable();
+  }
+
   checkDatosCargados() {
     if (!this.datosClienteMina) {
       presentToast('El usuario no se pudo encontrar', 'Error', 'warning');
@@ -142,7 +242,7 @@ export class RefiDetailPage implements OnInit {
   loadPostData() {
     console.log('Loading pos' + this.selectedDatePrimerPago);
     return {
-      refi_usuario: this.formData.controls.refi_usuario.value,
+      refi_usuario: this.formData.controls.refi_usuario.value.toUpperCase,
       refi_fecha: this.formData.controls.refi_fecha.value,
       refi_operacion: this.formData.controls.refi_operacion.value,
       refi_autorizacion: this.formData.controls.refi_autorizacion.value,
@@ -292,100 +392,6 @@ export class RefiDetailPage implements OnInit {
         console.dir(error);
       }
     );
-  }
-
-  createDataForm() {
-    const VALIDATOR_REQUIRED = [Validators.required];
-    const VALIDATOR_REQUIRED_ONLY_NUMBERS = [Validators.required, Validators.pattern('^[0-9]+$')];
-    const VALIDATOR_REQUIRED_MONEY = [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')];
-
-    this.formData = this.formBuilder.group({
-      refi_fecha: [],
-      refi_usuario: [],
-      refi_operacion: [],
-      refi_autorizacion: ['', VALIDATOR_REQUIRED_ONLY_NUMBERS],
-      refi_autorizacion_original: ['', VALIDATOR_REQUIRED_ONLY_NUMBERS],
-      refi_plazo: ['', selectValidator(this.selectPlazoOptions)],
-      refi_valor_cuota: ['', VALIDATOR_REQUIRED_MONEY],
-      refi_fecha_primer_pago: ['', [isValidDate]],
-      refi_pago_gastos_admin: ['', VALIDATOR_REQUIRED_MONEY],
-      refi_total_reest: ['', VALIDATOR_REQUIRED_MONEY],
-      refi_total_pagar: ['', VALIDATOR_REQUIRED_MONEY],
-      cliente_cedula: [this.idCliente, VALIDATOR_REQUIRED],
-      cliente_nombres: ['', VALIDATOR_REQUIRED],
-      cliente_nacionalidad: ['', VALIDATOR_REQUIRED],
-      cliente_ciudad_nacimiento: ['', VALIDATOR_REQUIRED],
-      cliente_fecha_nacimiento: ['', VALIDATOR_REQUIRED],
-      cliente_sexo: ['', VALIDATOR_REQUIRED],
-      cliente_nivel_educativo: [''],
-      cliente_profesion: ['', VALIDATOR_REQUIRED],
-      cliente_estado_civil: [''],
-      cliente_numero_dependientes: ['', VALIDATOR_REQUIRED],
-      dir_direccion_exacta: [''],
-      dir_provincia: ['', VALIDATOR_REQUIRED],
-      dir_canton_ciudad: ['', VALIDATOR_REQUIRED],
-      dir_parroquia: ['', VALIDATOR_REQUIRED],
-      dir_direccion: ['', VALIDATOR_REQUIRED],
-      dir_calle_transversal: ['', VALIDATOR_REQUIRED],
-      dir_numero: ['', VALIDATOR_REQUIRED],
-      dir_latitud: ['', VALIDATOR_REQUIRED],
-      dir_longitud: ['', VALIDATOR_REQUIRED],
-      dir_referencia: ['', VALIDATOR_REQUIRED],
-      dir_tipo_vivienda: [''],
-      dir_tiempo: ['', VALIDATOR_REQUIRED],
-      dir_telf_1: ['', [Validators.required, Validators.minLength(10), Validators.pattern('^[0-9]+$')]],
-      dir_telf_2: ['', [Validators.required, Validators.minLength(10), Validators.pattern('^[0-9]+$')]],
-      dir_email: ['', [Validators.required, Validators.pattern('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,3}$')]],
-
-      dir_nombre_arrendador: [''],
-      dir_telf_arrendador: ['', [Validators.required, Validators.minLength(10), Validators.pattern('^[0-9]+$')]],
-      conyuge_cedula: [''],
-      conyuge_nombres: [''],
-      conyuge_email: [''],
-      conyuge_telf_1: ['', [Validators.required, Validators.minLength(10), Validators.pattern('^[0-9]+$')]],
-      conyuge_telf_2: ['', [Validators.required, Validators.minLength(10), Validators.pattern('^[0-9]+$')]],
-      conyuge_tipo_actividad: [''],
-      conyuge_nombre_empresa: [''],
-      conyuge_actividad_empresa: [''],
-      conyuge_cargo: [''],
-      conyuge_telefono_empresa: [''],
-      conyuge_ingresos_mensuales: [''],
-      ref1_nombres: ['', VALIDATOR_REQUIRED],
-      ref1_parentesco: ['', VALIDATOR_REQUIRED],
-      ref1_telf_1: ['', [Validators.required, Validators.minLength(10), Validators.pattern('^[0-9]+$')]],
-      ref1_telf_2: ['', [Validators.required, Validators.minLength(10), Validators.pattern('^[0-9]+$')]],
-      ref2_nombres: [''],
-      ref2_parentesco: [''],
-      ref2_telf_1: ['', [Validators.required, Validators.minLength(10), Validators.pattern('^[0-9]+$')]],
-      ref2_telf_2: ['', [Validators.required, Validators.minLength(10), Validators.pattern('^[0-9]+$')]],
-      trabajo_tipo_actividad: [''],
-      trabajo_ruc: [''],
-      trabajo_nombre: [''],
-      trabajo_provincia: [''],
-      trabajo_canton: [''],
-      trabajo_parroquia: [''],
-      trabajo_barrio: [''],
-      trabajo_direccion: [''],
-      trabajo_numero: [''],
-      trabajo_calle_transversal: [''],
-      trabajo_ref_ubicacion: [''],
-      trabajo_telefono: ['', [Validators.required, Validators.minLength(10), Validators.pattern('^[0-9]+$')]],
-      trabajo_antiguedad: [''],
-    });
-
-    this.formData.controls.refi_fecha.disable();
-    this.formData.controls.refi_usuario.disable();
-    this.formData.controls.refi_operacion.disable();
-
-    this.formData.controls.dir_latitud.disable();
-    this.formData.controls.dir_longitud.disable();
-
-    this.formData.controls.cliente_cedula.disable();
-    this.formData.controls.cliente_ciudad_nacimiento.disable();
-    this.formData.controls.cliente_fecha_nacimiento.disable();
-    this.formData.controls.cliente_nacionalidad.disable();
-    this.formData.controls.cliente_nombres.disable();
-    this.formData.controls.cliente_sexo.disable();
   }
 
   cargarDatosDesdePagAnterior() {

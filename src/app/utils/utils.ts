@@ -38,7 +38,7 @@ export async function presentToast(message, iconInsert, color, duration: number 
 
 export function selectValidator(options: any[]): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
-    const selectedOption = options.find((option) => option === control.value);
+    const selectedOption = options.find((option) => option == control.value);
     return selectedOption ? null : { invalidOption: true };
   };
 }

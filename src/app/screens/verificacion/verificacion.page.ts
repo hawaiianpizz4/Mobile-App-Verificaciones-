@@ -1,25 +1,18 @@
-//import mapboxgl from 'mapbox-gl/';
-//import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, NgZone, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ModalController, NavController, ToastController, LoadingController } from '@ionic/angular';
+import {ModalController, NavController, ToastController, LoadingController } from '@ionic/angular';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Network } from '@capacitor/network';
-
 import { PhotoService } from '../../services/photoVerificacion.service';
-import { ElementRef, ViewChild } from '@angular/core';
-
 import { dataService } from 'src/app/services/data.service';
-
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-
-import { getCurrentCoordinates, presentToast } from 'src/app/utils/utils';
+import { presentToast } from 'src/app/utils/utils';
 const url = `${environment.apiUrl}verificacion.php?opcion=setClienteVerificado`;
 
 @Component({

@@ -29,7 +29,7 @@ export class dataService {
   }
 
   getHistorialRefi(user: string) {
-    const url = `http://200.7.249.21:90/VerificacionesFisicas/Api_Cobranzas/controller/refinanciamiento.php?opcion=getHistorial&nombre=${user}`;
+    const url = `${environment.apiUrl}refinanciamiento.php?opcion=getHistorial&nombre=${user}`;
     console.log(url);
     return this._http.get<any>(url);
   }

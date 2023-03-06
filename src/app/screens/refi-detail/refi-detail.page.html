@@ -36,24 +36,29 @@
                 <ion-label position="floating">Número de Autorización</ion-label>
                 <ion-input formControlName="refi_autorizacion" type="number" inputmode="numeric"></ion-input>
               </ion-item>
+              <small
+                *ngIf="formData.get('refi_autorizacion').invalid && (formData.get('refi_autorizacion').dirty || formData.get('refi_autorizacion').touched )">
+                <small *ngIf="(formData.get('refi_autorizacion')).errors?.required">Campo Requerido</small>
+                <small *ngIf="(formData.get('refi_autorizacion')).errors?.minlength">Please enter more than 4 character</small>
+                <small *ngIf="(formData.get('refi_autorizacion')).errors?.pattern">Ingresar solamente números</small>
+              </small>
 
               <ion-item>
                 <ion-label position="floating">Número de Autorización Original</ion-label>
                 <ion-input formControlName="refi_autorizacion_original" type="number" inputmode="numeric"></ion-input>
               </ion-item>
+              <small
+                *ngIf="formData.get('refi_autorizacion_original').invalid && (formData.get('refi_autorizacion_original').dirty || formData.get('refi_autorizacion_original').touched )">
+                <small *ngIf="(formData.get('refi_autorizacion_original')).errors?.required">Campo Requerido</small>
+                <small *ngIf="(formData.get('refi_autorizacion_original')).errors?.minlength">Please enter more than 4 character</small>
+                <small *ngIf="(formData.get('refi_autorizacion_original')).errors?.pattern">Ingresar solamente números</small>
+              </small>
 
               <ion-item>
                 <ion-label position="floating">Plazo(meses)</ion-label>
+
                 <ion-select interface="action-sheet" placeholder="Seleccionar" formControlName="refi_plazo">
-                  <ion-select-option value="3">3</ion-select-option>
-                  <ion-select-option value="6">6</ion-select-option>
-                  <ion-select-option value="9">9</ion-select-option>
-                  <ion-select-option value="12">12</ion-select-option>
-                  <ion-select-option value="15">15</ion-select-option>
-                  <ion-select-option value="18">18</ion-select-option>
-                  <ion-select-option value="24">24</ion-select-option>
-                  <ion-select-option value="32">32</ion-select-option>
-                  <ion-select-option value="48">48</ion-select-option>
+                  <ion-select-option *ngFor="let option of selectPlazoOptions" [value]="option">{{ option }}</ion-select-option>
                 </ion-select>
               </ion-item>
 
@@ -61,23 +66,41 @@
                 <ion-label position="floating">Valor Cuota</ion-label>
                 <ion-input formControlName="refi_valor_cuota" type="number" inputmode="numeric"></ion-input>
               </ion-item>
+              <small
+                *ngIf="formData.get('refi_valor_cuota').invalid && (formData.get('refi_valor_cuota').dirty || formData.get('refi_valor_cuota').touched )">
+                <small *ngIf="(formData.get('refi_valor_cuota')).errors?.required">Campo Requerido</small>
+                <small *ngIf="(formData.get('refi_valor_cuota')).errors?.pattern">Ingresar solamente valores con dos decimales</small>
+              </small>
 
               <ion-item>
                 <ion-label position="floating">Fecha Primer Pago</ion-label>
-                <ion-datetime [mode]="'ios'" displayFormat="DD/MM/YYYY" (ionChange)="dateChangedPrimerPago($event)"></ion-datetime>
+                <ion-datetime
+                  formControlName="refi_fecha_primer_pago"
+                  displayFormat="DD/MM/YYYY"
+                  (ionChange)="dateChangedPrimerPago($event)"></ion-datetime>
+                <small *ngIf="formData.get('refi_fecha_primer_pago').errors?.required">Elegit fecha de primer pago</small>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Pago de Gastos Administrativos</ion-label>
                 <ion-input formControlName="refi_pago_gastos_admin" type="number" inputmode="numeric"></ion-input>
 
+                <small
+                  *ngIf="formData.get('refi_pago_gastos_admin').invalid && (formData.get('refi_pago_gastos_admin').dirty || formData.get('refi_pago_gastos_admin').touched )">
+                  <small *ngIf="(formData.get('refi_pago_gastos_admin')).errors?.required">Campo Requerido</small>
+                  <small *ngIf="(formData.get('refi_pago_gastos_admin')).errors?.pattern"
+                    >Ingresar solamente valores con dos decimales</small
+                  >
+                </small>
+
                 <ion-button (click)="addPhotoToGallery()"> Capturar Comprobante </ion-button>
 
                 <ion-grid>
                   <ion-row>
-                    <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
+                    <ion-col size="10" *ngFor="let photo of photoService.photos; index as position">
                       <ion-img [src]="photo.webviewPath"></ion-img>
                     </ion-col>
+                    <small *ngIf="photoService.photos.length === 0">Tomar foto de comprobante</small>
                   </ion-row>
                 </ion-grid>
               </ion-item>
@@ -143,7 +166,7 @@
                   <ion-select-option value="3">Técnica</ion-select-option>
                   <ion-select-option value="4">Superior</ion-select-option>
                   <ion-select-option value="5">Posgrado</ion-select-option>
-                  <ion-select-option value="6">Uso Futuro</ion-select-option>
+                  <ion-select-option value="6">Uso o</ion-select-option>
                   <ion-select-option value="7">Universit. Imcopm</ion-select-option>
                   <ion-select-option value="8">Universitario</ion-select-option>
                 </ion-select>
@@ -247,10 +270,17 @@
                 <ion-input formControlName="dir_tiempo" type="number" inputmode="numeric"></ion-input>
               </ion-item>
 
-              <ion-item>
+              <ion-item class="ion-margin-bottom">
                 <ion-label position="floating">Teléfono #1</ion-label>
-                <ion-input formControlName="dir_telf_1" type="tel"></ion-input>
+                <ion-input formControlName="dir_telf_1" type="tel" inputmode="numeric" maxlength="10" pattern="^[0-9]*$"></ion-input>
               </ion-item>
+
+              <small *ngIf="formData.get('dir_telf_1').invalid && (formData.get('dir_telf_1').dirty ||formData.get('dir_telf_1').touched )">
+                <small *ngIf="(formData.get('dir_telf_1')).errors?.required">Name is required</small>
+                <!--question mark(?) is a safe navigation operator-->
+                <small *ngIf="(formData.get('dir_telf_1')).errors?.minlength">Please enter more than 4 character</small>
+                <small *ngIf="(formData.get('dir_telf_1')).errors?.pattern">Please enter only numbers</small>
+              </small>
 
               <ion-item>
                 <ion-label position="floating">Teléfono #2</ion-label>
@@ -497,8 +527,13 @@
             </div>
           </ion-accordion>
         </ion-accordion-group>
-        <ion-button expand="block" color="primary" type="submit"> Realizar Gestion </ion-button>
-        <!-- <ion-button [disabled]="formData.invalid" expand="block" color="primary" type="submit"> Realizar Gestion </ion-button> -->
+
+        <ion-item>
+          <ion-grid>
+            <ion-button expand="block" color="primary" type="submit">Guardar Actualización de datos</ion-button>
+            <!-- <ion-button [disabled]="formData.invalid" expand="block" color="primary" type="submit">Guardar Actualización de datos</ion-button> -->
+          </ion-grid>
+        </ion-item>
       </form>
     </div>
   </div>

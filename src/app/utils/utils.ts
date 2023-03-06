@@ -1,5 +1,6 @@
 import { Geolocation, GeolocationOptions } from '@ionic-native/geolocation/ngx';
 import { ToastController } from '@ionic/angular';
+import { AbstractControl, ValidatorFn } from '@angular/forms';
 
 export function getCurrentCoordinates(): Promise<{ latitude: number; longitude: number }> {
   const options: GeolocationOptions = {
@@ -10,7 +11,7 @@ export function getCurrentCoordinates(): Promise<{ latitude: number; longitude: 
 
   return new Promise((resolve, reject) => {
     new Geolocation()
-      .getCurrentPosition()
+      .getCurrentPosition(options)
       .then((resp) => {
         const latitude = resp.coords.latitude;
         const longitude = resp.coords.longitude;
@@ -33,4 +34,17 @@ export async function presentToast(message, iconInsert, color, duration: number 
   });
 
   await toast.present();
+}
+
+export function selectValidator(options: any[]): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const selectedOption = options.find((option) => option === control.value);
+    return selectedOption ? null : { invalidOption: true };
+  };
+}
+
+export function isValidDate(control: AbstractControl): { [key: string]: any } | null {
+  const dateString = control.value;
+  const date = new Date(dateString);
+  return isNaN(date.getTime()) ? { invalidDate: true } : null;
 }

@@ -23,7 +23,6 @@ export class PhotoService {
     });
 
     const filePath = await this.readAsBase64(capturedPhoto.webPath);
-
     this.photos.pop();
     this.photos.unshift({
       filepath: filePath,

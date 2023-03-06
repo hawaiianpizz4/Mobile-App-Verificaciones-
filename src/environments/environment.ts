@@ -6,6 +6,9 @@ export const environment = {
   production: false,
   // mapsKey: 'AIzaSyDeA863K9OhDyPSxLacEf-lIF4t9RO4IRg',
   mapsKey: 'AIzaSyBEakA6CDsGp7LlAG-E49gIwE63USgi5qs',
+
+  mapboxgAccessToken: 'pk.eyJ1IjoianF1aWxjaGFtaW4iLCJhIjoiY2xkdzJiaTN4MDM5NjNvbnV4eTI5MmV0MCJ9.xkxeH8IUvBcUTyHOLEORJg',
+
   apiUrl:
     // 'http://200.7.249.20/vision360ServicioCliente/Api_rest_movil/controller/',
     ' http://200.7.249.21:90/VerificacionesFisicas/Api_Cobranzas/controller/',

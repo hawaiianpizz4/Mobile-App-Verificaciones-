@@ -1,9 +1,7 @@
 import { dataService } from 'src/app/services/data.service';
 import { Network } from '@capacitor/network';
 import { Component, OnInit } from '@angular/core';
-import { presentToast } from 'src/app/utils/utils';
-import { ToastController } from '@ionic/angular';
-//import { RefiModalMapPage } from 'src/app/components/refi-modal-map/refi-modal-map.page';
+import { presentToast } from 'src/app/utils/Utils';
 
 @Component({
   selector: 'app-verificados',
@@ -20,18 +18,13 @@ export class VerificadosPage implements OnInit {
       this.dataList = data;
       console.log(this.dataList);
     });
-
-
   }
-
 
   async changeStatus() {
     const status = await Network.getStatus();
     this.networkStatus = status?.connected;
     this.networkStatus ? presentToast('Conectado', 'wifi-outline', 'success') : presentToast('Sin conexion', 'globe-outline', 'warning');
   }
-
-
 
   handleRefresh(event) {
     this._service.getClientesVerificados(JSON.parse(localStorage.getItem('user'))).subscribe((data) => {
@@ -40,7 +33,4 @@ export class VerificadosPage implements OnInit {
     });
     event.target.complete();
   }
-
-
-
 }

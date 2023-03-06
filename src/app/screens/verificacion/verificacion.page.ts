@@ -19,7 +19,7 @@ import { dataService } from 'src/app/services/data.service';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { getCurrentCoordinates, presentToast } from 'src/app/utils/utils';
+import { getCurrentCoordinates, presentToast } from 'src/app/utils/Utils';
 const url = `${environment.apiUrl}verificacion.php?opcion=setClienteVerificado`;
 
 @Component({
@@ -143,7 +143,7 @@ export class VerificacionPage implements OnInit {
     await this.getCodigoSMS(numCelular);
   }
 
-  async submitForm(e) {
+  async submitForm() {
     // create a new loading controller instance
     this.isServiceCallInProgress = await this.loadingCtrl.create({
       message: 'Enviando actualización de datos...',
@@ -194,11 +194,8 @@ export class VerificacionPage implements OnInit {
   async changeStatus() {
     const status = await Network.getStatus();
     this.networkStatus = status?.connected;
-    this.networkStatus
-      ? this.presentToast('Conectado', 'wifi-outline', 'success')
-      : this.presentToast('Sin conexion', 'globe-outline', 'warning');
+    this.networkStatus ? presentToast('Conectado', 'wifi-outline', 'success') : presentToast('Sin conexion', 'globe-outline', 'warning');
   }
-
   getCurrentCoordinates() {
     this.geolocation
       .getCurrentPosition()
@@ -218,17 +215,6 @@ export class VerificacionPage implements OnInit {
     });
 
     loading.present();
-  }
-  async presentToast(message, iconInsert, color) {
-    const toast = await this.toastController.create({
-      message: message,
-      duration: 2500,
-      position: 'top',
-      icon: iconInsert,
-      color: color,
-    });
-
-    await toast.present();
   }
 
   onPlanillaSelected() {

@@ -42,6 +42,7 @@ export class ListingPage implements OnInit {
       this.presentToast('La Informacion ha sido Actualizada correctamente', 'pulse-outline', 'success');
     }, 2000);
   }
+
   ngOnInit() {
     if (!localStorage.getItem('storage')) {
       if (localStorage.getItem('user')) {

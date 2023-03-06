@@ -16,22 +16,22 @@
           <ion-row justify-content-around>
             <ion-col>
               <ion-label position="floating">Nombre Gestor</ion-label>
-              <ion-input value="{{this.nombreGestor}}" formControlName="nombre_gestor"></ion-input>
+              <ion-input formControlName="nombre_gestor"></ion-input>
             </ion-col>
             <ion-col>
               <ion-label position="floating">Fecha actual</ion-label>
-              <ion-input value="{{this.fechaActual}}" formControlName="fecha_actual"></ion-input>
+              <ion-input formControlName="fecha_actual"></ion-input>
             </ion-col>
           </ion-row>
 
           <ion-row justify-content-around>
             <ion-col>
               <ion-label position="floating">Nombre Tienda</ion-label>
-              <ion-input value="{{this.nombreTienda}}" formControlName="nombre_tienda"></ion-input>
+              <ion-input formControlName="nombre_tienda"></ion-input>
             </ion-col>
             <ion-col>
               <ion-label position="floating">Nombre Cliente</ion-label>
-              <ion-input value="{{this.nombreCliente}}" formControlName="nombre_cliente"></ion-input>
+              <ion-input formControlName="nombre_cliente"></ion-input>
             </ion-col>
           </ion-row>
 
@@ -436,7 +436,8 @@
 
         <ion-item>
           <ion-grid>
-            <ion-button [disabled]="formData.invalid" expand="block" color="primary" type="submit">Realizar Verificacion </ion-button>
+            <!-- <ion-button [disabled]="dataForm.invalid" expand="block" color="primary" type="submit">Realizar Verificacion </ion-button> -->
+            <ion-button expand="block" color="primary" type="submit">Realizar Verificacion </ion-button>
           </ion-grid>
         </ion-item>
         <ion-item> </ion-item>

@@ -29,7 +29,7 @@ export class dataService {
   }
 
   getHistorialRefi(user: string) {
-    const url = `http://200.7.249.21:90/VerificacionesFisicas/Api_Cobranzas/controller/refinanciamiento.php?opcion=getHistorial&nombre=${user}`;
+    const url = `${environment.apiUrl}refinanciamiento.php?opcion=getHistorial&nombre=${user}`;
     console.log(url);
     return this._http.get<any>(url);
   }
@@ -76,9 +76,11 @@ export class dataService {
     return this._http.get<any>(`${environment.apiUrl}verificacion.php?opcion=getClientesParaReservar`);
   }
 
-  setClienteReservado(cedula, nombreGestor) {
+  setClienteReservado(cedula, nombreGestor, latitud, longitud) {
     return this._http.post<any>(
-      `${environment.apiUrl}verificacion.php?opcion=setClienteReservado&cedula=${cedula}&nombreGestor=${nombreGestor}`,
+      `${environment.apiUrl}verificacion.php?opcion=setClienteReservado&cedula=${cedula}&nombreGestor=${nombreGestor}
+      &latitud=${latitud}
+      &longitud=${longitud}`,
       null
     );
   }
@@ -115,6 +117,11 @@ export class dataService {
 
   getParroquia(codigo) {
     const url = `${environment.apiUrl}catalogos.php?opcion=getNombreCatalogo&codigo=${codigo}&tipo=parroquia`;
+    return this._http.get<any>(url);
+  }
+
+  getRefinanciamiento(operacion) {
+    const url = `${environment.apiUrl}refinanciamiento.php?opcion=getRefinanciamiento&operacion=${operacion}`;
     return this._http.get<any>(url);
   }
 }

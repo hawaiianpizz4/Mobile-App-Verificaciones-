@@ -24,14 +24,8 @@
       <h1>PlazoOperacion</h1>
       <app-badge icon="newspaper" text="{{getdata.plazoOperacion}}"></app-badge>
     </div>
-    <app-button
-      (click)="openModal(getdata.cedulaCliente,getdata.numeroCredito,getdata.usuario)"
-      >Realizar Gestion</app-button
-    >
+    <app-button (click)="openModal(getdata.cedulaCliente,getdata.numeroCredito,getdata.usuario)">Realizar Gestion</app-button>
 
-    <app-button
-      (click)="goToDetailPage(getdata.cedulaCliente,getdata.numeroCredito)"
-      >Realizar Refinanciamiento</app-button
-    >
+    <app-button (click)="goToDetailPage(getdata.cedulaCliente,getdata.numeroCredito)"> Realizar Refinanciamiento</app-button>
   </div>
 </ion-content>

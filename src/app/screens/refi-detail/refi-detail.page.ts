@@ -1,4 +1,6 @@
 import mapboxgl from 'mapbox-gl/';
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+
 import { Component, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
@@ -6,11 +8,14 @@ import { Network } from '@capacitor/network';
 import { Observable } from 'rxjs';
 import { PhotoService } from '../../services/photo.service';
 import { dataService } from 'src/app/services/data.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { getCurrentCoordinates, presentToast } from 'src/app/utils/Utils';
+import { getCurrentCoordinates, presentToast, selectValidator, isValidDate } from 'src/app/utils/Utils';
 import { iCurrentLocation } from 'src/interfaces/currentLocation.interface';
 import { LoadingService } from 'src/app/utils/LoadingService';
+import { Validator } from 'src/app/utils/Validator';
+
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-refi-detail',
@@ -18,9 +23,12 @@ import { LoadingService } from 'src/app/utils/LoadingService';
   styleUrls: ['./refi-detail.page.scss'],
 })
 export class RefiDetailPage implements OnInit {
-  map: mapboxgl;
+  private map: mapboxgl;
+  private marker: mapboxgl.Marker;
 
   currentLocation: iCurrentLocation;
+  selectPlazoOptions = [3, 6, 9, 12, 15, 18, 24, 32, 48];
+  selectNivelEduOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
   idCliente: string;
   operacion: string;
@@ -43,7 +51,9 @@ export class RefiDetailPage implements OnInit {
     private ngZone: NgZone,
     public photoService: PhotoService,
     private _services: dataService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private formBuilder: FormBuilder,
+    private val: Validator
   ) {
     this.changeStatus();
     this.createDataForm();
@@ -58,21 +68,122 @@ export class RefiDetailPage implements OnInit {
   }
 
   async ionViewWillEnter() {
-    this.photoService.resetPhotos();
+    const loading = await this.loadingService.createLoading('Iniciando formulario...', 10000);
     this.currentLocation = await getCurrentCoordinates();
-    this.initMap();
-
-    console.dir(this.currentLocation);
-
     this.cargarDatosDesdePagAnterior();
     await this.getDatosClienteMina();
     this.checkDatosCargados();
+    this.photoService.resetPhotos();
 
-    console.log(`${this.idCliente} - ${this.operacion} - ${this.currentDate}`);
+    this.initMap();
+
+    await loading.dismiss();
+
+    // console.dir(this.currentLocation);
+    // console.log(`${this.idCliente} - ${this.operacion} - ${this.currentDate}`);
   }
 
   async IonViewDidLeave() {
     this.photoService.limpiarImagenes();
+  }
+
+  createDataForm() {
+    const VALIDATOR_REQUIRED = [Validators.required];
+    const VALIDATOR_REQUIRED_ONLY_NUMBERS = [Validators.required];
+    const VALIDATOR_REQUIRED_MONEY = [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')];
+
+    this.formData = this.formBuilder.group({
+      refi_fecha: [],
+      refi_usuario: [],
+      refi_operacion: [],
+      refi_autorizacion: [''],
+      refi_autorizacion_original: [''],
+      refi_plazo: ['', selectValidator(this.selectPlazoOptions)],
+      refi_valor_cuota: ['', VALIDATOR_REQUIRED_MONEY],
+      refi_fecha_primer_pago: ['', [isValidDate]],
+      refi_pago_gastos_admin: ['', VALIDATOR_REQUIRED_MONEY],
+      refi_total_reest: ['', VALIDATOR_REQUIRED_MONEY],
+      refi_total_pagar: ['', VALIDATOR_REQUIRED_MONEY],
+      cliente_cedula: [this.idCliente, VALIDATOR_REQUIRED],
+      cliente_nombres: ['', VALIDATOR_REQUIRED],
+      cliente_nacionalidad: ['', VALIDATOR_REQUIRED],
+      cliente_ciudad_nacimiento: ['', VALIDATOR_REQUIRED],
+      cliente_fecha_nacimiento: ['', VALIDATOR_REQUIRED],
+      cliente_sexo: ['', VALIDATOR_REQUIRED],
+      cliente_nivel_educativo: ['', selectValidator(this.selectNivelEduOptions)],
+      cliente_profesion: ['', VALIDATOR_REQUIRED],
+      cliente_estado_civil: [''],
+      cliente_numero_dependientes: ['', VALIDATOR_REQUIRED],
+      dir_direccion_exacta: ['', VALIDATOR_REQUIRED],
+      dir_provincia: ['', VALIDATOR_REQUIRED],
+      dir_canton_ciudad: ['', VALIDATOR_REQUIRED],
+      dir_parroquia: ['', VALIDATOR_REQUIRED],
+      dir_direccion: ['', VALIDATOR_REQUIRED],
+      dir_calle_transversal: ['', VALIDATOR_REQUIRED],
+      dir_numero: ['', VALIDATOR_REQUIRED],
+      dir_latitud: ['', VALIDATOR_REQUIRED],
+      dir_longitud: ['', VALIDATOR_REQUIRED],
+      dir_referencia: ['', VALIDATOR_REQUIRED],
+      dir_tipo_vivienda: [''],
+      dir_tiempo: ['', [Validators.required, Validators.max(99), Validators.min(1)]],
+      dir_telf_1: ['', [Validators.required, Validators.minLength(10)]],
+      dir_telf_2: ['', [Validators.minLength(10)]],
+      dir_email: ['', [Validators.required, Validators.pattern('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,3}$')]],
+
+      dir_nombre_arrendador: ['', [Validators.required, Validators.minLength(10)]],
+      dir_telf_arrendador: ['', [Validators.required, Validators.minLength(10)]],
+      conyuge_cedula: ['', VALIDATOR_REQUIRED],
+      conyuge_nombres: ['', VALIDATOR_REQUIRED],
+      conyuge_email: [''],
+      conyuge_telf_1: ['', [Validators.required, Validators.minLength(10)]],
+      conyuge_telf_2: ['', [Validators.required, Validators.minLength(10)]],
+      conyuge_tipo_actividad: ['', VALIDATOR_REQUIRED],
+      conyuge_nombre_empresa: ['', VALIDATOR_REQUIRED],
+      conyuge_actividad_empresa: ['', VALIDATOR_REQUIRED],
+      conyuge_cargo: ['', VALIDATOR_REQUIRED],
+      conyuge_telefono_empresa: [''],
+      conyuge_ingresos_mensuales: ['', VALIDATOR_REQUIRED_MONEY],
+      ref1_nombres: ['', VALIDATOR_REQUIRED],
+      ref1_parentesco: ['', VALIDATOR_REQUIRED],
+      ref1_telf_1: ['', [Validators.required, Validators.minLength(10)]],
+      ref1_telf_2: ['', [Validators.minLength(10)]],
+      ref2_nombres: [''],
+      ref2_parentesco: [''],
+      ref2_telf_1: ['', [Validators.minLength(10)]],
+      ref2_telf_2: ['', [Validators.minLength(10)]],
+      trabajo_tipo_actividad: [''],
+      trabajo_ruc: ['', [Validators.minLength(13)]],
+      trabajo_nombre: ['', VALIDATOR_REQUIRED],
+      trabajo_provincia: ['', VALIDATOR_REQUIRED],
+      trabajo_canton: ['', VALIDATOR_REQUIRED],
+      trabajo_parroquia: ['', VALIDATOR_REQUIRED],
+      trabajo_barrio: [''],
+      trabajo_direccion: ['', VALIDATOR_REQUIRED],
+      trabajo_numero: ['', VALIDATOR_REQUIRED],
+      trabajo_calle_transversal: [''],
+      trabajo_ref_ubicacion: [''],
+      trabajo_telefono: ['', [Validators.required, Validators.minLength(10)]],
+      trabajo_antiguedad: [''],
+    });
+
+    this.formData.markAllAsTouched();
+
+    this.formData.controls.refi_fecha.disable();
+    this.formData.controls.refi_usuario.disable();
+    this.formData.controls.refi_operacion.disable();
+    this.formData.controls.refi_autorizacion.disable();
+    this.formData.controls.refi_autorizacion_original.disable();
+
+    this.formData.controls.dir_direccion.disable();
+    this.formData.controls.dir_latitud.disable();
+    this.formData.controls.dir_longitud.disable();
+
+    this.formData.controls.cliente_cedula.disable();
+    this.formData.controls.cliente_ciudad_nacimiento.disable();
+    this.formData.controls.cliente_fecha_nacimiento.disable();
+    this.formData.controls.cliente_nacionalidad.disable();
+    this.formData.controls.cliente_nombres.disable();
+    this.formData.controls.cliente_sexo.disable();
   }
 
   checkDatosCargados() {
@@ -100,6 +211,13 @@ export class RefiDetailPage implements OnInit {
   }
 
   async submitForm() {
+    if (!this.formData.valid) {
+      console.log('Please provide all the required values!');
+      //return false;
+    } else {
+      console.log(this.formData.value);
+    }
+
     const loading = await this.loadingService.createLoading('Guardado Registro...', 5000);
     const postData = this.loadPostData();
     console.dir(postData);
@@ -116,12 +234,13 @@ export class RefiDetailPage implements OnInit {
       }
     } else {
       this.redirect();
-      presentToast('Error, No hay conexión a internet', 'checkmark-outline', 'success');
+      presentToast('Error, No hay conexión a internet', 'checkmark-outline', 'error');
     }
     await loading.dismiss();
   }
 
   loadPostData() {
+    console.log('Loading pos' + this.selectedDatePrimerPago);
     return {
       refi_usuario: this.formData.controls.refi_usuario.value,
       refi_fecha: this.formData.controls.refi_fecha.value,
@@ -130,6 +249,7 @@ export class RefiDetailPage implements OnInit {
       refi_autorizacion_original: this.formData.controls.refi_autorizacion_original.value,
       refi_plazo: this.formData.controls.refi_plazo.value,
       refi_valor_cuota: this.formData.get('refi_valor_cuota').value,
+      refi_fecha_primer_pago: this.selectedDatePrimerPago,
       refi_pago_gastos_admin: this.formData.controls.refi_pago_gastos_admin.value,
       refi_total_reest: this.formData.controls.refi_total_reest.value,
       refi_total_pagar: this.formData.controls.refi_total_pagar.value,
@@ -198,141 +318,80 @@ export class RefiDetailPage implements OnInit {
   }
 
   initMap() {
-    console.log(this.currentLocation);
-    mapboxgl.accessToken = 'pk.eyJ1IjoianF1aWxjaGFtaW4iLCJhIjoiY2xkdzJiaTN4MDM5NjNvbnV4eTI5MmV0MCJ9.xkxeH8IUvBcUTyHOLEORJg';
-    this.map = new mapboxgl.Map({
-      container: 'mapa',
-      style: 'mapbox://styles/mapbox/streets-v11',
-      // center: [this.currentLocation.longitude, this.currentLocation.latitude],
-      center: [-78.47748161030977, -0.12763545952685718],
-      pitch: 45,
-      zoom: 17,
-    });
-    // Add the control to the map.
-    // this.map.addControl(
-    //   new MapboxGeocoder({
-    //     accessToken: mapboxgl.accessToken,
-    //     mapboxgl: mapboxgl,
-    //   })
-    // );
+    mapboxgl.accessToken = environment.mapboxgAccessToken;
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { longitude, latitude } = position.coords;
+      this.map = new mapboxgl.Map({
+        container: 'mapa',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [longitude, latitude],
+        pitch: 45,
+        zoom: 17,
+      });
+      this.marker = new mapboxgl.Marker({ draggable: true }).setLngLat([longitude, latitude]).addTo(this.map);
 
-    this.map.on('idle', function () {
-      this.resize();
-    });
+      // Add the geolocate control to the map.
+      const geolocateControl = new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true,
+          zoom: 17,
+        },
+        trackUserLocation: true,
+      });
+      geolocateControl.on('geolocate', (e) => {
+        const { longitude, latitude } = e.coords;
+        this.marker.setLngLat([longitude, latitude]);
+        this.crearMarker(this.marker);
+        console.log(e);
+      });
+      this.map.addControl(geolocateControl);
 
-    // Create a default Marker and add it to the map.
-    const marker = new mapboxgl.Marker({ draggable: true })
-      // .setLngLat([this.currentLocation.longitude, this.currentLocation.latitude])
-      .setLngLat([-78.47748161030977, -0.12763545952685718])
-      .addTo(this.map);
+      // Add the geocoder control to the map.
+      // const geocoderControl = new MapboxGeocoder({
+      //   accessToken: mapboxgl.accessToken,
+      //   mapboxgl: mapboxgl,
+      // });
 
-    marker.on('dragend', () => {
-      //mostrar coordenadas
-      // const features = this.map.queryRenderedFeatures(marker._pos);
-      console.log(this.map);
-      this.crearMarker(marker);
+      // geocoderControl.on('result', (e) => {
+      //   const longitude = e.result.center[0];
+      //   const latitude = e.result.center[1];
+      //   console.log(latitude, longitude);
+      //   this.marker.setLngLat([longitude, latitude]);
+      //   this.crearMarker(this.marker);
+      // });
+
+      // this.map.addControl(geocoderControl);
+
+      this.marker.on('dragend', () => {
+        console.log(this.map);
+        this.crearMarker(this.marker);
+      });
+
+      this.map.on('idle', function () {
+        this.resize();
+      });
     });
   }
 
   crearMarker(marker: mapboxgl.Marker) {
     const lngLat = marker.getLngLat();
-
     this._services.getCurrentPoss(lngLat.lng, lngLat.lat, mapboxgl.accessToken).subscribe(
       (data) => {
         console.dir(data);
         console.dir(data.features[0].context[1].text);
-
         this.formData.controls.dir_latitud.setValue(lngLat.lat);
         this.formData.controls.dir_longitud.setValue(lngLat.lng);
-
         this.formData.controls.dir_direccion.setValue(data.features[0].place_name);
         this.formData.controls.dir_canton_ciudad.setValue(data.features[0].context[1].text);
         this.formData.controls.dir_provincia.setValue(data.features[0].context[2].text);
+        this.formData.controls.dir_parroquia.setValue('');
+        console.log(`New coordinates: ${lngLat.lng}, ${lngLat.lat}`);
       },
       (error) => {
         presentToast('Error al crear marcador!', '', 'error');
         console.dir(error);
       }
     );
-  }
-
-  createDataForm() {
-    const VALIDATOR_REQUIRED = [Validators.required];
-
-    this.formData = new FormGroup({
-      refi_fecha: new FormControl({ value: this.currentDate, disabled: true }, []),
-      refi_usuario: new FormControl({ value: this.nombreUsuario, disabled: true }, []),
-      refi_operacion: new FormControl({ value: this.operacion, disabled: true }, []),
-      refi_autorizacion: new FormControl('', VALIDATOR_REQUIRED),
-      refi_autorizacion_original: new FormControl('', VALIDATOR_REQUIRED),
-      refi_plazo: new FormControl('', VALIDATOR_REQUIRED),
-      refi_valor_cuota: new FormControl('', VALIDATOR_REQUIRED),
-      refi_pago_gastos_admin: new FormControl('', VALIDATOR_REQUIRED),
-      refi_total_reest: new FormControl('', VALIDATOR_REQUIRED),
-      refi_total_pagar: new FormControl('', VALIDATOR_REQUIRED),
-      cliente_cedula: new FormControl(this.idCliente, VALIDATOR_REQUIRED),
-      cliente_nombres: new FormControl('', VALIDATOR_REQUIRED),
-      cliente_nacionalidad: new FormControl('', VALIDATOR_REQUIRED),
-      cliente_ciudad_nacimiento: new FormControl('', VALIDATOR_REQUIRED),
-      cliente_fecha_nacimiento: new FormControl('', VALIDATOR_REQUIRED),
-      cliente_sexo: new FormControl('', []),
-      cliente_nivel_educativo: new FormControl('', []),
-      cliente_profesion: new FormControl('', []),
-      cliente_estado_civil: new FormControl('', []),
-      cliente_numero_dependientes: new FormControl('', []),
-      dir_direccion_exacta: new FormControl('', []),
-      dir_provincia: new FormControl('', VALIDATOR_REQUIRED),
-      dir_canton_ciudad: new FormControl('', VALIDATOR_REQUIRED),
-      dir_parroquia: new FormControl('', VALIDATOR_REQUIRED),
-      dir_direccion: new FormControl('', VALIDATOR_REQUIRED),
-      dir_calle_transversal: new FormControl('', VALIDATOR_REQUIRED),
-      dir_numero: new FormControl('', []),
-      dir_latitud: new FormControl('', []),
-      dir_longitud: new FormControl('', []),
-      dir_referencia: new FormControl('', []),
-      dir_tipo_vivienda: new FormControl('', []),
-      dir_tiempo: new FormControl('', []),
-      dir_telf_1: new FormControl('', []),
-      dir_telf_2: new FormControl('', []),
-      dir_email: new FormControl('', []),
-      dir_nombre_arrendador: new FormControl('', []),
-      dir_telf_arrendador: new FormControl('', []),
-      conyuge_cedula: new FormControl('', []),
-      conyuge_nombres: new FormControl('', []),
-      conyuge_email: new FormControl('', []),
-      conyuge_telf_1: new FormControl('', []),
-      conyuge_telf_2: new FormControl('', []),
-      conyuge_tipo_actividad: new FormControl('', []),
-      conyuge_nombre_empresa: new FormControl('', []),
-      conyuge_actividad_empresa: new FormControl('', []),
-      conyuge_cargo: new FormControl('', []),
-      conyuge_telefono_empresa: new FormControl('', []),
-      conyuge_ingresos_mensuales: new FormControl('', []),
-      ref1_nombres: new FormControl('', []),
-      ref1_parentesco: new FormControl('', []),
-      ref1_telf_1: new FormControl('', []),
-      ref1_telf_2: new FormControl('', []),
-      ref2_nombres: new FormControl('', []),
-      ref2_parentesco: new FormControl('', []),
-      ref2_telf_1: new FormControl('', []),
-      ref2_telf_2: new FormControl('', []),
-      trabajo_tipo_actividad: new FormControl('', []),
-      trabajo_ruc: new FormControl('', []),
-      trabajo_nombre: new FormControl('', []),
-      trabajo_provincia: new FormControl('', []),
-      trabajo_canton: new FormControl('', []),
-      trabajo_parroquia: new FormControl('', []),
-      trabajo_barrio: new FormControl('', []),
-      trabajo_direccion: new FormControl('', []),
-      trabajo_numero: new FormControl('', []),
-      trabajo_calle_transversal: new FormControl('', []),
-      trabajo_ref_ubicacion: new FormControl('', []),
-      trabajo_telefono: new FormControl('', []),
-      trabajo_antiguedad: new FormControl('', []),
-    });
-
-    this.formData.controls.dir_latitud.disable();
-    this.formData.controls.dir_longitud.disable();
   }
 
   cargarDatosDesdePagAnterior() {
@@ -353,10 +412,11 @@ export class RefiDetailPage implements OnInit {
     const provincia = await this._services.getProvincia(this.datosClienteMina['cod_prov_dom']).toPromise();
     const canton = await this._services.getCanton(this.datosClienteMina['cod_cant_dom']).toPromise();
     const parroquia = await this._services.getParroquia(this.datosClienteMina['cod_parr_dom']).toPromise();
+    const cantonNacimiento = await this._services.getCanton(this.datosClienteMina['cod_cant_nacim']).toPromise();
 
     this.formData.controls.cliente_nombres.setValue(this.datosClienteMina['nombres']);
     this.formData.controls.cliente_nacionalidad.setValue(this.datosClienteMina['nacionalidad']);
-    this.formData.controls.cliente_ciudad_nacimiento.setValue(this.datosClienteMina['cod_cant_nacim']);
+    this.formData.controls.cliente_ciudad_nacimiento.setValue(cantonNacimiento.nombre);
     this.formData.controls.cliente_fecha_nacimiento.setValue(this.datosClienteMina['fecha_naci']);
     this.formData.controls.cliente_sexo.setValue(this.datosClienteMina['des_sexo']);
     this.formData.controls.cliente_profesion.setValue(this.datosClienteMina['des_profes']);
@@ -376,10 +436,6 @@ export class RefiDetailPage implements OnInit {
     this.formData.controls.trabajo_antiguedad.setValue(this.datosClienteMina['antiguedad_lab']);
 
     this.formData.controls.trabajo_tipo_actividad.setValue(this.datosClienteMina['relacion_dependencia']);
-
-    console.log(provincia.nombre);
-    console.log(canton.nombre);
-    console.log(parroquia.nombre);
   }
 
   async changeStatus() {
@@ -399,9 +455,12 @@ export class RefiDetailPage implements OnInit {
     });
   }
 
+  //FORM VALIDATIONS
   dateChangedPrimerPago(event) {
-    console.dir(event.detail);
-    this.selectedDatePrimerPago = event.detail.value;
+    const selectedDate = new Date(event.detail.value);
+    const formattedDate = `${selectedDate.getDate()}/${selectedDate.getMonth() + 1}/${selectedDate.getFullYear()}`;
+    this.selectedDatePrimerPago = formattedDate;
+    console.log(this.selectedDatePrimerPago);
   }
 
   onEstadoCivilSelected() {
@@ -498,5 +557,17 @@ export class RefiDetailPage implements OnInit {
       this.formData.controls.trabajo_telefono.enable();
       this.formData.controls.trabajo_antiguedad.enable();
     }
+  }
+
+  get errorControl() {
+    return this.formData.controls;
+  }
+
+  uppercaseValidator(control) {
+    const value = control.value;
+    if (value && typeof value === 'string') {
+      return { uppercase: true, value: value.toUpperCase() };
+    }
+    return null;
   }
 }

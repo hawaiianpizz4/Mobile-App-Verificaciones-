@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { dataService } from 'src/app/services/data.service';
+import { getCurrentCoordinates } from 'src/app/utils/Utils';
 
 @Component({
   selector: 'app-verificaciones',
@@ -9,6 +10,7 @@ import { dataService } from 'src/app/services/data.service';
 })
 export class VerificacionesPage implements OnInit {
   dataList = [];
+  currentLocation;
   public results: any[] = [];
   public checkenviodatos: any[] = [];
 
@@ -16,16 +18,16 @@ export class VerificacionesPage implements OnInit {
 
   constructor(private _service: dataService, private loadingCtrl: LoadingController, private toastController: ToastController) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.cargarDatos();
+    this.currentLocation = await getCurrentCoordinates();
   }
   handleRefresh(event) {
     this.cargarDatos();
     event.target.complete();
-
   }
 
-  cargarDatos(){
+  cargarDatos() {
     setTimeout(() => {
       this._service.getClientesParaReservar().subscribe((data) => {
         this.dataList = data;
@@ -43,9 +45,8 @@ export class VerificacionesPage implements OnInit {
       Total.push(m[1]);
     });
     this.results = Total.filter((e) => e.vf_cedula_cliente.includes(query));
-    console.log("Probando");
+    console.log('Probando');
     console.log(this.results);
-
   }
 
   // handleChange(event) {
@@ -59,28 +60,31 @@ export class VerificacionesPage implements OnInit {
   //   this.results = Total.filter((e) => e.numeroCredito.includes(query));
   // }
 
-  
-  
   async setClienteReservado(user) {
     try {
-      this._service.setClienteReservado(user.vf_cedula_cliente, JSON.parse(localStorage.getItem('user'))).subscribe(
-        (data) => {
-          this.showLoading('Reservando verificacion...').then((e) => {});
-          setTimeout(() => {
-            this.presentToast('Registro Enviado', 'checkmark-outline', 'success');
-            this.checkenviodatos.push(0);
-            this.cargarDatos();
-            console.log(this.checkenviodatos);
-          }, 3000);
-        console.log(data);
-      },
-      (error) =>{
-        console.log(error);
-        console.log("Hola");
-        this.presentToast('Error al enviar datos', 'checkmark-outline', 'danger');
-        // this.isServiceCallInProgress.dismiss();
-      });
-    } catch(error){
+      this._service
+        .setClienteReservado(
+          user.vf_cedula_cliente,
+          JSON.parse(localStorage.getItem('user')),
+          this.currentLocation.latitude,
+          this.currentLocation.longitude
+        )
+        .subscribe(
+          (data) => {
+            this.showLoading('Reservando verificacion...').then((e) => {});
+            setTimeout(() => {
+              this.presentToast('Registro Enviado', 'checkmark-outline', 'success');
+              this.cargarDatos();
+            }, 3000);
+            console.log(data);
+          },
+          (error) => {
+            console.log(error);
+            this.presentToast('Error al enviar datos', 'checkmark-outline', 'danger');
+            // this.isServiceCallInProgress.dismiss();
+          }
+        );
+    } catch (error) {
       this.presentToast('Error al guardar información', 'checkmark-outline', 'danger');
       // this.isServiceCallInProgress.dismiss();
     }

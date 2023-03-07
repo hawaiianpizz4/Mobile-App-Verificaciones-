@@ -1,5 +1,33 @@
+ion-input {
+  text-transform: uppercase;
+}
+
+small {
+  color: var(--ion-color-danger-shade);
+}
+
+.ion-invalid.ion-touched ion-label {
+  color: var(--ion-color-danger-shade);
+}
+
+.ion-invalid.ion-touched ion-input {
+  color: red;
+}
+
 .mapboxgl-canvas-container {
   height: 400px;
+}
+
+.mapboxgl-ctrl-geocoder {
+  top: 80px;
+  left: 10px;
+  z-index: 1;
+}
+
+.mapboxgl-ctrl-geolocate {
+  top: 150px;
+  left: 10px;
+  z-index: 1;
 }
 
 #mapa {
@@ -8,18 +36,9 @@
   height: 400px;
 }
 
-ion-item {
-  --padding-start: 0px;
-  --inner-padding-end: 0px;
-
-  ion-label {
-    color: black;
-  }
-}
-
 .label-floating.sc-ion-label-md-h {
   margin-bottom: 15px;
-  color: #45bc6e;
+  color: #15863d;
 }
 
 #map {
@@ -33,8 +52,6 @@ ion-content {
   position: relative;
 
   ion-input {
-    border: solid 1px #6b45bc;
-
     .ion-datetime {
       display: flex;
       justify-content: center;

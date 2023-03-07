@@ -36,24 +36,26 @@
                 <ion-label position="floating">Número de Autorización</ion-label>
                 <ion-input formControlName="refi_autorizacion" type="number" inputmode="numeric"></ion-input>
               </ion-item>
+              <small *ngIf="formData.get('refi_autorizacion').invalid">
+                <small *ngIf="(formData.get('refi_autorizacion')).errors?.required">Campo Requerido</small>
+                <small *ngIf="(formData.get('refi_autorizacion')).errors?.minlength">Please enter more than 4 character</small>
+                <small *ngIf="(formData.get('refi_autorizacion')).errors?.pattern">Ingresar solamente números</small>
+              </small>
 
               <ion-item>
                 <ion-label position="floating">Número de Autorización Original</ion-label>
                 <ion-input formControlName="refi_autorizacion_original" type="number" inputmode="numeric"></ion-input>
               </ion-item>
+              <small *ngIf="formData.get('refi_autorizacion_original').invalid">
+                <small *ngIf="(formData.get('refi_autorizacion_original')).errors?.required">Campo Requerido</small>
+                <small *ngIf="(formData.get('refi_autorizacion_original')).errors?.minlength">Please enter more than 4 character</small>
+                <small *ngIf="(formData.get('refi_autorizacion_original')).errors?.pattern">Ingresar solamente números</small>
+              </small>
 
               <ion-item>
                 <ion-label position="floating">Plazo(meses)</ion-label>
                 <ion-select interface="action-sheet" placeholder="Seleccionar" formControlName="refi_plazo">
-                  <ion-select-option value="3">3</ion-select-option>
-                  <ion-select-option value="6">6</ion-select-option>
-                  <ion-select-option value="9">9</ion-select-option>
-                  <ion-select-option value="12">12</ion-select-option>
-                  <ion-select-option value="15">15</ion-select-option>
-                  <ion-select-option value="18">18</ion-select-option>
-                  <ion-select-option value="24">24</ion-select-option>
-                  <ion-select-option value="32">32</ion-select-option>
-                  <ion-select-option value="48">48</ion-select-option>
+                  <ion-select-option *ngFor="let option of selectPlazoOptions" [value]="option">{{ option }}</ion-select-option>
                 </ion-select>
               </ion-item>
 
@@ -61,23 +63,36 @@
                 <ion-label position="floating">Valor Cuota</ion-label>
                 <ion-input formControlName="refi_valor_cuota" type="number" inputmode="numeric"></ion-input>
               </ion-item>
+              <small *ngIf="formData.get('refi_valor_cuota').invalid">
+                <small *ngIf="(formData.get('refi_valor_cuota')).errors?.required">Campo Requerido</small>
+              </small>
 
               <ion-item>
                 <ion-label position="floating">Fecha Primer Pago</ion-label>
-                <ion-datetime [mode]="'ios'" displayFormat="DD/MM/YYYY" (ionChange)="dateChangedPrimerPago($event)"></ion-datetime>
+                <ion-datetime
+                  formControlName="refi_fecha_primer_pago"
+                  displayFormat="DD/MM/YYYY"
+                  (ionChange)="dateChangedPrimerPago($event)"></ion-datetime>
+                <small *ngIf="formData.get('refi_fecha_primer_pago').errors?.required">Elegir fecha de primer pago</small>
               </ion-item>
 
               <ion-item>
                 <ion-label position="floating">Pago de Gastos Administrativos</ion-label>
                 <ion-input formControlName="refi_pago_gastos_admin" type="number" inputmode="numeric"></ion-input>
 
+                <small *ngIf="formData.get('refi_pago_gastos_admin').invalid ">
+                  <small *ngIf="(formData.get('refi_pago_gastos_admin')).errors?.required">Campo Requerido</small>
+                  <small *ngIf="(formData.get('refi_pago_gastos_admin')).errors?.pattern">Ingresar solamente valores con dos decimales</small>
+                </small>
+
                 <ion-button (click)="addPhotoToGallery()"> Capturar Comprobante </ion-button>
 
                 <ion-grid>
                   <ion-row>
-                    <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
+                    <ion-col size="10" *ngFor="let photo of photoService.photos; index as position">
                       <ion-img [src]="photo.webviewPath"></ion-img>
                     </ion-col>
+                    <small *ngIf="photoService.photos.length === 0">Tomar foto de comprobante</small>
                   </ion-row>
                 </ion-grid>
               </ion-item>
@@ -200,8 +215,13 @@
               </ion-item>
 
               <ion-item>
-                <ion-label position="floating">Dirección</ion-label>
+                <ion-label position="floating">Dirección Maps</ion-label>
                 <ion-input formControlName="dir_direccion" type="text"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Dirección Exacta</ion-label>
+                <ion-input formControlName="dir_direccion_exacta" type="text"></ion-input>
               </ion-item>
 
               <ion-item>
@@ -244,18 +264,35 @@
 
               <ion-item>
                 <ion-label position="floating">Tiempo Residencia</ion-label>
-                <ion-input formControlName="dir_tiempo" type="number" inputmode="numeric"></ion-input>
+                <ion-input formControlName="dir_tiempo" type="number" inputmode="numeric" min="1" max="99"></ion-input>
+              </ion-item>
+              <small *ngIf="formData.get('dir_tiempo').invalid">
+                <small *ngIf="(formData.get('dir_tiempo')).errors?.max">Valor máximo 99</small>
+                <small *ngIf="(formData.get('dir_tiempo')).errors?.min">Valor mínimo 1</small>
+              </small>
+
+              <ion-item class="ion-margin-bottom">
+                <ion-label position="floating">Teléfono #1</ion-label>
+                <ion-input formControlName="dir_telf_1" type="tel" inputmode="numeric" maxlength="10" pattern="^0\d{9}$"></ion-input>
               </ion-item>
 
-              <ion-item>
-                <ion-label position="floating">Teléfono #1</ion-label>
-                <ion-input formControlName="dir_telf_1" type="tel"></ion-input>
-              </ion-item>
+              <small *ngIf="formData.get('dir_telf_1').invalid">
+                <small *ngIf="(formData.get('dir_telf_1')).errors?.required">Campo requerido</small>
+                <small *ngIf="(formData.get('dir_telf_1')).errors?.minlength">Ingresar 10 digitos</small>
+                <small *ngIf="(formData.get('dir_telf_1')).errors?.pattern">Ingresar número válido</small>
+              </small>
 
               <ion-item>
                 <ion-label position="floating">Teléfono #2</ion-label>
-                <ion-input formControlName="dir_telf_2" type="tel"></ion-input>
+                <ion-input formControlName="dir_telf_2" type="tel" inputmode="numeric" maxlength="10" pattern="^0\d{9}$"></ion-input>
               </ion-item>
+
+              <small *ngIf="formData.get('dir_telf_2').invalid">
+                <small *ngIf="(formData.get('dir_telf_2')).errors?.required">Campo requerido</small>
+                <!--question mark(?) is a safe navigation operator-->
+                <small *ngIf="(formData.get('dir_telf_2')).errors?.minlength">Ingresar 10 digitos</small>
+                <small *ngIf="(formData.get('dir_telf_2')).errors?.pattern">Ingresar número válido</small>
+              </small>
 
               <ion-item>
                 <ion-label position="floating">Email</ion-label>
@@ -269,13 +306,15 @@
 
               <ion-item>
                 <ion-label position="floating">Teléfono Arrendador/Familiar</ion-label>
-                <ion-input formControlName="dir_telf_arrendador" type="tel"></ion-input>
+                <ion-input formControlName="dir_telf_arrendador" type="tel" inputmode="numeric" maxlength="10" pattern="^0\d{9}$"></ion-input>
               </ion-item>
 
-              <ion-item>
-                <ion-label position="floating">Dirección</ion-label>
-                <ion-input formControlName="dir_direccion_exacta" type="text"></ion-input>
-              </ion-item>
+              <small *ngIf="formData.get('dir_telf_arrendador').invalid">
+                <small *ngIf="(formData.get('dir_telf_arrendador')).errors?.required">Campo requerido</small>
+                <!--question mark(?) is a safe navigation operator-->
+                <small *ngIf="(formData.get('dir_telf_arrendador')).errors?.minlength">Ingresar 10 digitos</small>
+                <small *ngIf="(formData.get('dir_telf_arrendador')).errors?.pattern">Ingresar número válido</small>
+              </small>
             </div>
           </ion-accordion>
 
@@ -301,13 +340,25 @@
 
               <ion-item>
                 <ion-label position="floating">Telefono #1</ion-label>
-                <ion-input formControlName="conyuge_telf_1" type="tel"></ion-input>
+                <ion-input formControlName="conyuge_telf_1" type="tel" inputmode="numeric" maxlength="10" pattern="^0\d{9}$"></ion-input>
               </ion-item>
+
+              <small *ngIf="formData.get('conyuge_telf_1').invalid ">
+                <small *ngIf="(formData.get('conyuge_telf_1')).errors?.required">Campo requerido</small>
+                <small *ngIf="(formData.get('conyuge_telf_1')).errors?.minlength">Ingresar 10 digitos</small>
+                <small *ngIf="(formData.get('conyuge_telf_1')).errors?.pattern">Ingresar número válido</small>
+              </small>
 
               <ion-item>
                 <ion-label position="floating">Telefono #2</ion-label>
-                <ion-input formControlName="conyuge_telf_2" type="tel"></ion-input>
+                <ion-input formControlName="conyuge_telf_2" type="tel" inputmode="numeric" maxlength="10" pattern="^0\d{9}$"></ion-input>
               </ion-item>
+
+              <small *ngIf="formData.get('conyuge_telf_2').invalid ">
+                <small *ngIf="(formData.get('conyuge_telf_2')).errors?.required">Campo requerido</small>
+                <small *ngIf="(formData.get('conyuge_telf_2')).errors?.minlength">Ingresar 10 digitos</small>
+                <small *ngIf="(formData.get('conyuge_telf_2')).errors?.pattern">Ingresar número válido</small>
+              </small>
             </div>
           </ion-accordion>
 
@@ -347,12 +398,18 @@
 
               <ion-item>
                 <ion-label position="floating">Teléfono</ion-label>
-                <ion-input formControlName="conyuge_telefono_empresa" type="tel"></ion-input>
+                <ion-input formControlName="conyuge_telefono_empresa" type="tel" inputmode="numeric" maxlength="10" pattern="^0\d{9}$"></ion-input>
               </ion-item>
+
+              <small *ngIf="formData.get('conyuge_telefono_empresa').invalid ">
+                <small *ngIf="(formData.get('conyuge_telefono_empresa')).errors?.required">Campo requerido</small>
+                <small *ngIf="(formData.get('conyuge_telefono_empresa')).errors?.minlength">Ingresar 10 digitos</small>
+                <small *ngIf="(formData.get('conyuge_telefono_empresa')).errors?.pattern">Ingresar número válido</small>
+              </small>
 
               <ion-item>
                 <ion-label position="floating">Ingresos Mensuales</ion-label>
-                <ion-input formControlName="conyuge_ingresos_mensuales" type="text"></ion-input>
+                <ion-input formControlName="conyuge_ingresos_mensuales" type="text" inputmode="numeric"></ion-input>
               </ion-item>
             </div>
           </ion-accordion>
@@ -374,13 +431,25 @@
 
               <ion-item>
                 <ion-label position="floating">Teléfono #1</ion-label>
-                <ion-input formControlName="ref1_telf_1" type="tel"></ion-input>
+                <ion-input formControlName="ref1_telf_1" type="tel" inputmode="numeric" maxlength="10" pattern="^0\d{9}$"></ion-input>
               </ion-item>
+
+              <small *ngIf="formData.get('ref1_telf_1').invalid ">
+                <small *ngIf="(formData.get('ref1_telf_1')).errors?.required">Campo requerido</small>
+                <small *ngIf="(formData.get('ref1_telf_1')).errors?.minlength">Ingresar 10 digitos</small>
+                <small *ngIf="(formData.get('ref1_telf_1')).errors?.pattern">Ingresar número válido</small>
+              </small>
 
               <ion-item>
                 <ion-label position="floating">Teléfono #2</ion-label>
-                <ion-input formControlName="ref1_telf_2" type="tel"></ion-input>
+                <ion-input formControlName="ref1_telf_2" type="tel" inputmode="numeric" maxlength="10" pattern="^0\d{9}$"></ion-input>
               </ion-item>
+
+              <small *ngIf="formData.get('ref1_telf_2').invalid ">
+                <small *ngIf="(formData.get('ref1_telf_2')).errors?.required">Campo requerido</small>
+                <small *ngIf="(formData.get('ref1_telf_2')).errors?.minlength">Ingresar 10 digitos</small>
+                <small *ngIf="(formData.get('ref1_telf_2')).errors?.pattern">Ingresar número válido</small>
+              </small>
             </div>
           </ion-accordion>
 
@@ -401,13 +470,25 @@
 
               <ion-item>
                 <ion-label position="floating">Teléfono #1</ion-label>
-                <ion-input formControlName="ref2_telf_1" type="tel"></ion-input>
+                <ion-input formControlName="ref2_telf_1" type="tel" inputmode="numeric" maxlength="10" pattern="^0\d{9}$"></ion-input>
               </ion-item>
+
+              <small *ngIf="formData.get('ref2_telf_1').invalid ">
+                <small *ngIf="(formData.get('ref2_telf_1')).errors?.required">Campo requerido</small>
+                <small *ngIf="(formData.get('ref2_telf_1')).errors?.minlength">Ingresar 10 digitos</small>
+                <small *ngIf="(formData.get('ref2_telf_1')).errors?.pattern">Ingresar número válido</small>
+              </small>
 
               <ion-item>
                 <ion-label position="floating">Teléfono #2</ion-label>
-                <ion-input formControlName="ref2_telf_2" type="tel"></ion-input>
+                <ion-input formControlName="ref2_telf_2" type="tel" inputmode="numeric" maxlength="10" pattern="^0\d{9}$"></ion-input>
               </ion-item>
+
+              <small *ngIf="formData.get('ref1_telf_2').invalid ">
+                <small *ngIf="(formData.get('ref1_telf_2')).errors?.required">Campo requerido</small>
+                <small *ngIf="(formData.get('ref1_telf_2')).errors?.minlength">Ingresar 10 digitos</small>
+                <small *ngIf="(formData.get('ref1_telf_2')).errors?.pattern">Ingresar número válido</small>
+              </small>
             </div>
           </ion-accordion>
 
@@ -439,8 +520,14 @@
             <div class="ion-padding" slot="content">
               <ion-item>
                 <ion-label position="floating">RUC</ion-label>
-                <ion-input formControlName="trabajo_ruc" type="number" inputmode="numeric"></ion-input>
+                <ion-input formControlName="trabajo_ruc" type="text" inputmode="numeric" maxlength="13" pattern="[0-9]{13}"></ion-input>
               </ion-item>
+
+              <small *ngIf="formData.get('trabajo_ruc').invalid ">
+                <small *ngIf="(formData.get('trabajo_ruc')).errors?.required">Campo requerido</small>
+                <small *ngIf="(formData.get('trabajo_ruc')).errors?.maxlength">Ingresar 13 digitos</small>
+                <small *ngIf="(formData.get('trabajo_ruc')).errors?.pattern">Ingresar número válido</small>
+              </small>
 
               <ion-item>
                 <ion-label position="floating">Nombre</ion-label>
@@ -472,7 +559,7 @@
 
               <ion-item>
                 <ion-label position="floating">Número</ion-label>
-                <ion-input formControlName="trabajo_numero" type="text"></ion-input>
+                <ion-input formControlName="trabajo_numero" type="text" inputmode="numeric"></ion-input>
               </ion-item>
 
               <ion-item>
@@ -487,18 +574,33 @@
 
               <ion-item>
                 <ion-label position="floating">Teléfono</ion-label>
-                <ion-input formControlName="trabajo_telefono" type="text"></ion-input>
+                <ion-input formControlName="trabajo_telefono" inputmode="numeric" maxlength="10" pattern="^0\d{9}$"></ion-input>
               </ion-item>
+
+              <small *ngIf="formData.get('trabajo_telefono').invalid ">
+                <small *ngIf="(formData.get('trabajo_telefono')).errors?.required">Campo requerido</small>
+                <small *ngIf="(formData.get('trabajo_telefono')).errors?.minlength">Ingresar 10 digitos</small>
+                <small *ngIf="(formData.get('trabajo_telefono')).errors?.pattern">Ingresar número válido</small>
+              </small>
 
               <ion-item>
                 <ion-label position="floating">Antigüedad</ion-label>
-                <ion-input formControlName="trabajo_antiguedad" type="number" inputmode="numeric"></ion-input>
+                <ion-input formControlName="trabajo_antiguedad" type="number" inputmode="numeric" min="1" max="99"></ion-input>
               </ion-item>
+              <small *ngIf="formData.get('trabajo_antiguedad').invalid">
+                <small *ngIf="(formData.get('trabajo_antiguedad')).errors?.max">Valor máximo 99</small>
+                <small *ngIf="(formData.get('trabajo_antiguedad')).errors?.min">Valor mínimo 1</small>
+              </small>
             </div>
           </ion-accordion>
         </ion-accordion-group>
-        <ion-button expand="block" color="primary" type="submit"> Realizar Gestion </ion-button>
-        <!-- <ion-button [disabled]="formData.invalid" expand="block" color="primary" type="submit"> Realizar Gestion </ion-button> -->
+
+        <ion-item>
+          <ion-grid>
+            <!-- <ion-button expand="block" color="primary" type="submit">Guardar Actualización de datos</ion-button> -->
+            <ion-button [disabled]="formData.invalid" expand="block" color="primary" type="submit">Guardar Actualización de datos</ion-button>
+          </ion-grid>
+        </ion-item>
       </form>
     </div>
   </div>

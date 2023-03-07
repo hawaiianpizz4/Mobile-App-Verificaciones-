@@ -16,22 +16,22 @@
           <ion-row justify-content-around>
             <ion-col>
               <ion-label position="floating">Nombre Gestor</ion-label>
-              <ion-input formControlName="nombre_gestor"></ion-input>
+              <ion-input value="{{this.nombreGestor}}" formControlName="nombre_gestor"></ion-input>
             </ion-col>
             <ion-col>
               <ion-label position="floating">Fecha actual</ion-label>
-              <ion-input formControlName="fecha_actual"></ion-input>
+              <ion-input value="{{this.fechaActual}}" formControlName="fecha_actual"></ion-input>
             </ion-col>
           </ion-row>
 
           <ion-row justify-content-around>
             <ion-col>
               <ion-label position="floating">Nombre Tienda</ion-label>
-              <ion-input formControlName="nombre_tienda"></ion-input>
+              <ion-input value="{{this.nombreTienda}}" formControlName="nombre_tienda"></ion-input>
             </ion-col>
             <ion-col>
               <ion-label position="floating">Nombre Cliente</ion-label>
-              <ion-input formControlName="nombre_cliente"></ion-input>
+              <ion-input value="{{this.nombreCliente}}" formControlName="nombre_cliente"></ion-input>
             </ion-col>
           </ion-row>
 
@@ -64,6 +64,19 @@
               </ion-col>
             </ion-row>
           </ion-grid>
+
+          <ion-item>
+            <ion-label position="floating">Tipo de Usuario</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-select interface="action-sheet" placeholder="Seleccionar" formControlName="tipo_usuario" (ionChange)="handleUserTypeChange()">
+              <ion-select-option value="DEPENDIENTE">Dependiente</ion-select-option>
+              <ion-select-option value="INDEPENDIENTE">Independiente</ion-select-option>
+              <ion-select-option value="INFORMAL">Informal</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+
         </ion-grid>
 
         <ion-accordion-group>
@@ -290,7 +303,7 @@
             <div class="ion-padding" slot="content">
               <ion-item>
                 <ion-label position="floating">Estabilidad Laboral Mayor 6 Meses</ion-label>
-                <ion-button (click)='addPhoto("estabilidad")'> Captura imagen </ion-button>
+                <ion-button [disabled]="!btnEstabilidadEnabled" (click)='addPhoto("estabilidad")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>
@@ -303,7 +316,7 @@
 
               <ion-item>
                 <ion-label position="floating">Facturas Proveedores Ultimos 3 Meses</ion-label>
-                <ion-button (click)='addPhoto("facturas")'> Captura imagen </ion-button>
+                <ion-button [disabled]="!btnFacturasEnabled"  (click)='addPhoto("facturas")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>
@@ -316,7 +329,7 @@
 
               <ion-item>
                 <ion-label position="floating">Foto Exterior Negocio</ion-label>
-                <ion-button (click)='addPhoto("exterior")'> Captura imagen </ion-button>
+                <ion-button [disabled]="!btnExteriorEnabled"  (click)='addPhoto("exterior")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>
@@ -329,7 +342,7 @@
 
               <ion-item>
                 <ion-label position="floating">Foto Interior Negocio</ion-label>
-                <ion-button (click)='addPhoto("interior")'> Captura imagen </ion-button>
+                <ion-button [disabled]="!btnInteriorEnabled" (click)='addPhoto("interior")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>
@@ -342,7 +355,7 @@
 
               <ion-item>
                 <ion-label position="floating">Foto Cliente Exterior Negocio</ion-label>
-                <ion-button (click)='addPhoto("clienteExterior")'> Captura imagen </ion-button>
+                <ion-button [disabled]="!btnClienteExteriorEnabled" (click)='addPhoto("clienteExterior")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>
@@ -355,7 +368,7 @@
 
               <ion-item>
                 <ion-label position="floating">Foto Cliente Interior Negocio</ion-label>
-                <ion-button (click)='addPhoto("clienteInterior")'> Captura imagen </ion-button>
+                <ion-button [disabled]="!btnClienteInteriorEnabled" (click)='addPhoto("clienteInterior")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>
@@ -368,7 +381,7 @@
 
               <ion-item>
                 <ion-label position="floating">Titulo Propiedad Garante Codeudor</ion-label>
-                <ion-button (click)='addPhoto("titulo")'> Captura imagen </ion-button>
+                <ion-button [disabled]="!btnTituloEnabled" (click)='addPhoto("titulo")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>
@@ -381,7 +394,7 @@
 
               <ion-item>
                 <ion-label position="floating">Impuesto Predial</ion-label>
-                <ion-button (click)='addPhoto("impuesto")'> Captura imagen </ion-button>
+                <ion-button [disabled]="!btnImpuestoEnabled" (click)='addPhoto("impuesto")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>
@@ -394,7 +407,7 @@
 
               <ion-item>
                 <ion-label position="floating">Respaldo Ingresos</ion-label>
-                <ion-button (click)='addPhoto("respaldo")'> Captura imagen </ion-button>
+                <ion-button [disabled]="!btnRespaldoEnabled" (click)='addPhoto("respaldo")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>
@@ -407,7 +420,7 @@
 
               <ion-item>
                 <ion-label position="floating">Certificado Laboral</ion-label>
-                <ion-button (click)='addPhoto("certificado")'> Captura imagen </ion-button>
+                <ion-button [disabled]="!btnCertificadoEnabled" (click)='addPhoto("certificado")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>
@@ -420,7 +433,7 @@
 
               <ion-item>
                 <ion-label position="floating">Foto Interior Domicilio</ion-label>
-                <ion-button (click)='addPhoto("interiorDom")'> Captura imagen </ion-button>
+                <ion-button [disabled]="!btnInteriorDomEnabled" (click)='addPhoto("interiorDom")'> Captura imagen </ion-button>
 
                 <ion-grid>
                   <ion-row>

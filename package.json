@@ -12,7 +12,7 @@
     "e2e": "ng e2e"
   },
   "prettier": {
-    "printWidth": 140,
+    "printWidth": 150,
     "tabWidth": 2,
     "singleQuote": true,
     "bracketSameLine": true

@@ -242,7 +242,7 @@ export class RefiDetailPage implements OnInit {
   loadPostData() {
     console.log('Loading pos' + this.selectedDatePrimerPago);
     return {
-      refi_usuario: this.formData.controls.refi_usuario.value.toUpperCase,
+      refi_usuario: this.formData.controls.refi_usuario.value,
       refi_fecha: this.formData.controls.refi_fecha.value,
       refi_operacion: this.formData.controls.refi_operacion.value,
       refi_autorizacion: this.formData.controls.refi_autorizacion.value,

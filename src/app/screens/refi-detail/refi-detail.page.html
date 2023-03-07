@@ -73,7 +73,7 @@
                   formControlName="refi_fecha_primer_pago"
                   displayFormat="DD/MM/YYYY"
                   (ionChange)="dateChangedPrimerPago($event)"></ion-datetime>
-                <small *ngIf="formData.get('refi_fecha_primer_pago').errors?.required">Elegit fecha de primer pago</small>
+                <small *ngIf="formData.get('refi_fecha_primer_pago').errors?.required">Elegir fecha de primer pago</small>
               </ion-item>
 
               <ion-item>
@@ -82,9 +82,7 @@
 
                 <small *ngIf="formData.get('refi_pago_gastos_admin').invalid ">
                   <small *ngIf="(formData.get('refi_pago_gastos_admin')).errors?.required">Campo Requerido</small>
-                  <small *ngIf="(formData.get('refi_pago_gastos_admin')).errors?.pattern"
-                    >Ingresar solamente valores con dos decimales</small
-                  >
+                  <small *ngIf="(formData.get('refi_pago_gastos_admin')).errors?.pattern">Ingresar solamente valores con dos decimales</small>
                 </small>
 
                 <ion-button (click)="addPhotoToGallery()"> Capturar Comprobante </ion-button>
@@ -308,12 +306,7 @@
 
               <ion-item>
                 <ion-label position="floating">Teléfono Arrendador/Familiar</ion-label>
-                <ion-input
-                  formControlName="dir_telf_arrendador"
-                  type="tel"
-                  inputmode="numeric"
-                  maxlength="10"
-                  pattern="^0\d{9}$"></ion-input>
+                <ion-input formControlName="dir_telf_arrendador" type="tel" inputmode="numeric" maxlength="10" pattern="^0\d{9}$"></ion-input>
               </ion-item>
 
               <small *ngIf="formData.get('dir_telf_arrendador').invalid">
@@ -405,12 +398,7 @@
 
               <ion-item>
                 <ion-label position="floating">Teléfono</ion-label>
-                <ion-input
-                  formControlName="conyuge_telefono_empresa"
-                  type="tel"
-                  inputmode="numeric"
-                  maxlength="10"
-                  pattern="^0\d{9}$"></ion-input>
+                <ion-input formControlName="conyuge_telefono_empresa" type="tel" inputmode="numeric" maxlength="10" pattern="^0\d{9}$"></ion-input>
               </ion-item>
 
               <small *ngIf="formData.get('conyuge_telefono_empresa').invalid ">
@@ -421,7 +409,7 @@
 
               <ion-item>
                 <ion-label position="floating">Ingresos Mensuales</ion-label>
-                <ion-input formControlName="conyuge_ingresos_mensuales" type="text"></ion-input>
+                <ion-input formControlName="conyuge_ingresos_mensuales" type="text" inputmode="numeric"></ion-input>
               </ion-item>
             </div>
           </ion-accordion>
@@ -571,7 +559,7 @@
 
               <ion-item>
                 <ion-label position="floating">Número</ion-label>
-                <ion-input formControlName="trabajo_numero" type="text"></ion-input>
+                <ion-input formControlName="trabajo_numero" type="text" inputmode="numeric"></ion-input>
               </ion-item>
 
               <ion-item>
@@ -610,9 +598,7 @@
         <ion-item>
           <ion-grid>
             <!-- <ion-button expand="block" color="primary" type="submit">Guardar Actualización de datos</ion-button> -->
-            <ion-button [disabled]="formData.invalid" expand="block" color="primary" type="submit"
-              >Guardar Actualización de datos</ion-button
-            >
+            <ion-button [disabled]="formData.invalid" expand="block" color="primary" type="submit">Guardar Actualización de datos</ion-button>
           </ion-grid>
         </ion-item>
       </form>

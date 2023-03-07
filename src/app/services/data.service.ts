@@ -119,4 +119,9 @@ export class dataService {
     const url = `${environment.apiUrl}catalogos.php?opcion=getNombreCatalogo&codigo=${codigo}&tipo=parroquia`;
     return this._http.get<any>(url);
   }
+
+  getRefinanciamiento(operacion) {
+    const url = `${environment.apiUrl}refinanciamiento.php?opcion=getRefinanciamiento&operacion=${operacion}`;
+    return this._http.get<any>(url);
+  }
 }

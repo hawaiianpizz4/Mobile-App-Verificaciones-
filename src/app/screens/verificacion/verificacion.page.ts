@@ -4,7 +4,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, NgZone, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ModalController, NavController, ToastController, LoadingController } from '@ionic/angular';
+import { NavController, ToastController, LoadingController } from '@ionic/angular';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Observable } from 'rxjs';
@@ -12,14 +12,12 @@ import { environment } from '../../../environments/environment';
 import { Network } from '@capacitor/network';
 
 import { PhotoService } from '../../services/photoVerificacion.service';
-import { ElementRef, ViewChild } from '@angular/core';
 
 import { dataService } from 'src/app/services/data.service';
 
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 
-import { getCurrentCoordinates, presentToast } from 'src/app/utils/Utils';
+import { presentToast } from 'src/app/utils/Utils';
 const url = `${environment.apiUrl}verificacion.php?opcion=setClienteVerificado`;
 
 @Component({
@@ -32,6 +30,19 @@ export class VerificacionPage implements OnInit {
 
   isPlanillaDisabled: boolean = true;
   isVecinoDisabled: boolean = true;
+
+  //IMAGENES
+  btnEstabilidadEnabled: boolean = false;
+  btnFacturasEnabled: boolean = false;
+  btnExteriorEnabled: boolean = false;
+  btnInteriorEnabled: boolean = false;
+  btnClienteExteriorEnabled: boolean = false;
+  btnClienteInteriorEnabled: boolean = false;
+  btnTituloEnabled: boolean = false;
+  btnImpuestoEnabled: boolean = false;
+  btnRespaldoEnabled: boolean = false;
+  btnCertificadoEnabled: boolean = false;
+  btnInteriorDomEnabled: boolean = false;
 
   infoPoss = [];
   status: boolean;
@@ -56,16 +67,19 @@ export class VerificacionPage implements OnInit {
     residencia_minima: new FormControl('', []),
     localTerreno_propio: new FormControl('', []),
     localTerreno_arrendado: new FormControl('', []),
+    tipo_usuario: new FormControl('', []),
 
     planilla_servicios: new FormControl('', []),
-    puertas_ventanas: new FormControl(false, []),
-    muebleria_basica: new FormControl(false, []),
+    puertas_ventanas: new FormControl('', []),
+    muebleria_basica: new FormControl('', []),
     material_casa: new FormControl('', []),
     periodicidad_actividades: new FormControl('', []),
 
     vecino_confirma: new FormControl('', []),
     vecino_nombre: new FormControl('', [Validators.required]),
     vecino_celular: new FormControl('', [Validators.required]),
+
+    //imagene
 
     codigo: new FormControl({ value: '', disabled: true }, []),
     latitud: new FormControl({ value: '', disabled: true }, []),
@@ -85,6 +99,60 @@ export class VerificacionPage implements OnInit {
     private _services: dataService
   ) {
     // this.changeStatus();
+  }
+
+  handleUserTypeChange() {
+    this.deshabilitarBotones();
+
+    const userType = this.dataForm.get('tipo_usuario').value;
+
+    if (userType === 'DEPENDIENTE') {
+      this.btnEstabilidadEnabled = true;
+      this.btnFacturasEnabled = true;
+      this.btnExteriorEnabled = true;
+      this.btnInteriorEnabled = true;
+      this.btnClienteExteriorEnabled = true;
+      this.btnClienteInteriorEnabled = true;
+      this.btnTituloEnabled = true;
+      this.btnImpuestoEnabled = true;
+      this.btnRespaldoEnabled = true;
+      this.btnCertificadoEnabled = true;
+    } else if (userType === 'INDEPENDIENTE') {
+      this.btnFacturasEnabled = true;
+      this.btnExteriorEnabled = true;
+      this.btnInteriorEnabled = true;
+      this.btnClienteExteriorEnabled = true;
+      this.btnClienteInteriorEnabled = true;
+      this.btnTituloEnabled = true;
+      this.btnImpuestoEnabled = true;
+      this.btnRespaldoEnabled = true;
+      this.btnCertificadoEnabled = true;
+      this.btnInteriorDomEnabled = true;
+    } else userType === 'INFORMAL';
+    {
+      this.btnFacturasEnabled = true;
+      this.btnExteriorEnabled = true;
+      this.btnInteriorEnabled = true;
+      this.btnClienteExteriorEnabled = true;
+      this.btnClienteInteriorEnabled = true;
+      this.btnTituloEnabled = true;
+      this.btnImpuestoEnabled = true;
+      this.btnRespaldoEnabled = true;
+    }
+  }
+
+  deshabilitarBotones() {
+    this.btnEstabilidadEnabled = false;
+    this.btnFacturasEnabled = false;
+    this.btnExteriorEnabled = false;
+    this.btnInteriorEnabled = false;
+    this.btnClienteExteriorEnabled = false;
+    this.btnClienteInteriorEnabled = false;
+    this.btnTituloEnabled = false;
+    this.btnImpuestoEnabled = false;
+    this.btnRespaldoEnabled = false;
+    this.btnCertificadoEnabled = false;
+    this.btnInteriorDomEnabled = false;
   }
 
   async getCodigoSMS(numeroTelf) {
@@ -122,6 +190,7 @@ export class VerificacionPage implements OnInit {
   }
 
   async ngOnInit() {
+    this.deshabilitarBotones();
     let numCelular = this.activatedRoute.snapshot.paramMap.get('dndlN_telefonocelular');
     this.getCurrentCoordinates();
     this.photoService.limpiarImagenes();
@@ -267,11 +336,13 @@ export class VerificacionPage implements OnInit {
       residenciaMinimaTresMeses: this.dataForm.controls.residencia_minima.value,
       localTerrenoPropio: this.dataForm.controls.localTerreno_propio.value,
       localTerrenoArrendado: this.dataForm.controls.localTerreno_arrendado.value,
+      tipo_usuario: this.dataForm.controls.tipo_usuario.value,
+
       //servicios
       planillaServicioBasico: this.dataForm.controls.planilla_servicios.value,
       planillaServicioBasicoImagen: this.photoService.photosPlanilla64,
-      seguridadPuertasVentanas: this.dataForm.get('planilla_servicios').value,
-      muebleriaBasica: this.dataForm.controls.muebleria_basica.value,
+      seguridadPuertasVentanas: this.dataForm.get('puertas_ventanas').value,
+      muebleriaBasica: this.dataForm.get('muebleria_basica').value,
       materialCasa: this.dataForm.get('material_casa').value,
       periodicidadActividadesLaborales: this.dataForm.controls.periodicidad_actividades.value,
       //acordeon confimacion vecino

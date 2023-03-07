@@ -5,6 +5,8 @@ import { ModalController, NavController, ToastController } from '@ionic/angular'
 import { ModalInfoPage } from 'src/app/components/modal-info/modal-info.page';
 import { Network } from '@capacitor/network';
 import { presentToast } from 'src/app/utils/Utils';
+import { dataService } from 'src/app/services/data.service';
+import { LoadingService } from 'src/app/utils/LoadingService';
 
 @Component({
   selector: 'app-detail',
@@ -18,6 +20,7 @@ export class DetailPage implements OnInit {
   operacion: string;
   gestor: string;
   networkStatus: boolean;
+  disabledButton = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -25,7 +28,9 @@ export class DetailPage implements OnInit {
     private modalCtrl: ModalController,
     private navCtrl: NavController,
     private router: Router,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private _services: dataService,
+    private loadingService: LoadingService
   ) {
     this.id = +this.activatedRoute.snapshot.paramMap.get('id');
     const users = JSON.parse(localStorage.getItem('storage'));
@@ -85,11 +90,23 @@ export class DetailPage implements OnInit {
     toast.present();
   }
 
-  goToDetailPage(id: string, operacion: string) {
-    if (!this.networkStatus) {
-      presentToast('Error, No hay conexión a internet', 'checkmark-outline', 'warning');
-      return;
-    }
-    this.router.navigate(['refi-detail', id, operacion]);
+  async goToDetailPage(id: string, operacion: string) {
+    const loading = await this.loadingService.createLoading('Verificando Refinanciamiento...', 10000);
+
+    this._services
+      .getRefinanciamiento(operacion)
+      .toPromise()
+      .then((operacionActual) => {
+        presentToast(`Aviso, Operación actual ya ha sido refinanciada (${operacionActual.id})`, 'checkmark-outline', 'warning');
+      })
+      .catch((err) => {
+        if (!this.networkStatus) {
+          presentToast('Error, No hay conexión a internet', 'checkmark-outline', 'warning');
+          return;
+        } else {
+          this.router.navigate(['refi-detail', id, operacion]);
+        }
+      });
+    await loading.dismiss();
   }
 }

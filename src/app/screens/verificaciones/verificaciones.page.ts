@@ -61,6 +61,8 @@ export class VerificacionesPage implements OnInit {
   // }
 
   async setClienteReservado(user) {
+    // console.log(this.currentLocation.latitude);
+    // console.log(this.currentLocation.longitude);
     try {
       this._service
         .setClienteReservado(

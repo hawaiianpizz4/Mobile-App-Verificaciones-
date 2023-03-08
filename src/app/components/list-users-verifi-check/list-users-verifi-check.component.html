@@ -5,18 +5,16 @@
   <div class="info-container">
     <ion-item-group>
       <ion-item>
-        <h5>{{item.vf_nombre_cliente}}</h5>
+        <h5>{{ item.vf_nombre_cliente }}</h5>
       </ion-item>
       <p><strong>Lugar:</strong>{{item.vf_lugar_a_verificar}}</p>
       <p><strong>Domicilio:</strong><a href="https://www.google.com/maps/search/?api=1&query={{item.latitud}},{{item.longitud}}" target="_blank"> {{item.dndlD_direccion_domiciliaria}} </a>
+       <p><strong>Trabajo:</strong>{{ item.dndlN_direccion_trabajo }}</p>
       <p><strong>Nombre Tienda:</strong>{{item.vf_nombre_tienda}}</p>
       <p><strong>Celular:</strong>{{item.dndlN_telefonocelular}}</p>
 
       <ion-item>
-        <app-button
-      (click)="goToVerificacion()"
-      >Verificar</app-button
-    >
+        <app-button (click)="goToVerificacion()">Verificar</app-button>
       </ion-item>
     </ion-item-group>
   </div>
@@ -27,3 +25,4 @@
     </ion-button>
   </ion-buttons>
 </div>
+

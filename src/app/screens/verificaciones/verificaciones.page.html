@@ -27,14 +27,12 @@
     <app-list-users-verifi
       *ngFor="let user of dataList  | slice:0:15;"
       [item]="user"
-      (clicked)="setClienteReservado(user)"
     ></app-list-users-verifi>
   </div>
   <div class="food-list">
     <app-list-users-verifi
       *ngFor="let user of results | slice:0:15"
       [item]="user"
-      (clicked)="setClienteReservado(user)"
     ></app-list-users-verifi>
   </div>
 

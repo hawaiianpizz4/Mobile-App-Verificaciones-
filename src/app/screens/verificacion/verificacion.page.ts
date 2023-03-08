@@ -332,7 +332,7 @@ export class VerificacionPage implements OnInit {
       residenciaMinimaTresMeses: this.dataForm.controls.residencia_minima.value,
       localTerrenoPropio: this.dataForm.controls.localTerreno_propio.value,
       localTerrenoArrendado: this.dataForm.controls.localTerreno_arrendado.value,
-      tipo_usuario: this.dataForm.controls.tipo_usuario.value,
+      //tipo_usuario: this.dataForm.controls.tipo_usuario.value,
 
       //servicios
       planillaServicioBasico: this.dataForm.controls.planilla_servicios.value,

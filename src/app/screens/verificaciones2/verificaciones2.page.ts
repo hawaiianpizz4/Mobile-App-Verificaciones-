@@ -11,7 +11,8 @@ import { dataService } from 'src/app/services/data.service';
 export class Verificaciones2Page implements OnInit {
   dataList2 = [];
   dndlN_telefonocelular;
-  codigo: string = '1234';
+  latitud;
+  longitud;
 
   constructor(private _service: dataService, private loadingCtrl: LoadingController, private toastController: ToastController) {}
 
@@ -59,14 +60,5 @@ export class Verificaciones2Page implements OnInit {
     await toast.present();
   }
 
-  // getUsersVerifi2(user){
-  //   console.log(user.vf_gestor);
-  //   this._service.getUsersVerifi2(user.vf_cedula_cliente).subscribe((data)=>{
-  //     console.log(data);
-  //   });
-  //   this.showLoading('Reservando verificacion...').then((e) => {});
-  //   setTimeout(() => {
-  //     this.presentToast('Registro Enviado', 'checkmark-outline', 'success');
-  //   }, 3000);
-  // }
+
 }

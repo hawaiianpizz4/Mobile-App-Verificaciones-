@@ -60,6 +60,15 @@ export class VerificacionesPage implements OnInit {
   //   this.results = Total.filter((e) => e.numeroCredito.includes(query));
   // }
 
+  onEsReservado(valor) {
+    console.log('es resersssvado');
+
+    if (valor) {
+      console.log('es reservado');
+      this.cargarDatos();
+    }
+  }
+
   async setClienteReservado(user) {
     // console.log(this.currentLocation.latitude);
     // console.log(this.currentLocation.longitude);

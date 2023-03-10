@@ -14,7 +14,8 @@ export class ListUsersVerifiComponent implements OnInit {
   latitude = 0;
   longitude = 0;
   @Input() item;
-  @Output() esReservado = new EventEmitter<boolean>();
+  @Output() clicked: EventEmitter<any> = new EventEmitter();
+  // @Output() esReservado = new EventEmitter<boolean>();
 
   constructor(
     private _service: dataService,
@@ -26,7 +27,6 @@ export class ListUsersVerifiComponent implements OnInit {
   async ngOnInit() {
     this.getCurrentCoordinates();
   }
-
   async setClienteReservado(user) {
     try {
       this._service.setClienteReservado(user.vf_cedula_cliente, JSON.parse(localStorage.getItem('user')), this.latitude, this.longitude).subscribe(
@@ -35,20 +35,21 @@ export class ListUsersVerifiComponent implements OnInit {
           setTimeout(() => {
             this.presentToast('Registro Enviado', 'checkmark-outline', 'success');
             console.log('Success');
+            this.clicked.emit('ok');
             // Recargar la página después de 3 segundos
-            this.esReservado.emit(true);
+            // this.esReservado.emit(true);
           }, 3000);
         },
         (error) => {
           console.log(error);
           this.presentToast('Error al enviar datos', 'checkmark-outline', 'danger');
-          this.esReservado.emit(false);
+          // this.esReservado.emit(false);
           // this.isServiceCallInProgress.dismiss();
         }
       );
     } catch (error) {
       this.presentToast('Error al guardar información', 'checkmark-outline', 'danger');
-      this.esReservado.emit(false);
+      // this.esReservado.emit(false);
       // this.isServiceCallInProgress.dismiss();
     }
   }

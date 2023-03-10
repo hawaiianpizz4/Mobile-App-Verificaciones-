@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { dataService } from 'src/app/services/data.service';
 import { getCurrentCoordinates } from 'src/app/utils/Utils';
@@ -9,6 +9,7 @@ import { getCurrentCoordinates } from 'src/app/utils/Utils';
   styleUrls: ['./verificaciones.page.scss'],
 })
 export class VerificacionesPage implements OnInit {
+
   dataList = [];
   currentLocation;
   public results: any[] = [];
@@ -22,9 +23,13 @@ export class VerificacionesPage implements OnInit {
     this.cargarDatos();
     this.currentLocation = await getCurrentCoordinates();
   }
+  
   handleRefresh(event) {
     this.cargarDatos();
     event.target.complete();
+  }
+  miFuncion(){
+    console.log("Hola mundo");
   }
 
   cargarDatos() {
